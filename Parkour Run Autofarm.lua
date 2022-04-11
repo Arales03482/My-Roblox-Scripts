@@ -1,3 +1,5 @@
+--A Autofarm Script For the Roblox Game: https://www.roblox.com/games/6811842210
+
 speed = 500
 
 function run()
