@@ -358,6 +358,16 @@ Section:NewButton("Collect Ticket","Collects ticket",function()
 	end
 end)
 
+local Section=Tab:NewSection("AFK")
+Section:NewButton("Collect Ticket","Collects ticket",function()
+	AFKTp=not AFKTp
+	spawn(function()
+		while(AFKTp==true)and(wait())do
+			game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame=CFrame.new(-351.265961,18.2999992,618.852173,0.621931851,6.3511763e-08,-0.783071339,1.76048758e-08,1,9.508814e-08,0.783071339,-7.2924216e-08,0.621931851)
+		end
+	end)
+end)
+
 local Tab=Window:NewTab("Credit")
 Tab:NewSection("Esps made by Tora Is Me")
 Tab:NewSection("Item pickups without movement")
