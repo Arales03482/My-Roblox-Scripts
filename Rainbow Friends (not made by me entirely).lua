@@ -365,7 +365,7 @@ Tab:NewSection("aswell as description")
 Tab:NewSection("and name edits by OggySpelar")
 elseif(game.PlaceId==LobbyPlaceId)then
 	while(game.PlaceId==LobbyPlaceId)and(wait())do
-		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame=CFrame.new(game:GetService("Workspace")["LobbySchool_C1"]["static_bus"].hitbox.CFrame)
+		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame=game:GetService("Workspace")["LobbySchool_C1"]["static_bus"].hitbox.CFrame
 	end
 else
 	game.Players.LocalPlayer:Kick("Wrong game Teleporting..")
