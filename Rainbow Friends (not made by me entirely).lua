@@ -1,4 +1,4 @@
-b=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport))
+((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport))("loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
 GamePlaceId=8888615802
 LobbyPlaceId=7991339063
 
@@ -371,11 +371,3 @@ else
 	game.Players.LocalPlayer:Kick("Wrong game Teleporting..")
 	game:GetService("TeleportService"):Teleport(LobbyPlaceId)
 end
-
-game.Players.LocalPlayer.OnTeleport:Connect(function(a)
-	if(a==Enum.TeleportState.Started)then
-		if(b)then
-			b("loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
-		end
-	end
-end)
