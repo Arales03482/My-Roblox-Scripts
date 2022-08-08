@@ -375,7 +375,7 @@ end
 game.Players.LocalPlayer.OnTeleport:Connect(function(a)
 	if(a==Enum.TeleportState.Started)then
 		if(b)then
-			b("loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/idk/master/scriptname.lua'))()")
+			b("loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
 		end
 	end
 end)
