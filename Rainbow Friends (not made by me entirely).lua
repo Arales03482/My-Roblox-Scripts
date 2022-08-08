@@ -1,5 +1,5 @@
-game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(s)
-    if(s==Enum.TeleportState.Started)then
+game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
+    if(State==Enum.TeleportState.Started)then
 		sd=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport))
         sd("loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
     end
@@ -365,7 +365,7 @@ Section:NewButton("Collect Ticket","Collects ticket",function()
 end)
 
 local Section=Tab:NewSection("AFK")
-Section:NewButton("Collect Ticket","Collects ticket",function()
+Section:NewButton("AFK Spot","Loop teleports to the end",function()
 	AFKTp=not AFKTp
 	spawn(function()
 		while(AFKTp==true)and(wait())do
@@ -387,4 +387,3 @@ else
 	game.Players.LocalPlayer:Kick("Wrong game Teleporting..")
 	game:GetService("TeleportService"):Teleport(LobbyPlaceId)
 end
-
