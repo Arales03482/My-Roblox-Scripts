@@ -1,7 +1,6 @@
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if(State==Enum.TeleportState.InProgress)then
-        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
-		messagebox("Loaded Script!","Rainbow Friends GUI",0)
+        syn.queue_on_teleport("messagebox('Loaded Script!','Rainbow Friends GUI',0);loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
     end
 end)
 
@@ -10,7 +9,7 @@ LobbyPlaceId=7991339063
 
 if(game.PlaceId==GamePlaceId)then
 local Library=loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window=Library.CreateLib("Rainbow Friends", "BloodTheme")
+local Window=Library.CreateLib("Rainbow Friends","BloodTheme")
 local Tab=Window:NewTab("Main")
 local Section=Tab:NewSection("ESP")
 
@@ -381,7 +380,7 @@ Tab:NewSection("aswell as description")
 Tab:NewSection("and name edits by OggySpelar")
 elseif(game.PlaceId==LobbyPlaceId)then
 	while(game.PlaceId==LobbyPlaceId)and(wait())do
-		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame=game:GetService("Workspace")["LobbySchool_C1"]["static_bus"].hitbox.CFrame
+		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame=CFrame.new(294.362274,57.6415405,-1029.29895,-0.872187376,-1.08851886e-07,0.489171922,-8.44899617e-08,1,7.1878226e-08,-0.489171922,2.13611635e-08,-0.872187376)
 	end
 else
 	game.Players.LocalPlayer:Kick("Wrong game Teleporting..")
