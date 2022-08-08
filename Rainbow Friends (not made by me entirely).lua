@@ -1,6 +1,11 @@
+while(game:IsLoaded()==false)do wait();end
+
+queueteleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport))
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
-    if(State==Enum.TeleportState.InProgress)then
-        syn.queue_on_teleport("messagebox('Loaded Script!','Rainbow Friends GUI',0);loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
+    if(State==Enum.TeleportState.Started)then
+		if(queueteleport)then
+        	queueteleport("while(game:IsLoaded()==false)do wait();end;messagebox('Loaded Script!','Rainbow Friends GUI',0);loadstring(game:HttpGet('https://raw.githubusercontent.com/OggySpelar/My-Roblox-Scripts/main/Rainbow%20Friends%20(not%20made%20by%20me%20entirely).lua'))()")
+		end
     end
 end)
 
