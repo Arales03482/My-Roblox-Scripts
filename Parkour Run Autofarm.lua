@@ -1,4 +1,4 @@
---A Autofarm Script For the Roblox Game: https://www.roblox.com/games/6811842210
+--A Autofarm Script For the Roblox Game: https://www.roblox.com/games/6811842210 (THIS AUTOFARM DOES NOT WORK CONSISTENTLY)
 
 speed = 500
 
