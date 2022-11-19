@@ -4,6 +4,7 @@ local d=a:CreateFolder("Body Position");
 local c=a:CreateFolder("Look At");
 local f=a:CreateFolder("Closest");
 local r=a:CreateFolder("Player");
+local v=a:CreateFolder("Kill");
 local g=a:CreateFolder("Chat");
 getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling=false;
 getgenv().IIlIIIIlIllllllIlIIIllllIIllIl="";
@@ -14,7 +15,18 @@ getgenv().LookAt=false;
 getgenv().FollowClosestBP=false;
 getgenv().LookAtClosest=false;
 getgenv().Spinbot=false;
+getgenv().KillAll=false;
+getgenv().KillAuraRange=15;
+getgenv().KillAura=false;
+getgenv().PlayerToKill="";
+getgenv().KillPlayer=false;
 getgenv().ChatSpamSettings={ChatSpam=false;SpamText="SPONSORED BY UR MOM";SpamTextTo="All";Timeout=2.2};
+
+--Anti AFK
+if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
+
+-- Infinite Yield Loader
+spawn(function()loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))();end);
 
 -- Funcs
 function getclosest()
@@ -225,6 +237,68 @@ r:Toggle("Spinbot",function(a)
     spawn(function()
         while(getgenv().Spinbot==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.Angles(0,math.rad(90),0);end);
+        end;
+    end);
+end);
+
+v:Toggle("Kill Aura",function(a)
+    getgenv().KillAura=a;
+    print(a);
+    spawn(function()
+        while(getgenv().KillAura==true)and(game:GetService("RunService").Stepped:Wait())do 
+            for _,a in pairs(game:GetService("Players"):GetPlayers())do 
+                pcall(function()
+                    if((a.Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude<=getgenv().KillAuraRange)and(a.Name~=game:GetService("Players").LocalPlayer.Name)and(a.Character.Humanoid.Health>0)and(a.Character.Humanoid.Health~=math.huge)then 
+                        local tool=game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")or(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Sword"));
+                        if(tool)and(tool:FindFirstChild("Handle"))then 
+                            for _,a in pairs(a.Character:GetChildren())do 
+                                if(a:IsA("BasePart"))then 
+                                    firetouchinterest(tool.Handle,a,0);
+                                    firetouchinterest(tool.Handle,a,1);
+                                end;
+                            end;
+                        end;
+                    end;
+                end);
+            end;
+        end;
+    end);
+end);
+
+v:Slider("Kill Aura Range",{min=1;max=1000;precise=false},function(a)getgenv().KillAuraRange=a;end);
+
+v:Box("Player to Loop Kill","string",function(str)
+    if(str=="")then 
+        print("Please enter a player name");
+    else 
+        for _,k in pairs(game:GetService("Players"):GetPlayers())do 
+            if(str:lower()==k.Name:sub(1,#str):lower())then 
+                getgenv().PlayerToKill=k.Name;
+                if(game:GetService("Players"):FindFirstChild(getgenv().PlayerToKill)~=nil)then print("Target Chosen as "..getgenv().PlayerToKill);end;
+                return;
+            end;
+        end;
+        if(game:GetService("Players"):FindFirstChild(getgenv().PlayerToKill)==nil)then print("Inputed player could not be found");getgenv().PlayerToKill="";end;
+    end;
+end);
+
+v:Toggle("Loop Kill",function(a)
+    getgenv().KillPlayer=a;
+    print(a);
+    if(getgenv().PlayerToKill=="")then 
+        print("Please input a player");
+        getgenv().KillPlayer=false;
+    end;
+    spawn(function()
+        while(getgenv().KillPlayer==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                local tool=game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")or(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Sword"));
+                for _,a in pairs(game:GetService("Players")[getgenv().PlayerToKill].Character:GetChildren())do 
+                    if(a:IsA("BasePart"))then 
+                        firetouchinterest(tool.Handle,a,0);firetouchinterest(tool.Handle,a,1);
+                    end;
+                end;
+            end);
         end;
     end);
 end);
