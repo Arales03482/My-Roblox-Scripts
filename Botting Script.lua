@@ -74,10 +74,15 @@ h:Toggle("Annoy",function(a)
                 end;
                 if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
                 getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
-			    game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics);
-                game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                for _,a in pairs(game:GetService("Players").LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks())do a:Stop(0);end;
+                if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
+			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics);
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                end;
                 a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
                 b=game:GetService("Players")[getgenv().InputPlrAnnoy].Character.HumanoidRootPart.Position;
                 c=game:GetService("Players")[getgenv().InputPlrAnnoy].Character.HumanoidRootPart.Velocity;
@@ -193,13 +198,16 @@ d:Toggle("Follow",function(a)
                 end;
                 if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
                 getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                if(game:GetService("Players").LocalPlayer.Character.Humanoid.Seated==false)then 
+                if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
 			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics);
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Seated==true)then 
-			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics);
+                elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                 end;
+                for _,a in pairs(game:GetService("Players").LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks())do a:Stop(0);end;
                 b=game:GetService("Players")[getgenv().InputPlrBP].Character.HumanoidRootPart.Position;
                 c=game:GetService("Players")[getgenv().InputPlrBP].Character.HumanoidRootPart.Velocity;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,b);
@@ -282,9 +290,15 @@ f:Toggle("Follow Closest",function(a)
             pcall(function()
                 if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
                 getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
-			    game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics);
-                game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
+			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics);
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                end;
                 for _,a in pairs(game:GetService("Players").LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks())do a:Stop(0);end;
                 a=getclosest();
                 b=a.Character.HumanoidRootPart.Position;
