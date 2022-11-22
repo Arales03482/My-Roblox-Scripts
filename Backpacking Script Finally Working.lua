@@ -3,6 +3,13 @@ local b=a:CreateFolder("Main");
 getgenv().GetMallows=false;
 getgenv().OpenChests=false;
 
+-- Loaders
+-- Anti AFK
+if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
+
+-- Infinite Yield Loader
+spawn(function()loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))();end);
+
 -- Funcs
 function getClosestChest(model)
     local range=9e9;
