@@ -2,6 +2,8 @@ local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-ba
 local b=a:CreateFolder("Main");
 getgenv().GetMallows=false;
 getgenv().OpenChests=false;
+getgenv().ChestTweenCompleted=true;
+wait(0.1);
 getgenv().ChestTweenCompleted=false;
 
 -- Loaders
@@ -15,15 +17,17 @@ spawn(function()loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeI
 function getClosestChest(prevChest)
     local range=9e9;
     local chest=nil;
-    for _,cChest in pairs(game:GetService("Workspace").Scenery.Chests.ChestObjects:GetChildren())do 
-        if(cChest.Name=="Chest")and(cChest:IsA("Model"))and(cChest~=prevChest)and(cChest:FindFirstChild("Hitbox")~=nil)and(cChest.Hitbox:FindFirstChild("TouchInterest")~=nil)and(cChest:FindFirstChild("Open")~=nil)and(cChest:FindFirstChild("Open").Value==false)then 
-            local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cChest["Hitbox"]["Position"])["Magnitude"];
-            if(dist<range)then 
-                range=dist;
-                chest=cChest;
+    pcall(function()
+        for _,cChest in pairs(game:GetService("Workspace").Scenery.Chests.ChestObjects:GetChildren())do 
+            if(cChest.Name=="Chest")and(cChest:IsA("Model"))and(cChest~=prevChest)and(cChest:FindFirstChild("Hitbox")~=nil)and(cChest.Hitbox:FindFirstChild("TouchInterest")~=nil)and(cChest:FindFirstChild("Open")~=nil)and(cChest:FindFirstChild("Open").Value==false)then 
+                local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cChest["Hitbox"]["Position"])["Magnitude"];
+                if(dist<range)then 
+                    range=dist;
+                    chest=cChest;
+                end;
             end;
         end;
-    end;
+    end);
     if(chest==nil)then chest=game:GetService("Workspace").Scenery.Chests.ChestObjects:FindFirstChild("Chest");end;
     return(chest);
 end;
@@ -57,7 +61,6 @@ b:Toggle("Auto Open Chests",function(a)
     spawn(function()
         local oldCF;pcall(function()oldCF=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;end);
         local prevChest=nil;
-        while(getgenv().ChestTweenCompleted==false)do wait();end;
         while(getgenv().OpenChests==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
                 getgenv().ChestTweenCompleted=false;
@@ -69,7 +72,8 @@ b:Toggle("Auto Open Chests",function(a)
                 a.Completed:Connect(function()getgenv().ChestTweenCompleted=true;end);
                 a:Play();
                 while(getgenv().ChestTweenCompleted==false)do wait();end;
-                wait(0.6);
+                wait(0.4);
+                getgenv().ChestTweenCompleted=false;
             end);
         end;
         pcall(function()
