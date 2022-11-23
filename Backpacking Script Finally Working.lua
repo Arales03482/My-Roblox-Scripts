@@ -64,7 +64,7 @@ b:Toggle("Auto Open Chests",function(a)
                 local chest=getClosestChest(game:GetService("Workspace").Scenery.Chests.ChestObjects,prevChest);
                 prevChest=chest;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=chest.Hitbox.CFrame*CFrame.new(0,0,-60);
-                local info=TweenInfo.new(0.5,Enum.EasingStyle.Linear);
+                local info=TweenInfo.new(0.7,Enum.EasingStyle.Linear);
                 local a=game:GetService("TweenService"):Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,info,{CFrame=chest.Hitbox.CFrame});
                 a.Completed:Connect(function()completed=true;end);
                 a:Play();
