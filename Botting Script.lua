@@ -59,6 +59,11 @@ b:Toggle("Follow player",function(bool)
     spawn(function()
         while(getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
+                for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __.CanCollide=false;
+                    end;
+                end;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players")[getgenv().IIlIIIIlIllllllIlIIIllllIIllIl].Character.HumanoidRootPart.CFrame*CFrame.new(0,0,15);
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(0,0,0);
                 if(game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Sit==true)then game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Jump=true;end;
@@ -100,9 +105,9 @@ d:Toggle("Follow",function(a)
     spawn(function()
         while(getgenv().FollowBP==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
-                for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren())do 
-                    if(a:IsA("BasePart"))then 
-                        a.CanCollide=false;
+                for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __.CanCollide=false;
                     end;
                 end;
                 if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
@@ -200,9 +205,9 @@ h:Toggle("Annoy",function(a)
     spawn(function()
         while(getgenv().Annoy==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
-                for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren())do 
-                    if(a:IsA("BasePart"))then 
-                        a.CanCollide=false;
+                for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __.CanCollide=false;
                     end;
                 end;
                 if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
@@ -283,6 +288,11 @@ f:Toggle("Follow Closest",function(a)
             pcall(function()
                 if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
                 getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __.CanCollide=false;
+                    end;
+                end;
                 if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
                     game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
 			        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics);
