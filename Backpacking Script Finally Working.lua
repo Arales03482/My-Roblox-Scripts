@@ -11,20 +11,18 @@ if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer
 spawn(function()loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))();end);
 
 -- Funcs
-function getClosestChest(model,prevChest)
+function getClosestChest(prevChest)
     local range=9e9;
     local chest=nil;
-    xpcall(function()
-        for _,cChest in pairs(model:GetChildren())do 
-            if(cChest.Name=="Chest")and(cChest:IsA("Model"))and(cChest~=prevChest)and(cChest:FindFirstChild("Hitbox")~=nil)and(cChest.Hitbox:FindFirstChild("TouchInterest")~=nil)and(cChest:FindFirstChild("Open")~=nil)and(cChest:FindFirstChild("Open").Value==false)then 
-                local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cChest["Hitbox"]["Position"])["Magnitude"];
-                if(dist<range)then 
-                    range=dist;
-                    chest=cChest;
-                end;
+    for _,cChest in pairs(game:GetService("Workspace").Scenery.Chests.ChestObjects:GetChildren())do 
+        if(cChest.Name=="Chest")and(cChest:IsA("Model"))and(cChest~=prevChest)and(cChest:FindFirstChild("Hitbox")~=nil)and(cChest.Hitbox:FindFirstChild("TouchInterest")~=nil)and(cChest:FindFirstChild("Open")~=nil)and(cChest:FindFirstChild("Open").Value==false)then 
+            local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cChest["Hitbox"]["Position"])["Magnitude"];
+            if(dist<range)then 
+                range=dist;
+                chest=cChest;
             end;
         end;
-    end,print);
+    end;
     return(chest);
 end;
 
@@ -61,7 +59,7 @@ b:Toggle("Auto Open Chests",function(a)
         while(getgenv().OpenChests==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
                 completed=false;
-                local chest=getClosestChest(game:GetService("Workspace").Scenery.Chests.ChestObjects,prevChest);
+                local chest=getClosestChest(prevChest);
                 prevChest=chest;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=chest.Hitbox.CFrame*CFrame.new(0,0,-60);
                 local info=TweenInfo.new(0.7,Enum.EasingStyle.Linear);
