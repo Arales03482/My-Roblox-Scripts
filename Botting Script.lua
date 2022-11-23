@@ -53,28 +53,23 @@ end;
 b:Toggle("Follow player",function(bool)
     getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling=bool;
     if(getgenv().IIlIIIIlIllllllIlIIIllllIIllIl=="")then 
-        print("Please input a player")
-        getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling=false
-    end
+        print("Please input a player");
+        getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling=false;
+    end;
     spawn(function()
-        while(getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling==true)and(game:GetService("RunService").Stepped:Wait())do
-            if(game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Sit==true)then
-                game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Jump=true
-            end
-
-            game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame=game:GetService("Players")[getgenv().IIlIIIIlIllllllIlIIIllllIIllIl].Character:WaitForChild("HumanoidRootPart").CFrame*CFrame.new(0,0,15)
-            game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity=Vector3.new(0,0,0)
-
-            if(game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Sit==true)then
-                game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Jump=true
-            end
-        end
-    end)
+        while(getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players")[getgenv().IIlIIIIlIllllllIlIIIllllIIllIl].Character.HumanoidRootPart.CFrame*CFrame.new(0,0,15);
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(0,0,0);
+                if(game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Sit==true)then game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Jump=true;end;
+            end);
+        end;
+    end);
 end);
 
 b:Box("Player to Follow","string",function(str)
     if(str=="")then 
-        print("Please enter a player name");
+        warn("Please enter a player name");
     else 
         for _,k in pairs(game:GetService("Players"):GetPlayers())do 
             if(str:lower()==k.Name:sub(1,#str):lower())then 
@@ -92,14 +87,14 @@ d:Toggle("Follow",function(a)
     getgenv().FollowBP=a;
     if(getgenv().InputPlrBP=="")then 
         print("Please input a player")
-        getgenv().FollowBP=false
-    end
+        getgenv().FollowBP=false;
+    end;
 
     if(getgenv().bp~=nil)then getgenv().bp:Destroy();end;if(getgenv().bpc~=nil)then getgenv().bpc:Destroy();end;
     getgenv().bp=Instance.new("BodyPosition");
     getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
     getgenv().bp.P=getgenv().bp.P*2;
-    getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
+    getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
     getgenv().bpc=bp:Clone();
 
     spawn(function()
@@ -140,7 +135,7 @@ end);
 
 d:Box("Player to Follow","string",function(str)
     if(str=="")then 
-        print("Please enter a player name");
+        warn("Please enter a player name");
     else 
         for _,k in pairs(game:GetService("Players"):GetPlayers())do 
             if(str:lower()==k.Name:sub(1,#str):lower())then 
@@ -157,15 +152,15 @@ end);
 c:Toggle("Look At",function(a)
     getgenv().LookAt=a;
     if(getgenv().InputPlrLook=="")then 
-        print("Please input a player")
-        getgenv().LookAt=false
-    end
+        print("Please input a player");
+        getgenv().LookAt=false;
+    end;
 
     spawn(function()
         while(getgenv().LookAt==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
-                a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
-                b=game:GetService("Players"):FindFirstChild(getgenv().InputPlrLook).Character.HumanoidRootPart.Position
+                a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
+                b=game:GetService("Players"):FindFirstChild(getgenv().InputPlrLook).Character.HumanoidRootPart.Position;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(b.X,a.Y,b.Z));
             end);
         end;
@@ -174,7 +169,7 @@ end)
 
 c:Box("Player to Look At","string",function(str)
     if(str=="")then 
-        print("Please enter a player name");
+        warn("Please enter a player name");
     else 
         for _,k in pairs(game:GetService("Players"):GetPlayers())do 
             if(str:lower()==k.Name:sub(1,#str):lower())then 
@@ -259,7 +254,7 @@ end);
 
 h:Box("Player to Annoy","string",function(str)
     if(str=="")then 
-        print("Please enter a player name");
+        warn("Please enter a player name");
     else 
         for _,k in pairs(game:GetService("Players"):GetPlayers())do 
             if(str:lower()==k.Name:sub(1,#str):lower())then 
