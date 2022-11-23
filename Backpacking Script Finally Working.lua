@@ -69,7 +69,7 @@ b:Toggle("Auto Open Chests",function(a)
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=chest.Hitbox.CFrame*CFrame.new(0,0,-60);
                 local info=TweenInfo.new(0.7,Enum.EasingStyle.Linear);
                 local a=game:GetService("TweenService"):Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,info,{CFrame=chest.Hitbox.CFrame});
-                a.Completed:Connect(function()getgenv().ChestTweenCompleted=true;end);
+                a.Completed:Connect(function()getgenv().ChestTweenCompleted=true;firetouchinterest(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,chest.Hitbox,0);firetouchinterest(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,chest.Hitbox,1);end);
                 a:Play();
                 while(getgenv().ChestTweenCompleted==false)do wait();end;
                 wait(0.4);
