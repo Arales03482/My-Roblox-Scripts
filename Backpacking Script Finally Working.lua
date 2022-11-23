@@ -2,6 +2,7 @@ local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-ba
 local b=a:CreateFolder("Main");
 getgenv().GetMallows=false;
 getgenv().OpenChests=false;
+getgenv().ChestTweenCompleted=false;
 
 -- Loaders
 -- Anti AFK
@@ -23,6 +24,7 @@ function getClosestChest(prevChest)
             end;
         end;
     end;
+    if(chest==nil)then chest=game:GetService("Workspace").Scenery.Chests.ChestObjects:FindFirstChild("Chest");end;
     return(chest);
 end;
 
@@ -54,19 +56,19 @@ b:Toggle("Auto Open Chests",function(a)
     local done=false;
     spawn(function()
         local oldCF;pcall(function()oldCF=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;end);
-        local completed=false;
         local prevChest=nil;
+        while(getgenv().ChestTweenCompleted==false)do wait();end;
         while(getgenv().OpenChests==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
-                completed=false;
+                getgenv().ChestTweenCompleted=false;
                 local chest=getClosestChest(prevChest);
                 prevChest=chest;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=chest.Hitbox.CFrame*CFrame.new(0,0,-60);
                 local info=TweenInfo.new(0.7,Enum.EasingStyle.Linear);
                 local a=game:GetService("TweenService"):Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,info,{CFrame=chest.Hitbox.CFrame});
-                a.Completed:Connect(function()completed=true;end);
+                a.Completed:Connect(function()getgenv().ChestTweenCompleted=true;end);
                 a:Play();
-                while(completed==false)do wait();end;
+                while(getgenv().ChestTweenCompleted==false)do wait();end;
                 wait(0.6);
             end);
         end;
