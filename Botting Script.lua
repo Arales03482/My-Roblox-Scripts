@@ -7,6 +7,7 @@ local f=a:CreateFolder("Closest");
 local r=a:CreateFolder("Player");
 local v=a:CreateFolder("Kill");
 local g=a:CreateFolder("Chat");
+local s=a:CreateFolder("Loaders");
 getgenv().lIlIlIIIIIIIIllIIlIIIIllIlIlIIbingchiling=false;
 getgenv().IIlIIIIlIllllllIlIIIllllIIllIl="";
 getgenv().InputPlrBP="";
@@ -97,7 +98,7 @@ d:Toggle("Follow",function(a)
     getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
     getgenv().bp.P=getgenv().bp.P*2;
     getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
-    getgenv().bpc=bp:Clone();
+    getgenv().bpc=getgenv().bp:Clone();
 
     spawn(function()
         while(getgenv().FollowBP==true)and(game:GetService("RunService").Stepped:Wait())do 
@@ -107,7 +108,7 @@ d:Toggle("Follow",function(a)
                         __.CanCollide=false;
                     end;
                 end;
-                if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
+                if(getgenv().bpc==nil)then getgenv().bpc=getgenv().bp:Clone();end;
                 getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                 if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
                     game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
@@ -153,6 +154,7 @@ end);
 -- Look At Tab
 c:Toggle("Look At",function(a)
     getgenv().LookAt=a;
+    print(a);
     if(getgenv().InputPlrLook=="")then 
         print("Please input a player");
         getgenv().LookAt=false;
@@ -197,7 +199,7 @@ h:Toggle("Annoy",function(a)
     getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
     getgenv().bp.P=getgenv().bp.P*2;
     getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
-    getgenv().bpc=bp:Clone();
+    getgenv().bpc=getgenv().bp:Clone();
 
     spawn(function()
         while(getgenv().Annoy==true)and(game:GetService("RunService").Stepped:Wait())do 
@@ -207,7 +209,7 @@ h:Toggle("Annoy",function(a)
                         __.CanCollide=false;
                     end;
                 end;
-                if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
+                if(getgenv().bpc==nil)then getgenv().bpc=getgenv().bp:Clone();end;
                 getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                 if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
                     game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
@@ -221,7 +223,6 @@ h:Toggle("Annoy",function(a)
                 b=game:GetService("Players")[getgenv().InputPlrAnnoy].Character.HumanoidRootPart.Position;
                 c=game:GetService("Players")[getgenv().InputPlrAnnoy].Character.HumanoidRootPart.Velocity;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(b.X,a.Y,b.Z));
-                wait();
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,b);
                 getgenv().bpc.Position=b;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(c.X,0,c.Z);
@@ -278,12 +279,12 @@ f:Toggle("Follow Closest",function(a)
     getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
     getgenv().bp.P=getgenv().bp.P*2;
     getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
-    getgenv().bpc=bp:Clone();
+    getgenv().bpc=getgenv().bp:Clone();
 
     spawn(function()
         while(getgenv().FollowClosestBP==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
-                if(getgenv().bpc==nil)then getgenv().bpc=bp:Clone();end;
+                if(getgenv().bpc==nil)then getgenv().bpc=getgenv().bp:Clone();end;
                 getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                 for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
                     if(__:IsA("BasePart"))then
@@ -424,4 +425,170 @@ g:Button("Bypasser",function()
     if(getgenv().BypasserLoaded==nil)or(getgenv().BypasserLoaded==false)then 
         spawn(function()loadstring(game:HttpGet("https://raw.githubusercontent.com/daddysyn/synergy/additional/betterbypasser",true))();getgenv().BypasserLoaded=true;end);
     end;
+end);
+
+s:Button("Infinite Yield",function()
+    spawn(function()loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))();end);
+end);
+
+s:Button("Nexus Exploits",function()
+    spawn(function()loadstring(game:HttpGet("https://raw.githubusercontent.com/GwnStefano/NexusHub/main/Main",true))();end);
+end);
+
+s:Button("FE Invis Tool",function()
+    spawn(function()loadstring(game:HttpGet("https://gist.githubusercontent.com/skid123skidlol/cd0d2dce51b3f20ad1aac941da06a1a1/raw/f58b98cce7d51e53ade94e7bb460e4f24fb7e0ff/%257BFE%257D%2520Invisible%2520Tool%2520(can%2520hold%2520tools)",true))();end);
+end);
+
+s:Button("Yeet GUI ver.Trollface",function()
+    spawn(function()
+        local lp = game:FindService("Players").LocalPlayer
+
+        local function gplr(String)
+            local Found = {}
+            local strl = String:lower()
+            if strl == "all" then
+                for i,v in pairs(game.Players:GetPlayers()) do
+                    table.insert(Found,v)
+                end
+            elseif strl == "others" then
+                for i,v in pairs(game.Players:GetPlayers()) do
+                    if v.Name ~= lp.Name then
+                        table.insert(Found,v)
+                    end
+                end 
+            elseif strl == "me" then
+                table.insert(Found,game:FindService("Players").LocalPlayer.Name)
+            else
+                for i,v in pairs(game.Players:GetPlayers()) do
+                    if v.Name:lower():sub(1, #String) == String:lower() then
+                        table.insert(Found,v)
+                    end
+                end 
+            end
+            return Found 
+        end
+
+        local function notif(str,dur)
+            game:FindService("StarterGui"):SetCore("SendNotification", {
+                Title = "YEET UI",
+                Text = str,
+                Icon = "rbxassetid://2005276185",
+                Duration = dur or 3
+            })
+        end
+
+        if(game:GetService("CoreGui"):FindFirstChild("FE Yeet Gui")~=nil)then game:GetService("CoreGui"):FindFirstChild("FE Yeet Gui"):Destroy();end;
+        local FEYeetGui = Instance.new("ScreenGui")
+        local Main = Instance.new("ImageLabel")
+        local Top = Instance.new("Frame")
+        local Title = Instance.new("TextLabel")
+        local TextBox = Instance.new("TextBox")
+        local TextButton = Instance.new("TextButton")
+
+        FEYeetGui.Name = "FE Yeet Gui"
+        FEYeetGui.Parent = game:GetService("CoreGui")
+        FEYeetGui.ResetOnSpawn = false
+
+        Main.Name = "Main"
+        Main.Parent = FEYeetGui
+        Main.Active = true
+        Main.Draggable = true
+        Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Main.BorderSizePixel = 0
+        Main.Position = UDim2.new(0.174545452, 0, 0.459574461, 0)
+        Main.Size = UDim2.new(0, 454, 0, 218)
+        Main.Image = "rbxassetid://2005276185"
+
+        Top.Name = "Top"
+        Top.Parent = Main
+        Top.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+        Top.BorderSizePixel = 0
+        Top.Size = UDim2.new(0, 454, 0, 44)
+
+        Title.Name = "Title"
+        Title.Parent = Top
+        Title.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+        Title.BorderSizePixel = 0
+        Title.Position = UDim2.new(0, 0, 0.295454562, 0)
+        Title.Size = UDim2.new(0, 454, 0, 30)
+        Title.Font = Enum.Font.SourceSans
+        Title.Text = "FE Yeet Gui (trollface edition)"
+        Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Title.TextScaled = true
+        Title.TextSize = 14.000
+        Title.TextWrapped = true
+
+        TextBox.Parent = Main
+        TextBox.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+        TextBox.BorderSizePixel = 0
+        TextBox.Position = UDim2.new(0.0704845786, 0, 0.270642221, 0)
+        TextBox.Size = UDim2.new(0, 388, 0, 62)
+        TextBox.Font = Enum.Font.SourceSans
+        TextBox.PlaceholderText = "Who do i yeet(can be shortened)"
+        TextBox.Text = ""
+        TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextBox.TextScaled = true
+        TextBox.TextSize = 14.000
+        TextBox.TextWrapped = true
+
+        TextButton.Parent = Main
+        TextButton.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+        TextButton.BorderSizePixel = 0
+        TextButton.Position = UDim2.new(0.10352423, 0, 0.596330225, 0)
+        TextButton.Size = UDim2.new(0, 359, 0, 50)
+        TextButton.Font = Enum.Font.SourceSans
+        TextButton.Text = "Cheese em'"
+        TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextButton.TextScaled = true
+        TextButton.TextSize = 14.000
+        TextButton.TextWrapped = true
+
+        TextButton.MouseButton1Click:Connect(function()
+            local Target = gplr(TextBox.Text)
+            if Target[1] then
+                Target = Target[1]
+                
+                local Thrust = Instance.new('BodyThrust', lp.Character.HumanoidRootPart)
+                Thrust.Force = Vector3.new(9999,9999,9999)
+                Thrust.Name = "YeetForce"
+                repeat
+                    for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                        if(__:IsA("BasePart"))then
+                            __.CanCollide=false;
+                        end;
+                    end;
+                    if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Ragdoll);
+                    elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                    end;
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                    for _,a in pairs(game:GetService("Players").LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks())do a:Stop(0);end;
+                    lp.Character.HumanoidRootPart.CFrame = Target.Character.HumanoidRootPart.CFrame
+                    Thrust.Location = Target.Character.HumanoidRootPart.Position
+                    game:FindService("RunService").Heartbeat:wait()
+                until not Target.Character:FindFirstChild("Head")
+                game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+                game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
+            else
+                notif("Invalid player")
+            end
+        end)
+
+        notif("Loaded successfully! Created by scuba#0001", 5)
+    end);
+end);
+
+s:Button("Bedwars",function()
+    spawn(function()loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua",true))();end);
+end);
+
+s:Button("Eclipse Hub",function()
+    spawn(function()
+        getgenv().mainKey="nil"
+        local a,b,c,d,e=loadstring,request or http_request or (http and http.request) or (syn and syn.request),assert,tostring,"https://api.eclipsehub.xyz/auth"c(a and b,"Executor not Supported")a(b({Url=e.."\?\107e\121\61"..d(mainKey),Headers={["User-Agent"]="Eclipse"}}).Body)()
+    end);
 end);
