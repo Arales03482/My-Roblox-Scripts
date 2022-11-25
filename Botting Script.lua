@@ -441,8 +441,9 @@ end);
 
 s:Button("Yeet GUI ver.Trollface",function()
     spawn(function()
+        getgenv().Yeeting=false;
         local lp = game:FindService("Players").LocalPlayer
-
+    
         local function gplr(String)
             local Found = {}
             local strl = String:lower()
@@ -467,7 +468,7 @@ s:Button("Yeet GUI ver.Trollface",function()
             end
             return Found 
         end
-
+    
         local function notif(str,dur)
             game:FindService("StarterGui"):SetCore("SendNotification", {
                 Title = "YEET UI",
@@ -476,35 +477,36 @@ s:Button("Yeet GUI ver.Trollface",function()
                 Duration = dur or 3
             })
         end
-
+    
         if(game:GetService("CoreGui"):FindFirstChild("FE Yeet Gui")~=nil)then game:GetService("CoreGui"):FindFirstChild("FE Yeet Gui"):Destroy();end;
         local FEYeetGui = Instance.new("ScreenGui")
         local Main = Instance.new("ImageLabel")
         local Top = Instance.new("Frame")
         local Title = Instance.new("TextLabel")
         local TextBox = Instance.new("TextBox")
-        local TextButton = Instance.new("TextButton")
-
+        local TextButton1 = Instance.new("TextButton")
+        local TextButton2 = Instance.new("TextButton")
+    
         FEYeetGui.Name = "FE Yeet Gui"
         FEYeetGui.Parent = game:GetService("CoreGui")
         FEYeetGui.ResetOnSpawn = false
-
+    
         Main.Name = "Main"
         Main.Parent = FEYeetGui
         Main.Active = true
         Main.Draggable = true
         Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Main.BorderSizePixel = 0
-        Main.Position = UDim2.new(0.174545452, 0, 0.459574461, 0)
+        Main.Position = UDim2.new(0.17, 0, 0.46, 0)
         Main.Size = UDim2.new(0, 454, 0, 218)
         Main.Image = "rbxassetid://2005276185"
-
+    
         Top.Name = "Top"
         Top.Parent = Main
         Top.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
         Top.BorderSizePixel = 0
         Top.Size = UDim2.new(0, 454, 0, 44)
-
+    
         Title.Name = "Title"
         Title.Parent = Top
         Title.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
@@ -517,11 +519,11 @@ s:Button("Yeet GUI ver.Trollface",function()
         Title.TextScaled = true
         Title.TextSize = 14.000
         Title.TextWrapped = true
-
+    
         TextBox.Parent = Main
         TextBox.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
         TextBox.BorderSizePixel = 0
-        TextBox.Position = UDim2.new(0.0704845786, 0, 0.270642221, 0)
+        TextBox.Position = UDim2.new(0.07, 0, 0.27, 0)
         TextBox.Size = UDim2.new(0, 388, 0, 62)
         TextBox.Font = Enum.Font.SourceSans
         TextBox.PlaceholderText = "Who do i yeet(can be shortened)"
@@ -530,46 +532,68 @@ s:Button("Yeet GUI ver.Trollface",function()
         TextBox.TextScaled = true
         TextBox.TextSize = 14.000
         TextBox.TextWrapped = true
-
-        TextButton.Parent = Main
-        TextButton.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
-        TextButton.BorderSizePixel = 0
-        TextButton.Position = UDim2.new(0.10352423, 0, 0.596330225, 0)
-        TextButton.Size = UDim2.new(0, 359, 0, 50)
-        TextButton.Font = Enum.Font.SourceSans
-        TextButton.Text = "Cheese em'"
-        TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        TextButton.TextScaled = true
-        TextButton.TextSize = 14.000
-        TextButton.TextWrapped = true
-
-        TextButton.MouseButton1Click:Connect(function()
+    
+        TextButton1.Parent = Main
+        TextButton1.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+        TextButton1.BorderSizePixel = 0
+        TextButton1.Position = UDim2.new(0.1, 0, 0.6, 0)
+        TextButton1.Size = UDim2.new(0, 359, 0, 25)
+        TextButton1.Font = Enum.Font.SourceSans
+        TextButton1.Text = "Cheese em'"
+        TextButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextButton1.TextScaled = true
+        TextButton1.TextSize = 14.000
+        TextButton1.TextWrapped = true
+    
+        TextButton1.MouseButton1Click:Connect(function()
             local Target = gplr(TextBox.Text)
             if Target[1] then
                 Target = Target[1]
                 
-                local Thrust = Instance.new('BodyThrust', lp.Character.HumanoidRootPart)
+                getgenv().Yeeting=false;
+                wait();
+                getgenv().Yeeting=true;
+                local neededtime=0
+                local OldPos=game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
+                local Thrust = Instance.new('BodyThrust',game:FindService("Players").LocalPlayer.Character.HumanoidRootPart)
                 Thrust.Force = Vector3.new(9999,9999,9999)
                 Thrust.Name = "YeetForce"
                 repeat
-                    for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
-                        if(__:IsA("BasePart"))then
-                            __.CanCollide=false;
+                    pcall(function()
+                        for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                            if(__:IsA("BasePart"))then
+                                __.CanCollide=false;
+                            end;
                         end;
-                    end;
-                    if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
-                        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
-                        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Ragdoll);
-                    elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
-                        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
-                        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
-                    end;
-                    game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    for _,a in pairs(game:GetService("Players").LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks())do a:Stop(0);end;
-                    lp.Character.HumanoidRootPart.CFrame = Target.Character.HumanoidRootPart.CFrame
-                    Thrust.Location = Target.Character.HumanoidRootPart.Position
-                    game:FindService("RunService").Heartbeat:wait()
-                until not Target.Character:FindFirstChild("Head")
+                        if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
+                            game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
+                            game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Ragdoll);
+                        elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
+                            game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+                            game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                        end;
+                        game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                        for _,a in pairs(game:GetService("Players").LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks())do a:Stop(0);end;
+                        game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=Target.Character.HumanoidRootPart.CFrame
+                        Thrust.Location = Target.Character.HumanoidRootPart.Position
+                        neededtime+=0.001/1
+                        game:FindService("RunService").Heartbeat:wait()
+                    end);
+                until(not(Target.Character:FindFirstChild("Head")))or(getgenv().Yeeting==false);
+                local stopper=game:GetService("RunService").Stepped:Connect(function()
+                    game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=OldPos;
+                    game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored=true;
+                    game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(0,0,0);
+                    game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.RotVelocity=Vector3.new(0,0,0);
+                end);
+                wait(0.1);
+                Thrust:Destroy();
+                getgenv().Yeeting=false;
+                print("waiting","0.4+",neededtime)
+                wait(0.4+neededtime);
+                stopper:Disconnect();
+                wait();
+                game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored=false;
                 game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
                 game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
                 game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
@@ -577,7 +601,28 @@ s:Button("Yeet GUI ver.Trollface",function()
                 notif("Invalid player")
             end
         end)
-
+    
+        TextButton2.Parent = Main
+        TextButton2.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+        TextButton2.BorderSizePixel = 0
+        TextButton2.Position = UDim2.new(0.1, 0, 0.8, 0)
+        TextButton2.Size = UDim2.new(0, 359, 0, 25)
+        TextButton2.Font = Enum.Font.SourceSans
+        TextButton2.Text = "Stop"
+        TextButton2.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextButton2.TextScaled = true
+        TextButton2.TextSize = 14.000
+        TextButton2.TextWrapped = true
+    
+        TextButton2.MouseButton1Click:Connect(function()
+            if(getgenv().Yeeting==true)then 
+                getgenv().Yeeting=false;
+                game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+                game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
+            end
+        end)
+    
         notif("Loaded successfully! Created by scuba#0001", 5)
     end);
 end);
