@@ -443,7 +443,7 @@ s:Button("Yeet GUI ver.Trollface",function()
     spawn(function()
         getgenv().Yeeting=false;
         local lp = game:FindService("Players").LocalPlayer
-    
+            
         local function gplr(String)
             local Found = {}
             local strl = String:lower()
@@ -468,7 +468,7 @@ s:Button("Yeet GUI ver.Trollface",function()
             end
             return Found 
         end
-    
+
         local function notif(str,dur)
             game:FindService("StarterGui"):SetCore("SendNotification", {
                 Title = "YEET UI",
@@ -477,7 +477,7 @@ s:Button("Yeet GUI ver.Trollface",function()
                 Duration = dur or 3
             })
         end
-    
+
         if(game:GetService("CoreGui"):FindFirstChild("FE Yeet Gui")~=nil)then game:GetService("CoreGui"):FindFirstChild("FE Yeet Gui"):Destroy();end;
         local FEYeetGui = Instance.new("ScreenGui")
         local Main = Instance.new("ImageLabel")
@@ -486,11 +486,11 @@ s:Button("Yeet GUI ver.Trollface",function()
         local TextBox = Instance.new("TextBox")
         local TextButton1 = Instance.new("TextButton")
         local TextButton2 = Instance.new("TextButton")
-    
+
         FEYeetGui.Name = "FE Yeet Gui"
         FEYeetGui.Parent = game:GetService("CoreGui")
         FEYeetGui.ResetOnSpawn = false
-    
+
         Main.Name = "Main"
         Main.Parent = FEYeetGui
         Main.Active = true
@@ -500,13 +500,13 @@ s:Button("Yeet GUI ver.Trollface",function()
         Main.Position = UDim2.new(0.17, 0, 0.46, 0)
         Main.Size = UDim2.new(0, 454, 0, 218)
         Main.Image = "rbxassetid://2005276185"
-    
+
         Top.Name = "Top"
         Top.Parent = Main
         Top.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
         Top.BorderSizePixel = 0
         Top.Size = UDim2.new(0, 454, 0, 44)
-    
+
         Title.Name = "Title"
         Title.Parent = Top
         Title.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
@@ -519,7 +519,7 @@ s:Button("Yeet GUI ver.Trollface",function()
         Title.TextScaled = true
         Title.TextSize = 14.000
         Title.TextWrapped = true
-    
+
         TextBox.Parent = Main
         TextBox.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
         TextBox.BorderSizePixel = 0
@@ -532,7 +532,7 @@ s:Button("Yeet GUI ver.Trollface",function()
         TextBox.TextScaled = true
         TextBox.TextSize = 14.000
         TextBox.TextWrapped = true
-    
+
         TextButton1.Parent = Main
         TextButton1.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
         TextButton1.BorderSizePixel = 0
@@ -544,21 +544,21 @@ s:Button("Yeet GUI ver.Trollface",function()
         TextButton1.TextScaled = true
         TextButton1.TextSize = 14.000
         TextButton1.TextWrapped = true
-    
+
         TextButton1.MouseButton1Click:Connect(function()
-            local Target = gplr(TextBox.Text)
-            if Target[1] then
-                Target = Target[1]
-                
+            local Target=gplr(TextBox.Text)
+            if(Target[1])then
+                Target=Target[1];
                 getgenv().Yeeting=false;
                 wait();
                 getgenv().Yeeting=true;
-                local neededtime=0
-                local OldPos=game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
-                local Thrust = Instance.new('BodyThrust',game:FindService("Players").LocalPlayer.Character.HumanoidRootPart)
-                Thrust.Force = Vector3.new(9999,9999,9999)
-                Thrust.Name = "YeetForce"
-                repeat
+                local neededtime=0;
+                local OldPos=game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;
+                local Thrust=Instance.new('BodyThrust',game:FindService("Players").LocalPlayer.Character.HumanoidRootPart);
+                Thrust.Force=Vector3.new(9999,9999,9999);
+                Thrust.Name="YeetForce";
+                repeat 
+                    game:GetService("RunService").Stepped:Wait();
                     pcall(function()
                         for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
                             if(__:IsA("BasePart"))then
@@ -574,12 +574,12 @@ s:Button("Yeet GUI ver.Trollface",function()
                         end;
                         game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                         for _,a in pairs(game:GetService("Players").LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks())do a:Stop(0);end;
-                        game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=Target.Character.HumanoidRootPart.CFrame
-                        Thrust.Location = Target.Character.HumanoidRootPart.Position
-                        neededtime+=0.001/1
-                        game:FindService("RunService").Heartbeat:wait()
+                        game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=Target.Character.HumanoidRootPart.CFrame;
+                        Thrust.Location = Target.Character.HumanoidRootPart.Position;
+                        neededtime+=0.001/1;
                     end);
-                until(not(Target.Character:FindFirstChild("Head")))or(getgenv().Yeeting==false);
+                until(Target.Character:FindFirstChild("Head")==nil)or(getgenv().Yeeting==false);
+                while(getgenv().Yeeting==true)do wait();end;
                 local stopper=game:GetService("RunService").Stepped:Connect(function()
                     game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=OldPos;
                     game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored=true;
@@ -589,8 +589,8 @@ s:Button("Yeet GUI ver.Trollface",function()
                 wait(0.1);
                 Thrust:Destroy();
                 getgenv().Yeeting=false;
-                print("waiting","0.4+",neededtime)
-                wait(0.4+neededtime);
+                print("waiting","4")
+                wait(4);
                 stopper:Disconnect();
                 wait();
                 game:FindService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored=false;
@@ -601,7 +601,7 @@ s:Button("Yeet GUI ver.Trollface",function()
                 notif("Invalid player")
             end
         end)
-    
+
         TextButton2.Parent = Main
         TextButton2.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
         TextButton2.BorderSizePixel = 0
@@ -613,7 +613,7 @@ s:Button("Yeet GUI ver.Trollface",function()
         TextButton2.TextScaled = true
         TextButton2.TextSize = 14.000
         TextButton2.TextWrapped = true
-    
+
         TextButton2.MouseButton1Click:Connect(function()
             if(getgenv().Yeeting==true)then 
                 getgenv().Yeeting=false;
@@ -622,8 +622,9 @@ s:Button("Yeet GUI ver.Trollface",function()
                 game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
             end
         end)
-    
+
         notif("Loaded successfully! Created by scuba#0001", 5)
+
     end);
 end);
 
