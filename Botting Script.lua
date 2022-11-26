@@ -5,6 +5,7 @@ local c=a:CreateFolder("Look At");
 local h=a:CreateFolder("Annoy");
 local j=a:CreateFolder("Car Annoy");
 local f=a:CreateFolder("Closest");
+local l=a:CreateFolder("Other Players");
 local r=a:CreateFolder("Player");
 local v=a:CreateFolder("Kill");
 local g=a:CreateFolder("Chat");
@@ -21,7 +22,11 @@ getgenv().InputPlrCarAnnoy="";
 getgenv().CarAnnoy=false;
 getgenv().FollowClosestBP=false;
 getgenv().LookAtClosest=false;
+getgenv().NoclipOthers=false;
+getgenv().NoclipOthersAura=false;
+getgenv().NoclipOthersAuraRange=10;
 getgenv().Spinbot=false;
+getgenv().Noclip=false;
 getgenv().KillAll=false;
 getgenv().KillAuraRange=15;
 getgenv().KillAura=false;
@@ -390,17 +395,82 @@ f:Toggle("Look At Closest",function(a)
     end);
 end);
 
+-- Other Players Tab
+l:Toggle("Noclip Others",function(a)
+    getgenv().NoclipOthers=a;
+    print(a);
+    spawn(function()
+        while(getgenv().NoclipOthers==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                for _,__ in pairs(game:GetService("Players"):GetPlayers())do 
+                    if(__~=game:GetService("Players")["LocalPlayer"])then 
+                        for _,__ in pairs(__["Character"]:GetDescendants())do 
+                            if(__:IsA("BasePart"))then 
+                                __["CanCollide"]=false;
+                            end;
+                        end;
+                    end;
+                end;
+            end);
+        end;
+    end);
+end);
+
+l:Toggle("Noclip Others Aura",function(a)
+    getgenv().NoclipOthersAura=a;
+    print(a);
+    spawn(function()
+        while(getgenv().NoclipOthersAura==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                for _,__ in pairs(game:GetService("Players"):GetPlayers())do 
+                    if(__~=game:GetService("Players")["LocalPlayer"])and((__["Character"]["HumanoidRootPart"]["Position"]-game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"])["Magnitude"]<=getgenv().NoclipOthersAuraRange)then 
+                        for _,__ in pairs(__["Character"]:GetDescendants())do 
+                            if(__:IsA("BasePart"))then 
+                                __["CanCollide"]=false;
+                            end;
+                        end;
+                    end;
+                end;
+            end);
+        end;
+    end);
+end);
+
+l:Slider("Noclip Others Aura",{min=1;max=100},function(a)
+    getgenv().NoclipOthersAuraRange=a;
+    print(a);
+end);
+
 -- Player Tab
 r:Toggle("Spinbot",function(a)
     getgenv().Spinbot=a;
     print(a);
     spawn(function()
         while(getgenv().Spinbot==true)and(game:GetService("RunService").Stepped:Wait())do 
-            pcall(function()game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.Angles(0,math.rad(90),0);end);
+            pcall(function()
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.Angles(0,math.rad(90),0);
+            end);
         end;
     end);
 end);
 
+r:Toggle("Noclip",function(a)
+    getgenv().Noclip=a;
+    print(a);
+    spawn(function()
+        while(getgenv().Noclip==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                for _,__ in pairs(game:GetService("Players")["LocalPlayer"]["Character"]:GetDescendants())do 
+                    if(__:IsA("BasePart"))then 
+                        __["CanCollide"]=false;
+                    end;
+                end;
+            end);
+        end;
+    end);
+end);
+
+-- Kill Tab
 v:Toggle("Kill Aura",function(a)
     getgenv().KillAura=a;
     print(a);
@@ -479,6 +549,7 @@ g:Toggle("Spam",function(a)
     end);
 end);
 
+-- Loaders Tab
 g:Button("Bypasser",function()
     getgenv().method="fn";
     if(getgenv().BypasserLoaded==nil)or(getgenv().BypasserLoaded==false)then 
