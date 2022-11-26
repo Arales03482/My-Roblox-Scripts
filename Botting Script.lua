@@ -3,6 +3,7 @@ local b=a:CreateFolder("TP");
 local d=a:CreateFolder("Body Position");
 local c=a:CreateFolder("Look At");
 local h=a:CreateFolder("Annoy");
+local j=a:CreateFolder("Car Annoy");
 local f=a:CreateFolder("Closest");
 local r=a:CreateFolder("Player");
 local v=a:CreateFolder("Kill");
@@ -16,6 +17,8 @@ getgenv().InputPlrLook="";
 getgenv().LookAt=false;
 getgenv().InputPlrAnnoy="";
 getgenv().Annoy=false;
+getgenv().InputPlrCarAnnoy="";
+getgenv().CarAnnoy=false;
 getgenv().FollowClosestBP=false;
 getgenv().LookAtClosest=false;
 getgenv().Spinbot=false;
@@ -262,6 +265,81 @@ h:Box("Player to Annoy","string",function(str)
         for _,k in pairs(game:GetService("Players"):GetPlayers())do 
             if(str:lower()==k.Name:sub(1,#str):lower())then 
                 getgenv().InputPlrAnnoy=k.Name;
+                if(game:GetService("Players"):FindFirstChild(getgenv().InputPlrAnnoy)~=nil)then print("Target Chosen as "..getgenv().InputPlrAnnoy);end;
+                return;
+            end;
+        end;
+        if(game:GetService("Players"):FindFirstChild(getgenv().InputPlrAnnoy)==nil)then print("Inputed player could not be found");getgenv().InputPlrAnnoy="";end;
+    end;
+end);
+
+-- Car Annoy Tab
+j:Toggle("Car Annoy",function(a)
+    getgenv().CarAnnoy=a;
+    if(getgenv().InputPlrCarAnnoy=="")then 
+        print("Please input a player")
+        getgenv().CarAnnoy=false
+    end
+
+    if(getgenv().bp~=nil)then getgenv().bp:Destroy();end;if(getgenv().bpc~=nil)then getgenv().bpc:Destroy();end;
+    getgenv().bp=Instance.new("BodyPosition");
+    getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
+    getgenv().bp.P=getgenv().bp.P*2;
+    getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
+    getgenv().bpc=getgenv().bp:Clone();
+
+    spawn(function()
+        while(getgenv().CarAnnoy==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __.CanCollide=false;
+                    end;
+                end;
+                if(getgenv().bpc==nil)then getgenv().bpc=getgenv().bp:Clone();end;
+                getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
+                b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
+                c=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Velocity;
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(b.X,a.Y,b.Z));
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,b);
+                getgenv().bpc.Position=b;
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(c.X,0,c.Z);
+            end);
+        end;
+        
+        wait();
+        game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
+        getgenv().bpc:Destroy();
+        getgenv().bp:Destroy();
+    end);
+
+    spawn(function()
+        while(getgenv().CarAnnoy==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                local a=game:GetService("Players")[getgenv().InputPlrAnnoy].Character.HumanoidRootPart.Position;
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(a.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y,a.Z));
+            end);
+        end;
+    end);
+    
+    spawn(function()
+        while(getgenv().CarAnnoy==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,game:GetService("Players")[getgenv().InputPlrAnnoy].Character.HumanoidRootPart.Position);
+            end);
+        end;
+    end);
+end);
+
+j:Box("Player to Car Annoy","string",function(str)
+    if(str=="")then 
+        warn("Please enter a player name");
+    else 
+        for _,k in pairs(game:GetService("Players"):GetPlayers())do 
+            if(str:lower()==k.Name:sub(1,#str):lower())then 
+                getgenv().InputPlrCarAnnoy=k.Name;
                 if(game:GetService("Players"):FindFirstChild(getgenv().InputPlrAnnoy)~=nil)then print("Target Chosen as "..getgenv().InputPlrAnnoy);end;
                 return;
             end;
