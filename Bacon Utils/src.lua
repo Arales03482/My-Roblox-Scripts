@@ -1,6 +1,6 @@
 getgenv().baconUtils={};
 
-function getgenv().baconUtils.getFirstModelOfPart(a)
+getgenv().baconUtils.getFirstModelOfPart=function(a)
     local b=a.Parent;
     if(b.Parent==game)and(b==game:GetService("Workspace"))then return(a);end;
     if(b.Parent==game:GetService("Workspace"))then 
@@ -14,7 +14,7 @@ function getgenv().baconUtils.getFirstModelOfPart(a)
     return(a);
 end;
 
-function getgenv().baconUtils.makeId(_,___,____,______)
+getgenv().baconUtils.makeId=function(_,___,____,______)
     _=(_)or(5);
     __="";
     ___=(___)or{"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","9"};
@@ -39,11 +39,11 @@ function getgenv().baconUtils.makeId(_,___,____,______)
     return(__);
 end;
 
-function getgenv().baconUtils.randVec3(min,max)
+getgenv().baconUtils.randVec3=function(min,max)
     return(Vector3.new(math.random(min,max),math.random(min,max),math.random(min,max)));
 end;
 
-function getgenv().baconUtils.tblRemoveFromIndx(_,__)
+getgenv().baconUtils.tblRemoveFromIndx=function(_,__)
     for ___,____ in pairs(_)do 
         if(___>=__)or(____==nil)then 
             table.remove(_,___);
