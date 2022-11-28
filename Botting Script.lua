@@ -1,3 +1,4 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/Bacon%20Utils/src.lua",true))();
 local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3'))():CreateWindow("Bot");
 local b=a:CreateFolder("TP");
 local d=a:CreateFolder("Body Position");
@@ -368,7 +369,7 @@ else
             print("Please input a player");
             getgenv().CarAnnoy=false;
         end;
-        
+
         if(getgenv().bp~=nil)then getgenv().bp:Destroy();end;if(getgenv().bpc~=nil)then getgenv().bpc:Destroy();end;
         if(getgenv().bav~=nil)then getgenv().bav:Destroy();end;if(getgenv().bavc~=nil)then getgenv().bavc:Destroy();end;
         getgenv().bp=Instance.new("BodyPosition");
@@ -427,6 +428,16 @@ else
         end;
     end);
     j:Box("Angular Multiplier","number",function(_)getgenv().bavMulti=_;end);
+    j:Button("Noclip Car",function()
+        local car=getgenv().baconUtils.getFirstModelOfPart(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").SeatPart);
+        if(car~=nil)and(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").Sit==true)then 
+            for _,__ in pairs(car:GetDescendants())do 
+                if(__:IsA("BasePart"))and(__["CanCollide"]==true)then 
+                    __["CanCollide"]=false;
+                end;
+            end;
+        end;
+    end);
 end;
 
 -- Closest Tab
