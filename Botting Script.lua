@@ -39,16 +39,6 @@ getgenv().ChatSpamSettings={ChatSpam=false;SpamText="SPONSORED BY UR MOM";SpamTe
 if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
 
 -- Funcs
-function insertc(_,__)
-    for _1,_1_ in pairs(_)do 
-        if(_1_==__)then 
-            table.remove(_,_1);
-        elseif(_1_~=__)then 
-            table.insert(_,__);
-        end;
-    end;
-end;
-
 function randvec(min,max)
     return(Vector3.new(math.random(min,max),math.random(min,max),math.random(min,max)));
 end;
@@ -373,29 +363,32 @@ if(game.PlaceId==4924922222)then
     end);
 else 
     j:Toggle("Car Annoy",function(a)
-        getgenv().CarAnnoy=a;
-        if(getgenv().InputPlrCarAnnoy=="")then 
-            print("Please input a player");
-            getgenv().CarAnnoy=false;
-        end;
-    
         if(getgenv().bp~=nil)then getgenv().bp:Destroy();end;if(getgenv().bpc~=nil)then getgenv().bpc:Destroy();end;
+        if(getgenv().bav~=nil)then getgenv().bav:Destroy();end;if(getgenv().bavc~=nil)then getgenv().bavc:Destroy();end;
         getgenv().bp=Instance.new("BodyPosition");
+        getgenv().bav=Instance.new("BodyAngularVelocity");
         getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
         getgenv().bp.P=getgenv().bp.P*2;
         getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
+        getgenv().bav.AngularVelocity=randvec(-10,10)*getgenv().bavMulti;
+        getgenv().bav.MaxTorque=Vector3.new(math.huge,math.huge,math.huge);
+        getgenv().bav.P=math.huge;
         getgenv().bpc=getgenv().bp:Clone();
-    
+        getgenv().bavc=getgenv().bav:Clone();
+
         spawn(function()
             while(getgenv().CarAnnoy==true)and(game:GetService("RunService").Stepped:Wait())do 
                 pcall(function()
                     for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
-                        if(__:IsA("BasePart"))then
-                            __.CanCollide=false;
+                        if(__:IsA("BasePart"))then 
+                            __["CanCollide"]=false;
                         end;
                     end;
                     if(getgenv().bpc==nil)then getgenv().bpc=getgenv().bp:Clone();end;
+                    if(getgenv().bavc==nil)then getgenv().bavc=getgenv().bav:Clone();end;
                     getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                    getgenv().bavc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
+                    getgenv().bavc.AngularVelocity=randvec(-10,10)*getgenv().bavMulti;
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                     b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
@@ -407,11 +400,13 @@ else
             
             wait();
             game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
-            getgenv().bpc:Destroy();
             getgenv().bp:Destroy();
+            getgenv().bav:Destroy();
+            getgenv().bpc:Destroy();
+            getgenv().bavc:Destroy();
         end);
     end);
-    
+    j:Box("Angular Multiplier","number",function(_)getgenv().bavMulti=_;end);
     j:Box("Player to Car Annoy","string",function(str)
         if(str=="")then 
             warn("Please enter a player name");
