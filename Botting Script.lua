@@ -363,6 +363,12 @@ if(game.PlaceId==4924922222)then
     end);
 else 
     j:Toggle("Car Annoy",function(a)
+        getgenv().CarAnnoy=a;
+        if(getgenv().InputPlrCarAnnoy=="")then 
+            print("Please input a player");
+            getgenv().CarAnnoy=false;
+        end;
+        
         if(getgenv().bp~=nil)then getgenv().bp:Destroy();end;if(getgenv().bpc~=nil)then getgenv().bpc:Destroy();end;
         if(getgenv().bav~=nil)then getgenv().bav:Destroy();end;if(getgenv().bavc~=nil)then getgenv().bavc:Destroy();end;
         getgenv().bp=Instance.new("BodyPosition");
