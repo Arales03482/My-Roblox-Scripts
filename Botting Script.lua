@@ -406,7 +406,6 @@ else
             getgenv().bavc:Destroy();
         end);
     end);
-    j:Box("Angular Multiplier","number",function(_)getgenv().bavMulti=_;end);
     j:Box("Player to Car Annoy","string",function(str)
         if(str=="")then 
             warn("Please enter a player name");
@@ -421,6 +420,7 @@ else
             if(game:GetService("Players"):FindFirstChild(getgenv().InputPlrCarAnnoy)==nil)then print("Inputed player could not be found");getgenv().InputPlrCarAnnoy="";end;
         end;
     end);
+    j:Box("Angular Multiplier","number",function(_)getgenv().bavMulti=_;end);
 end;
 
 -- Closest Tab
