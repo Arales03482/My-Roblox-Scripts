@@ -34,16 +34,18 @@ getgenv().KillAuraRange=15;
 getgenv().KillAura=false;
 getgenv().PlayerToKill="";
 getgenv().KillPlayer=false;
+getgenv().KillAll=false;
+getgenv().Method1=false;
+getgenv().AutoTP=false;
 getgenv().ChatSpamSettings={ChatSpam=false;SpamText="SPONSORED BY UR MOM";SpamTextTo="All";Timeout=2.2};
 
 --Anti AFK
 if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
 
--- Funcs
-function randvec(min,max)
-    return(Vector3.new(math.random(min,max),math.random(min,max),math.random(min,max)));
-end;
+--Walkspeed Init
+if(getgenv().wsran==nil)or(getgenv().wsran==false)then getgenv().wsran=true;getgenv().ws=16;spawn(function()while(getgenv().wsran==true)and(game:GetService("RunService").Stepped:Wait())do pcall(function()game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed=getgenv().ws;end);end;end);end;
 
+-- Funcs
 function getclosest()
     a=9e9;
     b=nil;
@@ -58,6 +60,23 @@ function getclosest()
         end);
     end;
     return(b);
+end;
+
+function getClosestPlayer()
+    local range=9e9;
+    local plr=nil;
+    pcall(function()
+        for _,cPlr in pairs(game:GetService("Players"):GetPlayers())do 
+            if(cPlr.Character~=nil)and(cPlr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(cPlr.Name~=game:GetService("Players").LocalPlayer.Name)and(cPlr.Character.Humanoid.Health>0)and(cPlr.Character.Humanoid.Health~=math.huge)and(((cPlr.Team~=game:GetService("Players").LocalPlayer.Team)and(cPlr.Team~=game:GetService("Teams"):FindFirstChild("Not Playing"))and(cPlr.Neutral==false))or(cPlr.Neutral==true))then 
+                local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cPlr["Character"]["HumanoidRootPart"]["Position"])["magnitude"];
+                if(dist<range)then 
+                    range=dist;
+                    plr=cPlr;
+                end;
+            end;
+        end;
+    end);
+    return(plr);
 end;
 
 -- Main Script
@@ -300,7 +319,7 @@ if(game.PlaceId==4924922222)then
         getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
         getgenv().bp.P=getgenv().bp.P*2;
         getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
-        getgenv().bav.AngularVelocity=randvec(-10,10)*getgenv().bavMulti;
+        getgenv().bav.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
         getgenv().bav.MaxTorque=Vector3.new(math.huge,math.huge,math.huge);
         getgenv().bav.P=math.huge;
         getgenv().bpc=getgenv().bp:Clone();
@@ -318,7 +337,7 @@ if(game.PlaceId==4924922222)then
                     if(getgenv().bavc==nil)then getgenv().bavc=getgenv().bav:Clone();end;
                     getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     getgenv().bavc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    getgenv().bavc.AngularVelocity=randvec(-10,10)*getgenv().bavMulti;
+                    getgenv().bavc.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                     b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
@@ -377,7 +396,7 @@ else
         getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
         getgenv().bp.P=getgenv().bp.P*2;
         getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
-        getgenv().bav.AngularVelocity=randvec(-10,10)*getgenv().bavMulti;
+        getgenv().bav.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
         getgenv().bav.MaxTorque=Vector3.new(math.huge,math.huge,math.huge);
         getgenv().bav.P=math.huge;
         getgenv().bpc=getgenv().bp:Clone();
@@ -395,7 +414,7 @@ else
                     if(getgenv().bavc==nil)then getgenv().bavc=getgenv().bav:Clone();end;
                     getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     getgenv().bavc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    getgenv().bavc.AngularVelocity=randvec(-10,10)*getgenv().bavMulti;
+                    getgenv().bavc.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                     b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
@@ -576,32 +595,43 @@ r:Toggle("Noclip",function(a)
     end);
 end);
 
+r:Slider("WalkSpeed",{min=16;max=200;precise=false},function(a)getgenv().ws=a;end);
+
 -- Kill Tab
-v:Toggle("Kill Aura",function(a)
+c:Toggle("Kill Aura",function(a)
     getgenv().KillAura=a;
     print(a);
     spawn(function()
-        while(getgenv().KillAura==true)and(game:GetService("RunService").Stepped:Wait())do 
-            for _,a in pairs(game:GetService("Players"):GetPlayers())do 
-                pcall(function()
-                    if((a.Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude<=getgenv().KillAuraRange)and(a.Name~=game:GetService("Players").LocalPlayer.Name)and(a.Character.Humanoid.Health>0)and(a.Character.Humanoid.Health~=math.huge)then 
-                        local tool=game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")or(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Sword"));
+        while(getgenv().KillAura==true)and(wait(0.1))do 
+            pcall(function()
+                for _,plr in pairs(game:GetService("Players"):GetPlayers())do 
+                    if((plr.Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude<=getgenv().KillAuraRange)and(plr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(plr.Name~=game:GetService("Players").LocalPlayer.Name)and(plr.Character.Humanoid.Health>0)and(plr.Character.Humanoid.Health~=math.huge)and(((plr.Team~=game:GetService("Players").LocalPlayer.Team)and(plr.Neutral==false))or(plr.Neutral==true))then 
+                        local tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
                         if(tool)and(tool:FindFirstChild("Handle"))then 
-                            for _,a in pairs(a.Character:GetChildren())do 
+                            for _,a in pairs(plr.Character:GetChildren())do 
                                 if(a:IsA("BasePart"))then 
+                                    if(getgenv().Method1==true)then 
+                                        if(tool:FindFirstChild("Activate")~=nil)and(tool:FindFirstChild("Activate"):IsA("RemoteEvent"))then 
+                                            tool:FindFirstChild("Activate"):FireServer(a.Position,a);
+                                        elseif(tool:FindFirstChild("Activate")==nil)and(tool:IsA("Tool"))then 
+                                            tool:Activate();
+                                        end;
+                                    end;
+                                    if(getgenv().AutoTP==true)then 
+                                        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(plr.Character.HumanoidRootPart.Position)
+                                    end;
                                     firetouchinterest(tool.Handle,a,0);
                                     firetouchinterest(tool.Handle,a,1);
                                 end;
                             end;
                         end;
                     end;
-                end);
-            end;
+                end;
+            end);
         end;
     end);
 end);
-
-v:Slider("Kill Aura Range",{min=1;max=1000;precise=false},function(a)getgenv().KillAuraRange=a;end);
+v:Slider("Kill Aura Range",{min=1;max=250;precise=false},function(a)getgenv().KillAuraRange=a;end);
 
 v:Box("Player to Loop Kill","string",function(str)
     if(str=="")then 
@@ -628,16 +658,117 @@ v:Toggle("Loop Kill",function(a)
     spawn(function()
         while(getgenv().KillPlayer==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
-                local tool=game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")or(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Sword"));
+                for _,__ in pairs(game:GetService("Players")["LocalPlayer"]["Character"]:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __["CanCollide"]=false;
+                    end;
+                end;
+                if(game:GetService("Players")[getgenv().PlayerToKill]~=nil)and(getgenv().AutoTP==true)then 
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(game:GetService("Players")[getgenv().PlayerToKill].Character.HumanoidRootPart.Position.X+7.5-math.floor(math.random(0,15)),game:GetService("Players")[getgenv().PlayerToKill].Character.HumanoidRootPart.Position.Y+7.5,game:GetService("Players")[getgenv().PlayerToKill].Character.HumanoidRootPart.Position.Z+7.5-math.floor(math.random(0,15)));
+                end;
+                local tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                if(game.PlaceId==6104994594)then 
+                    if(game:GetService("Workspace"):FindFirstChild("WaterParts")~=nil)then 
+                        game:GetService("Workspace")["WaterParts"]:Destroy();
+                    end;if(tool==nil)then 
+                        game:GetService("ReplicatedStorage").Remotes.EquipTool:FireServer(game:GetService("Players").LocalPlayer.Backpack.Sword);
+                        wait(0.5);
+                        tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                    end;if(tool~=nil)and(tool.Name~="Sword")then 
+                        game:GetService("ReplicatedStorage").Remotes.EquipTool:FireServer(game:GetService("Players").LocalPlayer.Backpack.Sword);
+                        wait(0.5);
+                        tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                    end;
+                end;
+                if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then game:GetService("Players").LocalPlayer.Character.Humanoid.Sit=false;end;
                 for _,a in pairs(game:GetService("Players")[getgenv().PlayerToKill].Character:GetChildren())do 
-                    if(a:IsA("BasePart"))then 
-                        firetouchinterest(tool.Handle,a,0);firetouchinterest(tool.Handle,a,1);
+                    if(a:IsA("BasePart"))and(game:GetService("Players")[getgenv().PlayerToKill].Character:FindFirstChildWhichIsA("ForceField")==nil)then 
+                        if(getgenv().Method1==true)then 
+                            if(tool:FindFirstChild("Activate")~=nil)and(tool:FindFirstChild("Activate"):IsA("RemoteEvent"))then 
+                                tool:FindFirstChild("Activate"):FireServer(a.Position,a);
+                            elseif(tool:FindFirstChild("Activate")==nil)and(tool:IsA("Tool"))then 
+                                tool:Activate();
+                            end;
+                        end;
+                        firetouchinterest(tool.Handle,a,0);
+                        firetouchinterest(tool.Handle,a,1);
                     end;
                 end;
             end);
         end;
     end);
 end);
+
+v:Toggle("Kill All",function(a)
+    getgenv().KillAll=a;
+    print(a);
+    spawn(function()
+        while(getgenv().KillAll==true)and(wait(0.05))do 
+            pcall(function()
+                for _,__ in pairs(game:GetService("Players")["LocalPlayer"]["Character"]:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __["CanCollide"]=false;
+                    end;
+                end;
+                local plr=getClosestPlayer();
+                if(plr~=nil)then 
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(plr.Character.HumanoidRootPart.Position.X+7.5-math.floor(math.random(0,15)),plr.Character.HumanoidRootPart.Position.Y+7.5,plr.Character.HumanoidRootPart.Position.Z+7.5-math.floor(math.random(0,15)));
+                elseif(plr==nil)then 
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(0,1000,0);
+                end;
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(0,0,0);
+                local tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                if(game.PlaceId==6104994594)then 
+                    if(game:GetService("Workspace"):FindFirstChild("WaterParts")~=nil)then 
+                        game:GetService("Workspace")["WaterParts"]:Destroy();
+                    end;if(tool==nil)then 
+                        game:GetService("ReplicatedStorage").Remotes.EquipTool:FireServer(game:GetService("Players").LocalPlayer.Backpack.Sword);
+                        wait(0.5);
+                        tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                    end;if(tool~=nil)and(tool.Name~="Sword")then 
+                        game:GetService("ReplicatedStorage").Remotes.EquipTool:FireServer(game:GetService("Players").LocalPlayer.Backpack.Sword);
+                        wait(0.5);
+                        tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                    end;
+                end;
+                if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then game:GetService("Players").LocalPlayer.Character.Humanoid.Sit=false;end;
+                if(tool~=nil)and(tool:FindFirstChild("Handle"))then 
+                    for _,a in pairs(plr.Character:GetChildren())do 
+                        if(a:IsA("BasePart"))then 
+                            if(getgenv().Method1==true)then 
+                                if(tool:FindFirstChild("Activate")~=nil)and(tool:FindFirstChild("Activate"):IsA("RemoteEvent"))then 
+                                    tool:FindFirstChild("Activate"):FireServer(a.Position,a);
+                                elseif(tool:FindFirstChild("Activate")==nil)and(tool:IsA("Tool"))then 
+                                    tool:Activate();
+                                end;
+                            end;
+                            firetouchinterest(tool.Handle,a,0);
+                            firetouchinterest(tool.Handle,a,1);
+                        end;
+                    end;
+                end;
+            end);
+        end;
+    end);
+end);
+
+v:Toggle("Method 1",function(a)
+    getgenv().Method1=a;
+    print(a);
+end);
+
+v:Toggle("Auto Teleport",function(a)
+    getgenv().AutoTP=a;
+    print(a);
+end);
+
+if(game.PlaceId==6104994594)then 
+    v:Button("Remove Water Damage",function()
+        if(game:GetService("Workspace"):FindFirstChild("WaterParts")~=nil)then 
+            game:GetService("Workspace")["WaterParts"]:Destroy();
+        end;
+    end);
+end;
 
 -- Chat Tab
 g:Box("Text to Spam","string",function(a)getgenv().ChatSpamSettings.SpamText=a;end);
