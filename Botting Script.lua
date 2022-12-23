@@ -29,7 +29,6 @@ getgenv().NoclipOthersAura=false;
 getgenv().NoclipOthersAuraRange=10;
 getgenv().Spinbot=false;
 getgenv().Noclip=false;
-getgenv().KillAll=false;
 getgenv().KillAuraRange=15;
 getgenv().KillAura=false;
 getgenv().PlayerToKill="";
@@ -598,7 +597,7 @@ end);
 r:Slider("WalkSpeed",{min=16;max=200;precise=false},function(a)getgenv().ws=a;end);
 
 -- Kill Tab
-c:Toggle("Kill Aura",function(a)
+v:Toggle("Kill Aura",function(a)
     getgenv().KillAura=a;
     print(a);
     spawn(function()
