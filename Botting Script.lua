@@ -18,12 +18,14 @@ getgenv().FollowBP=false;
 getgenv().InputPlrLook="";
 getgenv().LookAt=false;
 getgenv().InputPlrAnnoy="";
+getgenv().LookAtEmote="";
 getgenv().Annoy=false;
 getgenv().InputPlrCarAnnoy="";
 getgenv().CarAnnoy=false;
 getgenv().bavMulti=1;
 getgenv().FollowClosestBP=false;
 getgenv().LookAtClosest=false;
+getgenv().LookAtClosestEmote="";
 getgenv().NoclipOthers=false;
 getgenv().NoclipOthersAura=false;
 getgenv().NoclipOthersAuraRange=10;
@@ -198,11 +200,14 @@ c:Toggle("Look At",function(a)
                 a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                 b=game:GetService("Players"):FindFirstChild(getgenv().InputPlrLook).Character.HumanoidRootPart.Position;
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(b.X,a.Y,b.Z));
+                game:GetService("Players").LocalPlayer.Character.Animate.PlayEmote:Invoke(getgenv().LookAtEmote);
             end);
         end;
     end);
 end)
-
+c:Box("Emote To Play While Looking At Player","string",function(_)
+    getgenv().LookAtEmote=_;
+end);
 c:Box("Player to Look At","string",function(str)
     if(str=="")then 
         warn("Please enter a player name");
@@ -286,7 +291,6 @@ h:Toggle("Annoy",function(a)
         end;
     end);
 end);
-
 h:Box("Player to Annoy","string",function(str)
     if(str=="")then 
         warn("Please enter a player name");
@@ -514,9 +518,13 @@ f:Toggle("Look At Closest",function(a)
                 a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
                 b=getclosest().Character.HumanoidRootPart.Position
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.lookAt(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(b.X,a.Y,b.Z));
+                game:GetService("Players").LocalPlayer.Character.Animate.PlayEmote:Invoke(getgenv().LookAtClosestEmote);
             end);
         end;
     end);
+end);
+f:Box("Emote To Play While Looking At Player","string",function(_)
+    getgenv().LookAtClosestEmote=_;
 end);
 
 -- Other Players Tab
