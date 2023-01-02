@@ -68,7 +68,7 @@ function getClosestPlayer()
     local plr=nil;
     pcall(function()
         for _,cPlr in pairs(game:GetService("Players"):GetPlayers())do 
-            if(cPlr.Character~=nil)and(cPlr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(cPlr.Name~=game:GetService("Players").LocalPlayer.Name)and(cPlr.Character.Humanoid.Health>0)and(cPlr.Character.Humanoid.Health~=math.huge)and(((cPlr.Team~=game:GetService("Players").LocalPlayer.Team)and(cPlr.Team~=game:GetService("Teams"):FindFirstChild("Not Playing"))and(cPlr.Neutral==false))or(cPlr.Neutral==true))then 
+            if(cPlr.Character~=nil)and(cPlr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(cPlr.Name~=game:GetService("Players").LocalPlayer.Name)and(cPlr.Character.Humanoid.Health>0)and(cPlr.Character.Humanoid.Health~=math.huge)and((((cPlr.Team~=game:GetService("Players").LocalPlayer.Team)and(cPlr.Team~=game:GetService("Teams"):FindFirstChild("Not Playing"))and(cPlr.Neutral==false))or(cPlr.Neutral==true))and(game.PlaceId~=11756661207))then 
                 local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cPlr["Character"]["HumanoidRootPart"]["Position"])["magnitude"];
                 if(dist<range)then 
                     range=dist;
@@ -612,7 +612,7 @@ v:Toggle("Kill Aura",function(a)
         while(getgenv().KillAura==true)and(wait(0.1))do 
             pcall(function()
                 for _,plr in pairs(game:GetService("Players"):GetPlayers())do 
-                    if((plr.Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude<=getgenv().KillAuraRange)and(plr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(plr.Name~=game:GetService("Players").LocalPlayer.Name)and(plr.Character.Humanoid.Health>0)and(plr.Character.Humanoid.Health~=math.huge)and(((plr.Team~=game:GetService("Players").LocalPlayer.Team)and(plr.Neutral==false))or(plr.Neutral==true))then 
+                    if((plr.Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude<=getgenv().KillAuraRange)and(plr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(plr.Name~=game:GetService("Players").LocalPlayer.Name)and(plr.Character.Humanoid.Health>0)and(plr.Character.Humanoid.Health~=math.huge)and((((plr.Team~=game:GetService("Players").LocalPlayer.Team)and(plr.Neutral==false))or(plr.Neutral==true))and(game.PlaceId~=11756661207))then 
                         local tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
                         if(tool)and(tool:FindFirstChild("Handle"))then 
                             for _,a in pairs(plr.Character:GetChildren())do 
