@@ -68,11 +68,19 @@ function getClosestPlayer()
     local plr=nil;
     pcall(function()
         for _,cPlr in pairs(game:GetService("Players"):GetPlayers())do 
-            if(cPlr.Character~=nil)and(cPlr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(cPlr.Name~=game:GetService("Players").LocalPlayer.Name)and(cPlr.Character.Humanoid.Health>0)and(cPlr.Character.Humanoid.Health~=math.huge)and((((cPlr.Team~=game:GetService("Players").LocalPlayer.Team)and(cPlr.Team~=game:GetService("Teams"):FindFirstChild("Not Playing"))and(cPlr.Neutral==false))or(cPlr.Neutral==true))and(game.PlaceId~=11756661207))then 
-                local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cPlr["Character"]["HumanoidRootPart"]["Position"])["magnitude"];
-                if(dist<range)then 
-                    range=dist;
-                    plr=cPlr;
+            if(cPlr.Name~="AZ16ke")and(cPlr.Name~="Schimpanskyy")and(cPlr.Name~="ARealPerson29")and(cPlr.Character~=nil)and(cPlr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(cPlr.Name~=game:GetService("Players").LocalPlayer.Name)and(cPlr.Character.Humanoid.Health>0)and(cPlr.Character.Humanoid.Health~=math.huge)then 
+                if(game.PlaceId==11756661207)then 
+                    local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cPlr["Character"]["HumanoidRootPart"]["Position"])["magnitude"];
+                    if(dist<range)then 
+                        range=dist;
+                        plr=cPlr;
+                    end;
+                elseif(game.PlaceId~=11756661207)and(((cPlr.Team~=game:GetService("Players").LocalPlayer.Team)and(cPlr.Team~=game:GetService("Teams"):FindFirstChild("Not Playing"))and(cPlr.Neutral==false))or(cPlr.Neutral==true))then 
+                    local dist=(game:GetService("Players")["LocalPlayer"]["Character"]["HumanoidRootPart"]["Position"]-cPlr["Character"]["HumanoidRootPart"]["Position"])["magnitude"];
+                    if(dist<range)then 
+                        range=dist;
+                        plr=cPlr;
+                    end;
                 end;
             end;
         end;
@@ -612,23 +620,45 @@ v:Toggle("Kill Aura",function(a)
         while(getgenv().KillAura==true)and(wait(0.1))do 
             pcall(function()
                 for _,plr in pairs(game:GetService("Players"):GetPlayers())do 
-                    if((plr.Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude<=getgenv().KillAuraRange)and(plr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(plr.Name~=game:GetService("Players").LocalPlayer.Name)and(plr.Character.Humanoid.Health>0)and(plr.Character.Humanoid.Health~=math.huge)and((((plr.Team~=game:GetService("Players").LocalPlayer.Team)and(plr.Neutral==false))or(plr.Neutral==true))and(game.PlaceId~=11756661207))then 
-                        local tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
-                        if(tool)and(tool:FindFirstChild("Handle"))then 
-                            for _,a in pairs(plr.Character:GetChildren())do 
-                                if(a:IsA("BasePart"))then 
-                                    if(getgenv().Method1==true)then 
-                                        if(tool:FindFirstChild("Activate")~=nil)and(tool:FindFirstChild("Activate"):IsA("RemoteEvent"))then 
-                                            tool:FindFirstChild("Activate"):FireServer(a.Position,a);
-                                        elseif(tool:FindFirstChild("Activate")==nil)and(tool:IsA("Tool"))then 
-                                            tool:Activate();
+                    if((plr.Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude<=getgenv().KillAuraRange)and(plr.Character:FindFirstChildWhichIsA("ForceField")==nil)and(plr.Name~=game:GetService("Players").LocalPlayer.Name)and(plr.Character.Humanoid.Health>0)and(plr.Character.Humanoid.Health~=math.huge)then 
+                        if(game.PlaceId==11756661207)then 
+                            local tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                            if(tool)and(tool:FindFirstChild("Handle"))then 
+                                for _,a in pairs(plr.Character:GetChildren())do 
+                                    if(a:IsA("BasePart"))then 
+                                        if(getgenv().Method1==true)then 
+                                            if(tool:FindFirstChild("Activate")~=nil)and(tool:FindFirstChild("Activate"):IsA("RemoteEvent"))then 
+                                                tool:FindFirstChild("Activate"):FireServer(a.Position,a);
+                                            elseif(tool:FindFirstChild("Activate")==nil)and(tool:IsA("Tool"))then 
+                                                tool:Activate();
+                                            end;
                                         end;
+                                        if(getgenv().AutoTP==true)then 
+                                            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(plr.Character.HumanoidRootPart.Position)
+                                        end;
+                                        firetouchinterest(tool.Handle,a,0);
+                                        firetouchinterest(tool.Handle,a,1);
                                     end;
-                                    if(getgenv().AutoTP==true)then 
-                                        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(plr.Character.HumanoidRootPart.Position)
+                                end;
+                            end;
+                        elseif(game.PlaceId~=11756661207)and(((plr.Team~=game:GetService("Players").LocalPlayer.Team)and(plr.Neutral==false))or(plr.Neutral==true))then 
+                            local tool=(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Model"));
+                            if(tool)and(tool:FindFirstChild("Handle"))then 
+                                for _,a in pairs(plr.Character:GetChildren())do 
+                                    if(a:IsA("BasePart"))then 
+                                        if(getgenv().Method1==true)then 
+                                            if(tool:FindFirstChild("Activate")~=nil)and(tool:FindFirstChild("Activate"):IsA("RemoteEvent"))then 
+                                                tool:FindFirstChild("Activate"):FireServer(a.Position,a);
+                                            elseif(tool:FindFirstChild("Activate")==nil)and(tool:IsA("Tool"))then 
+                                                tool:Activate();
+                                            end;
+                                        end;
+                                        if(getgenv().AutoTP==true)then 
+                                            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(plr.Character.HumanoidRootPart.Position)
+                                        end;
+                                        firetouchinterest(tool.Handle,a,0);
+                                        firetouchinterest(tool.Handle,a,1);
                                     end;
-                                    firetouchinterest(tool.Handle,a,0);
-                                    firetouchinterest(tool.Handle,a,1);
                                 end;
                             end;
                         end;
