@@ -809,7 +809,20 @@ end;
 
 -- Chat Tab
 g:Box("Text to Spam","string",function(a)getgenv().ChatSpamSettings.SpamText=a;end);
-g:Box("Text Spam To Who","string",function(a)getgenv().ChatSpamSettings.SpamTextTo=a;end);
+g:Box("Text Spam To Who","string",function(a)
+    if(str=="")then 
+        print("Please enter a player name");
+    else 
+        for _,k in pairs(game:GetService("Players"):GetPlayers())do 
+            if(str:lower()==k.Name:sub(1,#str):lower())then 
+                getgenv().ChatSpamSettings.SpamTextTo=k.Name;
+                if(game:GetService("Players"):FindFirstChild(getgenv().ChatSpamSettings.SpamTextTo)~=nil)then print("Target Chosen as "..getgenv().ChatSpamSettings.SpamTextTo);end;
+                return;
+            end;
+        end;
+        if(game:GetService("Players"):FindFirstChild(getgenv().ChatSpamSettings.SpamTextTo)==nil)then print("Inputed player could not be found");getgenv().ChatSpamSettings.SpamTextTo="";end;
+    end;
+end);
 g:Box("Text Timeout","number",function(a)getgenv().ChatSpamSettings.Timeout=a;end);
 
 g:Toggle("Spam",function(a)
@@ -823,7 +836,6 @@ g:Toggle("Spam",function(a)
     end);
 end);
 
--- Loaders Tab
 g:Button("Bypasser",function()
     getgenv().method="fn";
     if(getgenv().BypasserLoaded==nil)or(getgenv().BypasserLoaded==false)then 
@@ -831,6 +843,7 @@ g:Button("Bypasser",function()
     end;
 end);
 
+-- Loaders Tab
 s:Button("Infinite Yield",function()
     spawn(function()loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))();end);
 end);
