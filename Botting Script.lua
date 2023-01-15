@@ -837,9 +837,9 @@ g:Toggle("Spam",function(a)
 end);
 
 g:Button("Bypasser",function()
-    getgenv().method="fn";
+    _G.Keybind = 'Q'; -- This is usually defaulted to Q. However, you can change to whatever you want.
     if(getgenv().BypasserLoaded==nil)or(getgenv().BypasserLoaded==false)then 
-        spawn(function()loadstring(game:HttpGet("https://raw.githubusercontent.com/daddysyn/synergy/additional/betterbypasser",true))();getgenv().BypasserLoaded=true;end);
+        spawn(function()loadstring(game:HttpGet("https://raw.githubusercontent.com/synnyyy/synergy/additional/betterbypasser",true))();getgenv().BypasserLoaded=true;end);
     end;
 end);
 
