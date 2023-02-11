@@ -1,53 +1,82 @@
-getgenv().baconUtils={};
+local tools={};
+local cache={math=math,mrandomb=function(a,b)cache["math"]["randomseed"](cache["math"]["random"](1,cache["math"]["random"](1,cache["tick"]())));return(cache["math"]["random"](a,b));end,Vector3=Vector3,Vector2=Vector2,UDim=UDim,UDim2=UDim2,IsA=IsA,len=(1)["len"],tick=tick,tonumber=tonumber,pairs=pairs,tbl=function()return({});end,table=table,game=game,print=print,warn=warn,error=error,spawn=spawn,pcall=pcall,xpcall=xpcall,ypcall=ypcall,getgenv=getgenv,typeof=typeof,type=type,nil=nil,true=true,false=false,wspace=game:GetService("Workspace"),players=game:GetService("Players"),rservice=game:GetService("RunService"),hbeat=game:GetService("RunService")["Heartbeat"],rstep=game:GetService("RunService")["RenderStepped"],step=game:GetService("RunService")["Stepped"],player=game:GetService("Players")["LocalPlayer"]};
 
-getgenv().baconUtils.getFirstModelOfPart=function(a)
-    local b=a.Parent;
-    if(b.Parent==game)and(b==game:GetService("Workspace"))then return(a);end;
-    if(b.Parent==game:GetService("Workspace"))then 
-        if(b:IsA("Model"))then return(b);end;
+tools["getFirstModelOfPart"]=function(a)
+    local b=a["Parent"];
+    if(b["Parent"]==game)and(b==cache["wspace"])then return(a);end;
+    if(b["Parent"]==cache["wspace"])then 
         return(b);
     end;
-    while(b.Parent~=game:GetService("Workspace"))and(wait())do 
-        if(b.Parent:IsA("Model"))then return(b.Parent);end;
-        b=b.Parent;
+    while(b["Parent"]~=cache["wspace"])and(cache["hbeat"]:Wait())do 
+        if(cache["IsA"](b["Parent"]"Model"))then return(b["Parent"]);end;
+        b=b["Parent"];
     end;
     return(a);
 end;
 
-getgenv().baconUtils.makeId=function(_,___,____,______)
+tools["makeId"]=function(_,____,______,___)
     _=(_)or(5);
-    __="";
-    ___=(___)or{"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","9"};
-    ____=(____)or(false);
-    local _____=0;
-    ______=(______)or(" ");
-    while(__:len()<_)and(game:GetService("RunService")["Stepped"]:Wait())do 
-        if(____~=false)and(tonumber(____)~=nil)then 
-            if(_____==____)then 
-                __=__..______..___[math["random"](1,#___)];
-                _____=0;
-            elseif(_____~=____)then 
-                __=__..___[math["random"](1,#___)];
-                _____+=1;
-            end;
-        elseif(____==nil)or(____==false)then 
-            __=__..___[math["random"](1,#___)];
-            _____+=1;
-        end;
-        print(_____);
-    end;
-    return(__);
+	__="";
+	___=(___)or{"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","9"};
+	____=(____)or(cache["false"]);
+	local _____=0;
+	______=(______)or(" ");
+	while(cache["len"](__)<_)and(cache["hbeat"]:Wait())do 
+		if(____~=cache["false"])and(cache["tonumber"](____)~=cache["nil"])then 
+			if(_____>=____)then 
+				__=__..______..___[cache["mrandomb"](1,#___)];
+				_____=0;
+			elseif(_____~=____)then 
+				__=__..___[cache["mrandomb"](1,#___)];
+				_____+=1;
+			end;
+		elseif(____==cache["nil"])or(____==cache["false"])then 
+			__=__..___[cache["mrandomb"](1,#___)];
+			_____+=1;
+		end;
+	end;
+	return(__);
 end;
 
-getgenv().baconUtils.randVec3=function(min,max)
-    return(Vector3.new(math.random(min,max),math.random(min,max),math.random(min,max)));
+tools["randVec3"]=function(min,max)
+    return(cache["Vector3"]["new"](cache["mrandomb"](min,max),cache["mrandomb"](min,max),cache["mrandomb"](min,max)));
 end;
 
-getgenv().baconUtils.tblRemoveFromIndx=function(_,__)
-    for ___,____ in pairs(_)do 
-        if(___>=__)or(____==nil)then 
-            table.remove(_,___);
+tools["TableRemoveFromIdx"]=function(_,__)
+    for ___,____ in cache["pairs"](_)do 
+        if(___>=__)or(____==cache["nil"])then 
+            cache["table"]["remove"](_,___);
         end;
     end;
     return(_);
 end;
+
+tools["SearchTable"]=function(tbl)
+    cache["pcall"](function()
+        cache["warn"]("Found Table");
+        for _,arg in cache["pairs"](tbl)do 
+            if(cache["typeof"](arg)=="table")then 
+                tools["SearchTable"](arg);
+            else 
+                cache["warn"]("Found",arg);
+            end;
+        end;
+    end);
+end;
+
+tools["CopyTable"]=function(tbl)
+    cache["assert"](cache["type"](tbl)=="table","Expected argument 1 as a table.");
+    local c={};
+    for n,b in pairs(tbl)do 
+        c[n]=b;
+    end;
+    return(c);
+end;
+
+tools["GetCache"]=function(min,max)
+    return(tools["CopyTable"](cache));
+end;
+
+getgenv()["baconUtils"]=tools;
+getgenv()["baconUtilsCache"]=tools["CopyTable"](cache);
+return(tools);
