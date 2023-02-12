@@ -79,4 +79,4 @@ end;
 
 getgenv()["baconUtils"]=tools;
 getgenv()["baconUtilsCache"]=tools["CopyTable"](cache);
-return(tools,tools["CopyTable"](cache));
+return tools,tools["CopyTable"](cache);
