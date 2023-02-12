@@ -1,5 +1,5 @@
 local tools={};
-local cache={math=math,mrandomb=function(a,b)cache["math"]["randomseed"](cache["math"]["random"](1,cache["math"]["random"](1,cache["tick"]())));return(cache["math"]["random"](a,b));end,Vector3=Vector3,Vector2=Vector2,UDim=UDim,UDim2=UDim2,IsA=IsA,len=(1)["len"],tick=tick,tonumber=tonumber,pairs=pairs,tbl=function()return({});end,table=table,game=game,print=print,warn=warn,error=error,spawn=spawn,pcall=pcall,xpcall=xpcall,ypcall=ypcall,getgenv=getgenv,typeof=typeof,type=type,nil=nil,true=true,false=false,wspace=game:GetService("Workspace"),players=game:GetService("Players"),rservice=game:GetService("RunService"),hbeat=game:GetService("RunService")["Heartbeat"],rstep=game:GetService("RunService")["RenderStepped"],step=game:GetService("RunService")["Stepped"],player=game:GetService("Players")["LocalPlayer"]};
+local cache={math=math,mrandomb=function(a,b)cache["math"]["randomseed"](cache["math"]["random"](1,cache["math"]["random"](1,cache["tick"]())));return(cache["math"]["random"](a,b));end,Vector3=Vector3,Vector2=Vector2,UDim=UDim,UDim2=UDim2,IsA=IsA,len=(1)["len"],tick=tick,tonumber=tonumber,pairs=pairs,table=table,game=game,print=print,warn=warn,error=error,spawn=spawn,pcall=pcall,xpcall=xpcall,ypcall=ypcall,getgenv=getgenv,typeof=typeof,type=type,wspace=game:GetService("Workspace"),players=game:GetService("Players"),rservice=game:GetService("RunService"),hbeat=game:GetService("RunService")["Heartbeat"],rstep=game:GetService("RunService")["RenderStepped"],step=game:GetService("RunService")["Stepped"],player=game:GetService("Players")["LocalPlayer"]};
 
 tools["getFirstModelOfPart"]=function(a)
     local b=a["Parent"];
@@ -18,11 +18,11 @@ tools["makeId"]=function(_,____,______,___)
     _=(_)or(5);
 	__="";
 	___=(___)or{"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","9"};
-	____=(____)or(cache["false"]);
+	____=(____)or(false);
 	local _____=0;
 	______=(______)or(" ");
 	while(cache["len"](__)<_)and(cache["hbeat"]:Wait())do 
-		if(____~=cache["false"])and(cache["tonumber"](____)~=cache["nil"])then 
+		if(____~=false)and(cache["tonumber"](____)~=nil)then 
 			if(_____>=____)then 
 				__=__..______..___[cache["mrandomb"](1,#___)];
 				_____=0;
@@ -30,7 +30,7 @@ tools["makeId"]=function(_,____,______,___)
 				__=__..___[cache["mrandomb"](1,#___)];
 				_____+=1;
 			end;
-		elseif(____==cache["nil"])or(____==cache["false"])then 
+		elseif(____==nil)or(____==false)then 
 			__=__..___[cache["mrandomb"](1,#___)];
 			_____+=1;
 		end;
@@ -44,7 +44,7 @@ end;
 
 tools["TableRemoveFromIdx"]=function(_,__)
     for ___,____ in cache["pairs"](_)do 
-        if(___>=__)or(____==cache["nil"])then 
+        if(___>=__)or(____==nil)then 
             cache["table"]["remove"](_,___);
         end;
     end;
