@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/Bacon%20Utils/src.lua",true))();
+local t=loadstring(game:HttpGet("https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/Bacon%20Utils/src.lua"))();
 local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3'))():CreateWindow("Bot");
 local b=a:CreateFolder("TP");
 local d=a:CreateFolder("Body Position");
@@ -330,7 +330,7 @@ if(game.PlaceId==4924922222)then
         getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
         getgenv().bp.P=getgenv().bp.P*2;
         getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
-        getgenv().bav.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
+        getgenv().bav.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
         getgenv().bav.MaxTorque=Vector3.new(math.huge,math.huge,math.huge);
         getgenv().bav.P=math.huge;
         getgenv().bpc=getgenv().bp:Clone();
@@ -348,7 +348,7 @@ if(game.PlaceId==4924922222)then
                     if(getgenv().bavc==nil)then getgenv().bavc=getgenv().bav:Clone();end;
                     getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     getgenv().bavc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    getgenv().bavc.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
+                    getgenv().bavc.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                     b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
@@ -407,7 +407,7 @@ else
         getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
         getgenv().bp.P=getgenv().bp.P*2;
         getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
-        getgenv().bav.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
+        getgenv().bav.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
         getgenv().bav.MaxTorque=Vector3.new(math.huge,math.huge,math.huge);
         getgenv().bav.P=math.huge;
         getgenv().bpc=getgenv().bp:Clone();
@@ -425,7 +425,7 @@ else
                     if(getgenv().bavc==nil)then getgenv().bavc=getgenv().bav:Clone();end;
                     getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     getgenv().bavc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    getgenv().bavc.AngularVelocity=getgenv().baconUtils.randVec3(-10,10)*getgenv().bavMulti;
+                    getgenv().bavc.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                     b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
@@ -459,7 +459,7 @@ else
     end);
     j:Box("Angular Multiplier","number",function(_)getgenv().bavMulti=_;end);
     j:Button("Noclip Car",function()
-        local car=getgenv().baconUtils.getFirstModelOfPart(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").SeatPart);
+        local car=t.getFirstModelOfPart(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").SeatPart);
         if(car~=nil)and(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").Sit==true)then 
             for _,__ in pairs(car:GetDescendants())do 
                 if(__:IsA("BasePart"))and(__["CanCollide"]==true)then 
