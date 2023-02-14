@@ -1050,8 +1050,13 @@ end);
 
 s:Button("Eclipse Hub",function()
     spawn(function()
-        getgenv().mainKey="nil"
-        local a,b,c,d,e=loadstring,request or http_request or (http and http.request) or (syn and syn.request),assert,tostring,"https://api.eclipsehub.xyz/auth"c(a and b,"Executor not Supported")a(b({Url=e.."\?\107e\121\61"..d(mainKey),Headers={["User-Agent"]="Eclipse"}}).Body)()
+        if(getgenv().mainKey==nil)then 
+            getgenv().mainKey="nil";
+        end;
+        local requests,curl,header=(request)or(http_request)or((http)and(http.request))or((syn)and(syn.request)),"https://api.eclipsehub.xyz/auth?key="..tostring(getgenv().mainKey),{["User-Agent"]="Eclipse"};
+        local req={Url=curl,Headers=header};
+        assert((loadstring)and(requests),"Executor not Supported");
+        loadstring(requests(req).Body)();
     end);
 end);
 
