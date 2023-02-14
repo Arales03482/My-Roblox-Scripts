@@ -330,7 +330,7 @@ if(game.PlaceId==4924922222)then
         getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
         getgenv().bp.P=getgenv().bp.P*2;
         getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
-        getgenv().bav.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
+        getgenv().bav.AngularVelocity=t["RndVec3"](-10,10)*getgenv().bavMulti;
         getgenv().bav.MaxTorque=Vector3.new(math.huge,math.huge,math.huge);
         getgenv().bav.P=math.huge;
         getgenv().bpc=getgenv().bp:Clone();
@@ -348,7 +348,7 @@ if(game.PlaceId==4924922222)then
                     if(getgenv().bavc==nil)then getgenv().bavc=getgenv().bav:Clone();end;
                     getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     getgenv().bavc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    getgenv().bavc.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
+                    getgenv().bavc.AngularVelocity=t["RndVec3"](-10,10)*getgenv().bavMulti;
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                     b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
@@ -407,7 +407,7 @@ else
         getgenv().bp.MaxForce=Vector3.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
         getgenv().bp.P=getgenv().bp.P*2;
         getgenv().bp.Position=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
-        getgenv().bav.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
+        getgenv().bav.AngularVelocity=t["RndVec3"](-10,10)*getgenv().bavMulti;
         getgenv().bav.MaxTorque=Vector3.new(math.huge,math.huge,math.huge);
         getgenv().bav.P=math.huge;
         getgenv().bpc=getgenv().bp:Clone();
@@ -425,7 +425,7 @@ else
                     if(getgenv().bavc==nil)then getgenv().bavc=getgenv().bav:Clone();end;
                     getgenv().bpc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     getgenv().bavc.Parent=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    getgenv().bavc.AngularVelocity=t.randVec3(-10,10)*getgenv().bavMulti;
+                    getgenv().bavc.AngularVelocity=t["RndVec3"](-10,10)*getgenv().bavMulti;
                     game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
                     a=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position;
                     b=game:GetService("Players")[getgenv().InputPlrCarAnnoy].Character.HumanoidRootPart.Position;
