@@ -1,5 +1,6 @@
 local tools={};
 local cache={math=math,mrandomb=function(a,b)cache["math"]["randomseed"](cache["math"]["random"](1,cache["math"]["random"](1,cache["tick"]())));return(cache["math"]["random"](a,b));end,Vector3=Vector3,Vector2=Vector2,UDim=UDim,UDim2=UDim2,IsA=IsA,len=("1").len,tick=tick,tonumber=tonumber,pairs=pairs,table=table,game=game,print=print,warn=warn,error=error,spawn=spawn,pcall=pcall,xpcall=xpcall,ypcall=ypcall,assert=assert,getgenv=getgenv,typeof=typeof,type=type,wspace=game:GetService("Workspace"),players=game:GetService("Players"),rservice=game:GetService("RunService"),hbeat=game:GetService("RunService")["Heartbeat"],rstep=game:GetService("RunService")["RenderStepped"],step=game:GetService("RunService")["Stepped"],player=game:GetService("Players")["LocalPlayer"]};
+if(getgenv()["shaLib"]==nil)then getgenv()["shaLib"]={["Lib"]=loadstring(game:HttpGet("https://raw.githubusercontent.com/Egor-Skriptunoff/pure_lua_SHA/master/sha2.lua",true))(),["README"]="THIS LIBRARY IS NOT MADE BY ME CREDITS GO TO 'Egor-Skriptunoff' ON GITHUB WITH 'pure_lua_SHA'"};end;
 
 tools["getFirstModelOfPart"]=function(a)
     local b=a["Parent"];
@@ -38,7 +39,7 @@ tools["makeId"]=function(_,____,______,___)
 	return(__);
 end;
 
-tools["randVec3"]=function(min,max)
+tools["RndVec3"]=function(min,max)
     return(cache["Vector3"]["new"](cache["mrandomb"](min,max),cache["mrandomb"](min,max),cache["mrandomb"](min,max)));
 end;
 
@@ -77,6 +78,9 @@ tools["GetCache"]=function(min,max)
     return(tools["CopyTable"](cache));
 end;
 
+tools["shaLib"]=getgenv()["shaLib"];
+
+_G["shaLib"]=tools["shaLib"];
 getgenv()["baconUtils"]=tools;
 getgenv()["baconUtilsCache"]=tools["CopyTable"](cache);
-return tools,tools["CopyTable"](cache);
+return tools,getgenv()["baconUtilsCache"];
