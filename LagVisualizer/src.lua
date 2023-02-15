@@ -3,7 +3,7 @@ local currentUsers={};
 local data={};
 local game=game;
 
-if(getgenv().host==nil)then getgenv().host="ws://192.168.1.177:2344/";end;
+if(getgenv().hosturl==nil)then getgenv().hosturl="ws://192.168.1.177:2344/";end;
 
 local socker=((Krnl)and(Krnl.WebSocket)and(Krnl.WebSocket.connect))or((syn)and(syn.websocket)and(syn.websocket.connect));
 
@@ -14,22 +14,23 @@ end;
 if(game:IsLoaded()==false)then 
     game.Loaded:Wait();
 end;
+if(getgenv().visualizepart==nil)then 
+    getgenv().visualizepart=Instance.new("Part");
+    visualizepart.Material="ForceField";
+    visualizepart.Name="Visualizer";
+    visualizepart.Color=Color3.fromRGB(255,0,0);
+    visualizepart.CFrame=CFrame.new(0,0,0);
+    visualizepart.Position=Vector3.new(0,0,0);
+    visualizepart.Rotation=Vector3.new(0,0,0);
+    visualizepart.Size=Vector3.new(2,2,1);
+    visualizepart.Anchored=true;
+    visualizepart.CanCollide=false;
+    visualizepart.Parent=game:GetService("Workspace");
+end;
 
 getgenv().testcdesync=false;
 wait(5);
 getgenv().testcdesync=true;
-
-local part=Instance.new("Part");
-part.Material="ForceField";
-part.Name="Visualizer";
-part.Color=Color3.fromRGB(255,0,0);
-part.CFrame=CFrame.new(0,0,0);
-part.Position=Vector3.new(0,0,0);
-part.Rotation=Vector3.new(0,0,0);
-part.Size=Vector3.new(2,2,1);
-part.Anchored=true;
-part.CanCollide=false;
-part.Parent=game:GetService("Workspace");
 
 local hser=game:GetService("HttpService");
 local deb=game:GetService("Debris");
@@ -65,7 +66,7 @@ spawn(function()
     while(getgenv().testcdesync==true)and(wait())do 
         xpcall(function()
             closed=false;
-            socket=socker(getgenv().host);
+            socket=socker(getgenv().hosturl);
             socket.OnMessage:Connect(function(msg)
                 local spi=msg:split("´");
                 if(spi[1]=="cons")then 
@@ -81,8 +82,8 @@ spawn(function()
                     local rdata=toTable(spi[4]); --decode(spi[4]);
                     local cf=rdata[1];
                     local sz=rdata[2];
-                    part.CFrame=cf;
-                    part.Size=sz;
+                    getgenv().visualizepart.CFrame=cf;
+                    getgenv().visualizepart.Size=sz;
                 end;
             end);
             socket:Send("auth´"..game.Players.LocalPlayer.Name);
@@ -92,25 +93,25 @@ spawn(function()
             socket=nil;
         end,print);
     end;
-    if(part~=nil)then part:Destroy();end;
 end);
 
-spawn(function()
-    while(getgenv().testcdesync==true)do 
-        pcall(function()
-            if(socket~=nil)then 
-                for b,a in pairs(currentUsers)do 
-                    if(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
-                        local cf=CFrame.new(0,0,0);
-                        local sz=Vector3.new(2,2,1);pcall(function()cf=a.Character.HumanoidRootPart.CFrame;pos=cf.Position;rot=a.Character.HumanoidRootPart.Rotation;sz=a.Character.HumanoidRootPart.Size;end);
-                        socket:Send("data´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´{CFrame.new("..tostring(cf).."),Vector3.new("..tostring(sz)..")}");
-                    elseif(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
-                        table.remove(currentUsers,b);
+if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").LocalPlayer.Name))or(getgenv().hostuser==nil)then 
+    spawn(function()
+        while(getgenv().testcdesync==true)do 
+            xpcall(function()
+                if(socket~=nil)then 
+                    for b,a in pairs(currentUsers)do 
+                        if(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
+                            local cf=CFrame.new(0,0,0);
+                            local sz=Vector3.new(2,2,1);pcall(function()cf=a.Character.HumanoidRootPart.CFrame;pos=cf.Position;rot=a.Character.HumanoidRootPart.Rotation;sz=a.Character.HumanoidRootPart.Size;end);
+                            socket:Send("data´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´{CFrame.new("..tostring(cf).."),Vector3.new("..tostring(sz)..")}");
+                        elseif(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
+                            table.remove(currentUsers,b);
+                        end;
                     end;
                 end;
-            end;
-        end);
-        wait(0.5);
-    end;
-    if(part~=nil)then part:Destroy();end;
-end);
+            end,print);
+            wait(0.5);
+        end;
+    end);
+end;
