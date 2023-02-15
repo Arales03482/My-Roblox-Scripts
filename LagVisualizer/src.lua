@@ -3,6 +3,8 @@ local currentUsers={};
 local data={};
 local game=game;
 
+if(getgenv().host==nil)then getgenv().host="ws://192.168.1.177:2344/";end;
+
 local socker=((Krnl)and(Krnl.WebSocket)and(Krnl.WebSocket.connect))or((syn)and(syn.websocket)and(syn.websocket.connect));
 
 if(socker==nil)then 
