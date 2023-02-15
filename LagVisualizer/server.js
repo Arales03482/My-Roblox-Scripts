@@ -21,9 +21,9 @@ wss.on('connection',(ws)=>{
         return;
     };
     ws.on('close',()=>{
-        cons[player]=null;
-        playersOnline[player]=null;
-        player=null;
+        delete cons[player];
+        delete playersOnline[player];
+        player="";
         console.log('a connection has been closed',playersOnline)
         var clientss=wss.clients;
         clientss.forEach((client)=>{
