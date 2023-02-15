@@ -92,6 +92,7 @@ spawn(function()
             socket=nil;
         end,print);
     end;
+    if(part~=nil)then part:Destroy();end;
 end);
 
 spawn(function()
@@ -111,4 +112,5 @@ spawn(function()
         end);
         wait(0.5);
     end;
+    if(part~=nil)then part:Destroy();end;
 end);
