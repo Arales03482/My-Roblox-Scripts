@@ -5,11 +5,7 @@ local game=game;
 
 if(getgenv().hosturl==nil)then getgenv().hosturl="ws://192.168.1.177:2344/";end;
 
-local socker=((Krnl)and(Krnl.WebSocket)and(Krnl.WebSocket.connect))or((syn)and(syn.websocket)and(syn.websocket.connect));
-
-if(socker==nil)then 
-    error("Executor not supported!");
-end;
+local socker=((Krnl~=nil)and(Krnl.WebSocket~=nil)and(Krnl.WebSocket.connect))or((syn~=nil)and(syn.websocket~=nil)and(syn.websocket.connect));
 
 if(game:IsLoaded()==false)then 
     game.Loaded:Wait();
@@ -20,17 +16,11 @@ if(getgenv().visualizepart==nil)then
     visualizepart.Name="Visualizer";
     visualizepart.Color=Color3.fromRGB(255,0,0);
     visualizepart.CFrame=CFrame.new(0,0,0);
-    visualizepart.Position=Vector3.new(0,0,0);
-    visualizepart.Rotation=Vector3.new(0,0,0);
     visualizepart.Size=Vector3.new(2,2,1);
     visualizepart.Anchored=true;
     visualizepart.CanCollide=false;
     visualizepart.Parent=game:GetService("Workspace");
 end;
-
-getgenv().testcdesync=false;
-wait(5);
-getgenv().testcdesync=true;
 
 local hser=game:GetService("HttpService");
 local deb=game:GetService("Debris");
@@ -46,20 +36,33 @@ end;
 function debadd(...)
     return(debaddo(deb,...));
 end;
-function toTable(s)
-	if not s:find '^%s*{' then return nil end
-	if s:find '[^\'"%w_]function[^\'"%w_]' then
-		return nil
-	end
-	s = 'return '..s
-	local chunk = loadstring(s,'tbl','t',{})
-	if not chunk then return nil end
-	local ok,ret = pcall(chunk)
-	if ok then return ret
-	else
-		return nil
-	end
-end
+function toTable(s,def)
+	if(s:find('^%s*{'))then 
+        if(s:find('[^\'"%w_]function[^\'"%w_]'))then return(def);end;
+        s='return '..s;
+        local chunk=loadstring(s,'tbl','t',{});
+        if(chunk==nil)then return(def);end;
+        local ok,ret=pcall(chunk);
+        if(ok==true)then 
+            return(ret)
+        elseif(ok==false)then 
+            return(def);
+        end;
+    end;
+    return(def);
+end;
+
+if(socker==nil)then 
+    error("Executor not supported!");
+end;
+
+getgenv().testcdesync=false;
+getgenv().visualizepart.CFrame=CFrame.new(0,0,0);
+if(Krnl~=nil)then 
+    wait(2.5);
+end;
+wait(5);
+getgenv().testcdesync=true;
 
 local closed=false;
 spawn(function()
@@ -78,12 +81,10 @@ spawn(function()
                         end;
                     end;
                     print(((spi[2]~="")and(spi[2]))or("{}"));
-                elseif(spi[1]=="data")and(spi[2]==game:GetService("Players").LocalPlayer.Name)and(spi[3]~=game:GetService("Players").LocalPlayer.Name)then 
-                    local rdata=toTable(spi[4]); --decode(spi[4]);
-                    local cf=rdata[1];
-                    local sz=rdata[2];
-                    getgenv().visualizepart.CFrame=cf;
-                    getgenv().visualizepart.Size=sz;
+                elseif(spi[1]=="data")and(spi[2]=="lagviz")and(spi[3]==game:GetService("Players").LocalPlayer.Name)and(spi[4]~=game:GetService("Players").LocalPlayer.Name)then 
+                    local rdata=toTable(spi[5],{CFrame=CFrame.new(0,0,0),Size=Vector3.new(2,2,1)});
+                    getgenv().visualizepart.CFrame=rdata["CFrame"];
+                    getgenv().visualizepart.Size=rdata["Size"];
                 end;
             end);
             socket:Send("auth´"..game.Players.LocalPlayer.Name);
@@ -95,7 +96,7 @@ spawn(function()
     end;
 end);
 
-if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").LocalPlayer.Name))or(getgenv().hostuser==nil)then 
+if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").LocalPlayer.Name))or(getgenv().hostuser==nil)or(getgenv().hostuser=="nil")then 
     spawn(function()
         while(getgenv().testcdesync==true)do 
             xpcall(function()
@@ -103,9 +104,9 @@ if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").L
                     for b,a in pairs(currentUsers)do 
                         if(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
                             local cf=CFrame.new(0,0,0);
-                            local sz=Vector3.new(2,2,1);pcall(function()cf=a.Character.HumanoidRootPart.CFrame;pos=cf.Position;rot=a.Character.HumanoidRootPart.Rotation;sz=a.Character.HumanoidRootPart.Size;end);
-                            socket:Send("data´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´{CFrame.new("..tostring(cf).."),Vector3.new("..tostring(sz)..")}");
-                        elseif(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
+                            local sz=Vector3.new(2,2,1);pcall(function()cf=a.Character.HumanoidRootPart.CFrame;sz=a.Character.HumanoidRootPart.Size;end);
+                            socket:Send("data´lagviz´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´{CFrame = CFrame.new("..tostring(cf).."), Size = Vector3.new("..tostring(sz)..")}");
+                        elseif(a~=nil)and(a.Name==game:GetService("Players").LocalPlayer.Name)then 
                             table.remove(currentUsers,b);
                         end;
                     end;
