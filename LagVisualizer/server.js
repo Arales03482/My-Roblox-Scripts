@@ -36,16 +36,12 @@ wss.on('connection',(ws)=>{
         console.log('%s',message);
         var spi=String(message).split("´");
         console.log("isAuth",spi[0]=="auth","isData",spi[0]=="data");
-        if(spi[0]=="auth"){
+        if(spi[0]=="auth"&&player==""){
             if(cons[spi[1]]!=null){
                 console.log("duplicate client closing webhook connection");
                 ws.close();
                 return;
             };
-            var vtbl="";
-            //for(){
-
-            //}
             cons[spi[1]]=[spi[1],ws];
             playersOnline[spi[1]]=true;
             player=spi[1];
@@ -56,8 +52,8 @@ wss.on('connection',(ws)=>{
                     ws.send("cons´"+JSON.stringify(playersOnline));
                 };
             });
-        }else if(spi[0]=="data"){
-            var p=cons[spi[1]];
+        }else if(spi[0]=="data"&&player!=""){
+            var p=cons[spi[2]];
             if(p!=null){
                 p[1].send(message);
                 console.log("forwarded msg");
