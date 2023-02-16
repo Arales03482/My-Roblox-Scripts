@@ -20,17 +20,25 @@ wss.on('connection',(ws)=>{
         ws.close();
         return;
     };
+    setTimeout(function(){
+        if(player==""){
+            console.log("client did not authenticate in time");
+            ws.close();
+        };
+    },1000);
     ws.on('close',()=>{
         delete cons[player];
         delete playersOnline[player];
         player="";
         console.log('a connection has been closed',playersOnline)
         var clientss=wss.clients;
+        var msg="cons´"+JSON.stringify(playersOnline);
         clientss.forEach((client)=>{
             if(client.readyState==WebSocket.OPEN){
-                ws.send("cons´"+JSON.stringify(playersOnline));
+                ws.send(msg);
             };
         });
+        console.log(msg);
     });
     ws.on('message',(message)=>{
         console.log('%s',message);
@@ -47,11 +55,13 @@ wss.on('connection',(ws)=>{
             player=spi[1];
             console.log(playersOnline);
             var clientss=wss.clients;
+            var msg="cons´"+JSON.stringify(playersOnline);
             clientss.forEach((client)=>{
                 if(client.readyState==WebSocket.OPEN){
-                    ws.send("cons´"+JSON.stringify(playersOnline));
+                    ws.send(msg);
                 };
             });
+            console.log(msg);
         }else if(spi[0]=="data"&&player!=""){
             var p=cons[spi[2]];
             if(p!=null){
