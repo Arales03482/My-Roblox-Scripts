@@ -2,7 +2,11 @@ local socket;
 local currentUsers={};
 local lastdatas={};
 local data={};
+local items="{'HumanoidRootPart','Torso','Left Arm','Right Arm','Left Leg','Right Leg','Head'}";
 local game=game;
+
+--Anti AFK
+if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
 
 if(getgenv().hosturl==nil)then getgenv().hosturl="ws://192.168.1.177:2344/";end;
 if(getgenv().vizfreq==nil)then getgenv().vizfreq=0.1;end;
@@ -21,7 +25,6 @@ if(getgenv().visualizepart==nil)then
     visualizepart.Size=Vector3.new(2,2,1);
     visualizepart.Anchored=true;
     visualizepart.CanCollide=false;
-    visualizepart.Parent=game:GetService("Workspace");
 end;
 
 local hser=game:GetService("HttpService");
@@ -86,10 +89,25 @@ spawn(function()
                     currentUsers=pending;
                     lastdatas={};
                 elseif(spi[1]=="data")and(spi[2]=="lagviz")and(spi[3]==game:GetService("Players").LocalPlayer.Name)and(spi[4]~=game:GetService("Players").LocalPlayer.Name)then 
-                    print(spi[5]);
-                    local rdata=toTable(spi[5],{CFrame=CFrame.new(0,0,0),Size=Vector3.new(2,2,1)});
-                    getgenv().visualizepart.CFrame=rdata["CFrame"];
-                    getgenv().visualizepart.Size=rdata["Size"];
+                    print(spi[6]);
+                    local ritems=toTable(spi[5],items);
+                    local rdata=toTable(spi[6],{["HumanoidRootPart"]={Position=Vector3.new(0,0,0),Rotation=Vector3.new(0,0,0),Size=Vector3.new(2,2,1)}});
+                    for _,item in pairs(ritems)do 
+                        spawn(function()
+                            local pt=game:GetService("Players").LocalPlayer.Character:FindFirstChild(item);
+                            local dt=rdata[item];
+                            if(pt~=nil)and(dt~=nil)then 
+                                local vp=pt:FindFirstChild("Visualizer");
+                                if(vp==nil)then 
+                                    vp=visualizepart:Clone();
+                                    vp.Parent=pt;
+                                end;
+                                vp.Position=dt["Position"];
+                                vp.Rotation=dt["Rotation"];
+                                vp.Size=dt["Size"];
+                            end;
+                        end);
+                    end;
                 end;
             end);
             socket:Send("auth´"..game:GetService("Players").LocalPlayer.Name);
@@ -106,14 +124,28 @@ if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").L
         while(getgenv().testcdesync==true)do 
             xpcall(function()
                 if(socket~=nil)then 
+                    local ttbl=toTable(items,{'HumanoidRootPart','Torso','Left Arm','Right Arm','Left Leg','Right Leg','Head'});
                     for b,a in pairs(currentUsers)do 
-                        if(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
-                            local cf=CFrame.new(0,0,0);
-                            local sz=Vector3.new(2,2,1);pcall(function()cf=a.Character.HumanoidRootPart.CFrame;sz=a.Character.HumanoidRootPart.Size;end);
-                            local data="{CFrame=CFrame.new("..tostring(cf).."),Size=Vector3.new("..tostring(sz)..")}";
-                            if(lastdatas[a.Name]~=data)then 
-                                lastdatas[a.Name]=data;
-                                socket:Send("data´lagviz´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´"..data);
+                        if(a~=nil)and(a.Parent~=nil)and(a.Character~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
+                            local data="{";
+                            for _,part in pairs(a.Character:GetChildren())do 
+                                if(part:IsA("BasePart"))and(table.find(ttbl,part.Name))then 
+                                    local pos=CFrame.new(0,0,0);
+                                    local rot=CFrame.new(0,0,0);
+                                    local sz=Vector3.new(2,2,1);pcall(function()pos=part.Position;rot=part.Rotation;sz=part.Size;end);
+                                    data=data.."['"..part.Name.."'] = {Position = Vector3.new("..string.format("%3i, %3i, %3i",pos.X,pos.Y,pos.Z).."), Rotation = Vector3.new("..tostring(rot).."), Size = Vector3.new("..tostring(string.format("%3i, %3i, %3i",pos.X,pos.Y,pos.Z))..")}, "
+                                end;
+                            end;
+                            data=data:sub(1,data:len()-2);
+                            data=data.."}";
+                            local hrppos=CFrame.new(0,0,0);
+                            local hrprot=CFrame.new(0,0,0);
+                            local hrpsz=Vector3.new(2,2,1);pcall(function()hrppos=a.Character.HumanoidRootPart.Position;hrprot=a.Character.HumanoidRootPart.Rotation;hrpsz=a.Character.HumanoidRootPart.Size;end);
+                            local gdata="{Position = Vector3.new("..string.format("%3i, %3i, %3i",hrppos.X,hrppos.Y,hrppos.Z).."), Rotation = Vector3.new("..string.format("%3i, %3i, %3i",hrprot.X,hrprot.Y,hrprot.Z).."), Size = Vector3.new("..tostring(string.format("%3i, %3i, %3i",hrpsz.X,hrpsz.Y,hrpsz.Z))..")}"
+                            if(lastdatas[a.Name]~=gdata)then 
+                                lastdatas[a.Name]=gdata;
+                                print(gdata);
+                                socket:Send("data´lagviz´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´"..items.."´"..data);
                             end;
                         elseif(a~=nil)and(a.Name==game:GetService("Players").LocalPlayer.Name)then 
                             table.remove(currentUsers,b);
@@ -125,3 +157,9 @@ if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").L
         end;
     end);
 end;
+
+game:GetService("Players").PlayerRemoving:Connect(function(a)
+    if(a.Name==game:GetService("Players").LocalPlayer.Name)then 
+        getgenv().testcdesync=false;
+    end;
+end);
