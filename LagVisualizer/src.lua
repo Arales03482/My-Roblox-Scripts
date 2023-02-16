@@ -1,9 +1,11 @@
 local socket;
 local currentUsers={};
+local lastdatas={};
 local data={};
 local game=game;
 
 if(getgenv().hosturl==nil)then getgenv().hosturl="ws://192.168.1.177:2344/";end;
+if(getgenv().vizfreq==nil)then getgenv().vizfreq=0.1;end;
 
 local socker=((Krnl~=nil)and(Krnl.WebSocket~=nil)and(Krnl.WebSocket.connect))or((syn~=nil)and(syn.websocket~=nil)and(syn.websocket.connect));
 
@@ -82,6 +84,7 @@ spawn(function()
                     end;
                     print(((spi[2]~="")and(spi[2]))or("{}"));
                     currentUsers=pending;
+                    lastdatas={};
                 elseif(spi[1]=="data")and(spi[2]=="lagviz")and(spi[3]==game:GetService("Players").LocalPlayer.Name)and(spi[4]~=game:GetService("Players").LocalPlayer.Name)then 
                     print(spi[5]);
                     local rdata=toTable(spi[5],{CFrame=CFrame.new(0,0,0),Size=Vector3.new(2,2,1)});
@@ -107,14 +110,18 @@ if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").L
                         if(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
                             local cf=CFrame.new(0,0,0);
                             local sz=Vector3.new(2,2,1);pcall(function()cf=a.Character.HumanoidRootPart.CFrame;sz=a.Character.HumanoidRootPart.Size;end);
-                            socket:Send("data´lagviz´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´{CFrame=CFrame.new("..tostring(cf).."),Size=Vector3.new("..tostring(sz)..")}");
+                            local data="{CFrame=CFrame.new("..tostring(cf).."),Size=Vector3.new("..tostring(sz)..")}";
+                            if(lastdatas[a.Name]~=data)then 
+                                lastdatas[a.Name]=data;
+                                socket:Send("data´lagviz´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´"..data);
+                            end;
                         elseif(a~=nil)and(a.Name==game:GetService("Players").LocalPlayer.Name)then 
                             table.remove(currentUsers,b);
                         end;
                     end;
                 end;
             end,print);
-            wait(0.5);
+            wait(getgenv().vizfreq);
         end;
     end);
 end;
