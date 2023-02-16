@@ -73,21 +73,23 @@ spawn(function()
             socket.OnMessage:Connect(function(msg)
                 local spi=msg:split("´");
                 if(spi[1]=="cons")then 
-                    currentUsers={};
+                    local pending={};
                     for a,b in pairs(decode(((spi[2]~="")and(spi[2]))or("{}")))do 
                         print(a,b);
                         if(game:GetService("Players"):FindFirstChild(a)~=nil)and(a~=game:GetService("Players").Name)then 
-                            table.insert(currentUsers,game:GetService("Players"):FindFirstChild(a));
+                            table.insert(pending,game:GetService("Players"):FindFirstChild(a));
                         end;
                     end;
                     print(((spi[2]~="")and(spi[2]))or("{}"));
+                    currentUsers=pending;
                 elseif(spi[1]=="data")and(spi[2]=="lagviz")and(spi[3]==game:GetService("Players").LocalPlayer.Name)and(spi[4]~=game:GetService("Players").LocalPlayer.Name)then 
+                    print(spi[5]);
                     local rdata=toTable(spi[5],{CFrame=CFrame.new(0,0,0),Size=Vector3.new(2,2,1)});
                     getgenv().visualizepart.CFrame=rdata["CFrame"];
                     getgenv().visualizepart.Size=rdata["Size"];
                 end;
             end);
-            socket:Send("auth´"..game.Players.LocalPlayer.Name);
+            socket:Send("auth´"..game:GetService("Players").LocalPlayer.Name);
             local c;c=socket.OnClose:Connect(function()closed=true;end);
             while(getgenv().testcdesync==true)and(closed==false)do wait();end;
             pcall(function()c:Disconnect();socket:Close();end);
@@ -105,7 +107,7 @@ if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").L
                         if(a~=nil)and(a.Name~=game:GetService("Players").LocalPlayer.Name)then 
                             local cf=CFrame.new(0,0,0);
                             local sz=Vector3.new(2,2,1);pcall(function()cf=a.Character.HumanoidRootPart.CFrame;sz=a.Character.HumanoidRootPart.Size;end);
-                            socket:Send("data´lagviz´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´{CFrame = CFrame.new("..tostring(cf).."), Size = Vector3.new("..tostring(sz)..")}");
+                            socket:Send("data´lagviz´"..a.Name.."´"..game:GetService("Players").LocalPlayer.Name.."´{CFrame=CFrame.new("..tostring(cf).."),Size=Vector3.new("..tostring(sz)..")}");
                         elseif(a~=nil)and(a.Name==game:GetService("Players").LocalPlayer.Name)then 
                             table.remove(currentUsers,b);
                         end;
