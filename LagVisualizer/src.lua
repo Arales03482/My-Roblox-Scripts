@@ -133,7 +133,7 @@ if((getgenv().hostuser~=nil)and(getgenv().hostuser~=game:GetService("Players").L
                                     local pos=CFrame.new(0,0,0);
                                     local rot=CFrame.new(0,0,0);
                                     local sz=Vector3.new(2,2,1);pcall(function()pos=part.Position;rot=part.Rotation;sz=part.Size;end);
-                                    data=data.."['"..part.Name.."'] = {Position = Vector3.new("..string.format("%3i, %3i, %3i",pos.X,pos.Y,pos.Z).."), Rotation = Vector3.new("..tostring(rot).."), Size = Vector3.new("..tostring(string.format("%3i, %3i, %3i",pos.X,pos.Y,pos.Z))..")}, "
+                                    data=data.."['"..part.Name.."'] = {Position = Vector3.new("..string.format("%3i, %3i, %3i",pos.X,pos.Y,pos.Z).."), Rotation = Vector3.new("..tostring(rot).."), Size = Vector3.new("..tostring(string.format("%3i, %3i, %3i",sz.X,sz.Y,sz.Z))..")}, "
                                 end;
                             end;
                             data=data:sub(1,data:len()-2);
