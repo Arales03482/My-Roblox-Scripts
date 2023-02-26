@@ -513,9 +513,9 @@ u:Toggle("Circle Player",function(a)
         game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
     end);
 end);
-u:Box("Circle Speed","number",function(a)getgenv().CircleSpeed=a/20;print(a/20);end);
-u:Box("Circle Distance","number",function(a)getgenv().CircleDistance=a;print(a);end);
-u:Box("Circle Height","number",function(a)getgenv().CircleHeight=a;print(a);end);
+u:Box("Circle Speed","number",function(a)getgenv().CircleSpeed=(a/20)or(getgenv().CircleSpeed);print(a/20);end);
+u:Box("Circle Distance","number",function(a)getgenv().CircleDistance=(a)or(getgenv().CircleDistance);print(a);end);
+u:Box("Circle Height","number",function(a)getgenv().CircleHeight=(a)or(getgenv().CircleHeight);print(a);end);
 u:Box("Player to Circle","string",function(str)
     if(str=="")then 
         warn("Please enter a player name");
