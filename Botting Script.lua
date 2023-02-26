@@ -1,3 +1,8 @@
+-- Cache
+local game,loadstring,getgenv,spawn,pcall,xpcall,ypcall,print,warn,error,request,http_request,http,syn=
+    game,loadstring,getgenv,spawn,pcall,xpcall,ypcall,print,warn,error,request,http_request,http,syn;
+
+-- Main
 local t=loadstring(game:HttpGet("https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/Bacon%20Utils/src.lua"))();
 local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3'))():CreateWindow("Bot");
 local b=a:CreateFolder("TP");
@@ -5,6 +10,7 @@ local d=a:CreateFolder("Body Position");
 local c=a:CreateFolder("Look At");
 local h=a:CreateFolder("Annoy");
 local j=a:CreateFolder("Car Annoy");
+local u=a:CreateFolder("Circle");
 local f=a:CreateFolder("Closest");
 local l=a:CreateFolder("Other Players");
 local r=a:CreateFolder("Player");
@@ -29,6 +35,11 @@ getgenv().LookAtClosestEmote="";
 getgenv().NoclipOthers=false;
 getgenv().NoclipOthersAura=false;
 getgenv().NoclipOthersAuraRange=10;
+getgenv().CirclePlayer=false;
+getgenv().CircleSpeed=10/20;
+getgenv().CircleDistance=20;
+getgenv().CircleHeight=1;
+getgenv().InputPlrCircle="";
 getgenv().Spinbot=false;
 getgenv().Noclip=false;
 getgenv().KillAuraRange=15;
@@ -41,13 +52,13 @@ getgenv().AutoTP=false;
 getgenv().ChatSpamSettings={ChatSpam=false;SpamText="SPONSORED BY UR MOM";SpamTextTo="All";Timeout=2.2};
 
 --Anti AFK
-if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
+if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:Connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
 
 --Walkspeed Init
 if(getgenv().wsran==nil)or(getgenv().wsran==false)then getgenv().wsran=true;getgenv().ws=16;spawn(function()while(getgenv().wsran==true)and(game:GetService("RunService").Stepped:Wait())do pcall(function()game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed=getgenv().ws;end);end;end);end;
 
 -- Funcs
-function getclosest()
+local function getclosest()
     a=9e9;
     b=nil;
     for _,c in pairs(game:GetService("Players"):GetPlayers())do 
@@ -63,7 +74,7 @@ function getclosest()
     return(b);
 end;
 
-function getClosestPlayer()
+local function getClosestPlayer()
     local range=9e9;
     local plr=nil;
     pcall(function()
@@ -470,6 +481,56 @@ else
     end);
 end;
 
+-- Circle
+u:Toggle("Circle Player",function(a)
+    getgenv().CirclePlayer=a;
+    if(getgenv().InputPlrCircle=="")then 
+        print("Please input a player");
+        getgenv().CirclePlayer=false;
+    end;
+
+    spawn(function()
+        local currentAngle=0;
+        while(getgenv().CirclePlayer==true)do 
+            local _,dt=game:GetService("RunService").Stepped:Wait();
+            currentAngle+=getgenv().CircleSpeed*math.pi*dt;
+            xpcall(function()
+                local target=game:GetService("Players")[getgenv().InputPlrCircle].Character;
+                if(target~=nil)then 
+                    local ltarget=(game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Torso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("UpperTorso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("LowerTorso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Head"));
+                    target=(target:FindFirstChild("HumanoidRootPart"))or(target:FindFirstChild("Torso"))or(target:FindFirstChild("UpperTorso"))or(target:FindFirstChild("LowerTorso"))or(target:FindFirstChild("Head"));
+                    ltarget.CFrame=CFrame.lookAt(target.Position+Vector3.new(getgenv().CircleDistance*math.sin(currentAngle),6.5,getgenv().CircleDistance*math.cos(currentAngle)),target.Position)*CFrame.new(0,getgenv().CircleHeight/2,0);
+                    ltarget.Velocity=Vector3.new(0,0,0);
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=target;
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
+                    game:GetService("Players").LocalPlayer.Character.Humanoid.PlatformStand=true;
+                end;
+            end,print);
+        end;
+        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+        game:GetService("Players").LocalPlayer.Character.Humanoid.PlatformStand=false;
+        game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
+    end);
+end);
+u:Box("Circle Speed","number",function(a)getgenv().CircleSpeed=a/20;print(a/20);end);
+u:Box("Circle Distance","number",function(a)getgenv().CircleDistance=a;print(a);end);
+u:Box("Circle Height","number",function(a)getgenv().CircleHeight=a;print(a);end);
+u:Box("Player to Circle","string",function(str)
+    if(str=="")then 
+        warn("Please enter a player name");
+    else 
+        for _,k in pairs(game:GetService("Players"):GetPlayers())do 
+            if(str:lower()==k.Name:sub(1,#str):lower())then 
+                getgenv().InputPlrCircle=k.Name;
+                if(game:GetService("Players"):FindFirstChild(getgenv().InputPlrCircle)~=nil)then print("Target Chosen as "..getgenv().InputPlrCircle);end;
+                return;
+            end;
+        end;
+        if(game:GetService("Players"):FindFirstChild(getgenv().InputPlrCircle)==nil)then print("Inputed player could not be found");getgenv().InputPlrCircle="";end;
+    end;
+end);
+
 -- Closest Tab
 f:Toggle("Follow Closest",function(a)
     getgenv().FollowClosestBP=a;
@@ -516,7 +577,7 @@ f:Toggle("Follow Closest",function(a)
         getgenv().bpc:Destroy();
         getgenv().bp:Destroy();
     end);
-end)
+end);
 
 f:Toggle("Look At Closest",function(a)
     getgenv().LookAtClosest=a;
@@ -1050,6 +1111,12 @@ end);
 
 s:Button("Eclipse Hub",function()
     spawn(function()
+        if(true==true)then 
+            local msg=Instance.new("Message",game:GetService("Workspace"));
+            msg.Text="Eclipse hub currently does not work by executing after the game launched";
+            game:GetService("Debris"):AddItem(msg,5);
+            return;
+        end;
         if(getgenv().mainKey==nil)then 
             getgenv().mainKey="nil";
         end;
