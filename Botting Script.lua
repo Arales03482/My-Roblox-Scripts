@@ -499,7 +499,8 @@ u:Toggle("Circle Player",function(a)
                 if(target~=nil)then 
                     local ltarget=(game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Torso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("UpperTorso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("LowerTorso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Head"));
                     target=(target:FindFirstChild("HumanoidRootPart"))or(target:FindFirstChild("Torso"))or(target:FindFirstChild("UpperTorso"))or(target:FindFirstChild("LowerTorso"))or(target:FindFirstChild("Head"));
-                    ltarget.CFrame=CFrame.lookAt(target.Position+Vector3.new(getgenv().CircleDistance*math.sin(currentAngle),6.5,getgenv().CircleDistance*math.cos(currentAngle)),target.Position)*CFrame.new(0,getgenv().CircleHeight/2,0);
+                    local p=CFrame.lookAt(target.Position+Vector3.new(0,getgenv().CircleHeight,0)+Vector3.new(getgenv().CircleDistance*math.sin(currentAngle),6.5,getgenv().CircleDistance*math.cos(currentAngle)),target.Position);
+                    ltarget.CFrame=p;
                     ltarget.Velocity=Vector3.new(0,0,0);
                     game:GetService("Workspace").CurrentCamera.CameraSubject=target;
                     game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
