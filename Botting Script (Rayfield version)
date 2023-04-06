@@ -11,22 +11,22 @@ local win=gui:CreateWindow({
     LoadingSubtitle="by ARealer#8020",
     ConfigurationSaving={
        Enabled=false,
-       FolderName=nil, -- Create a custom folder for your hub/game
+       FolderName=nil,
        FileName="BotScriptByARealer_8020"
     },
     Discord={
        Enabled=false,
-       Invite="noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD.
-       RememberJoins=true -- Set this to false to make them join the discord every time they load it up
+       Invite="noinvitelink",
+       RememberJoins=true
     },
-    KeySystem=false, -- Set this to true to use our key system
+    KeySystem=false,
     KeySettings={
        Title="Bot",
        Subtitle="what",
        Note="huh????",
        FileName="NO",
        SaveKey=false,
-       GrabKeyFromSite=false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+       GrabKeyFromSite=false,
        Key=""
     }
 });
