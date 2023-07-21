@@ -18,6 +18,7 @@ spawn(function()
 end);
 
 spawn(function()
+	local url_data = {Url = fullurl}
 	local servers = {}
 	while wait() do 
 		xpcall(function()
@@ -28,12 +29,14 @@ spawn(function()
                 if cursor then
                     fullurl = fullurl .."&cursor=".. cursor
                 end
+				url_data.Url = fullurl
 
-                local req = httprequest({Url = fullurl})
+                local req = httprequest(url_data)
                 local body = game:GetService("HttpService"):JSONDecode(req.Body)
                 cursor = body.nextPageCursor
 				if not body or not body.data or not body.data[1] then
 					cursor = nil
+					body = nil
 					break
 				end
                 if body and body.data then
@@ -43,6 +46,7 @@ spawn(function()
                         end
                     end
                 end
+				body = nil
                 print(#servers)
                 if #servers >= 1 then
                     break
