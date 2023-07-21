@@ -44,13 +44,14 @@ spawn(function()
                         end
                     end
                 end
+				if not body.data or not body.data[1] then
+					cursor = nil
+					break
+				end
                 print(#servers)
                 if #servers >= 1 then
                     break
                 end
-				if not body.data or not body.data[1] then
-					cursor = nil
-				end
             end
 			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game:GetService("Players").LocalPlayer)
 		end,warn);
