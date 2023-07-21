@@ -36,6 +36,7 @@ spawn(function()
                 cursor = body.nextPageCursor
 				if not body or not body.data or not body.data[1] then
 					cursor = nil
+					table.clear(body)
 					body = nil
 					break
 				end
@@ -44,18 +45,23 @@ spawn(function()
                         if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
                             servers[#servers + 1] = v.id
                         end
+						table.clear(v)
+						v = nil
                     end
+					table.clear(body)
+					body = nil
                 end
-				body = nil
                 print(#servers)
                 if #servers >= 1 then
                     break
                 end
 				table.clear(servers)
             end
-			local serverid = servers[math.random(1, #servers)]
 			table.clear(servers)
-			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverid, game:GetService("Players").LocalPlayer)
+			if #servers >= 1 then
+				local serverid = servers[math.random(1, #servers)]
+				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverid, game:GetService("Players").LocalPlayer)
+			end
 		end,warn);
 	end;
 end);
