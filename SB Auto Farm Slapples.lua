@@ -1,3 +1,16 @@
+if(not(game:IsLoaded()))then 
+	game.Loaded:Wait();
+end;
+
+local queueteleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport))
+if(queueteleport)then 
+	game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(state)
+		if(state==Enum.TeleportState.Started)then 
+			queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua'))()")
+		end;
+	end);
+end;
+
 spawn(function()
 	while(wait())do 
 		pcall(function()
