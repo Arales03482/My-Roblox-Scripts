@@ -49,12 +49,14 @@ spawn(function()
                 end
 				table.clear(servers)
             end
-			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game:GetService("Players").LocalPlayer)
+			local serverid = servers[math.random(1, #servers)]
+			table.clear(servers)
+			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverid, game:GetService("Players").LocalPlayer)
 		end,warn);
 	end;
 end);
 
 local queueteleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport));
 if(queueteleport~=nil)then 
-	queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua'))()");
+	queueteleport([[loadstring(game:HttpGet("https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua"))();]]);
 end;
