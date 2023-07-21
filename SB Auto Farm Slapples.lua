@@ -27,7 +27,7 @@ spawn(function()
 		xpcall(function()
 			local servers = {}
             local cursor = nil
-            repeat
+            while true do
                 local fullurl = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100", game.PlaceId)
                 if cursor then
                     fullurl = fullurl .."&cursor=".. cursor
@@ -48,7 +48,10 @@ spawn(function()
                 if #servers >= 1 then
                     break
                 end
-            until not body.data or not body.data[1]
+				if not body.data or not body.data[1] then
+					cursor = nil
+				end
+            end
 			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game:GetService("Players").LocalPlayer)
 		end,warn);
 	end;
