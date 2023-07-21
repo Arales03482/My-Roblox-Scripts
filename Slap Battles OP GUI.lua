@@ -1,9 +1,9 @@
-if(not(game:IsLoaded()))then 
-	game.Loaded:Wait();
-end;
+if not game:IsLoaded() then 
+	game.Loaded:Wait()
+end
 
 spawn(function()
-	while(wait())do 
+	while wait() do 
 		pcall(function()
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
