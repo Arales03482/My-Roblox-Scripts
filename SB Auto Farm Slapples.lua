@@ -2,11 +2,6 @@ if(not(game:IsLoaded()))then
 	game.Loaded:Wait();
 end;
 
-local queueteleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport));
-if(queueteleport~=nil)then 
-	queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua'))()");
-end;
-
 spawn(function()
 	while(wait())do 
 		pcall(function()
@@ -58,3 +53,8 @@ spawn(function()
 		end,warn);
 	end;
 end);
+
+local queueteleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport));
+if(queueteleport~=nil)then 
+	queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua'))()");
+end;
