@@ -19,7 +19,7 @@ end);
 
 spawn(function()
 	local servers = {}
-	while(wait(1))do 
+	while wait() do 
 		xpcall(function()
 			local cursor = nil
             while wait() do
