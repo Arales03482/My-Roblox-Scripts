@@ -23,11 +23,12 @@ spawn(function()
 end);
 
 spawn(function()
+	local servers = {}
 	while(wait(5))do 
 		xpcall(function()
-			local servers = {}
-            local cursor = nil
-            while true do
+			local cursor = nil
+            while wait() do
+				table.clear(servers)
                 local fullurl = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100", game.PlaceId)
                 if cursor then
                     fullurl = fullurl .."&cursor=".. cursor
@@ -36,22 +37,22 @@ spawn(function()
                 local req = httprequest({Url = fullurl})
                 local body = game:GetService("HttpService"):JSONDecode(req.Body)
                 cursor = body.nextPageCursor
-                if body and body.data then
-                    for i, v in next, body.data do
-                        if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
-                            table.insert(servers, v.id)
-                            --warn(v.playing, v.maxPlayers, v.id)
-                        end
-                    end
-                end
-				if not body.data or not body.data[1] then
+				if not body or not body.data or not body.data[1] then
 					cursor = nil
 					break
 				end
+                if body and body.data then
+                    for i, v in next, body.data do
+                        if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
+                            servers[#servers + 1] = v.id
+                        end
+                    end
+                end
                 print(#servers)
                 if #servers >= 1 then
                     break
                 end
+				table.clear(servers)
             end
 			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game:GetService("Players").LocalPlayer)
 		end,warn);
