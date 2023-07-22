@@ -1,9 +1,9 @@
-if(not(game:IsLoaded()))then 
-	game.Loaded:Wait();
-end;
+if not game:IsLoaded() then 
+	game.Loaded:Wait()
+end
 
 spawn(function()
-	while(wait())do 
+	while wait() do 
 		pcall(function()
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
@@ -18,8 +18,9 @@ spawn(function()
 end);
 
 spawn(function()
+	local url_data = {Url = fullurl}
 	local servers = {}
-	while(wait(5))do 
+	while wait() do 
 		xpcall(function()
 			local cursor = nil
             while wait() do
@@ -28,12 +29,15 @@ spawn(function()
                 if cursor then
                     fullurl = fullurl .."&cursor=".. cursor
                 end
+				url_data.Url = fullurl
 
-                local req = httprequest({Url = fullurl})
+                local req = httprequest(url_data)
                 local body = game:GetService("HttpService"):JSONDecode(req.Body)
                 cursor = body.nextPageCursor
 				if not body or not body.data or not body.data[1] then
 					cursor = nil
+					table.clear(body)
+					body = nil
 					break
 				end
                 if body and body.data then
@@ -41,7 +45,11 @@ spawn(function()
                         if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
                             servers[#servers + 1] = v.id
                         end
+						table.clear(v)
+						v = nil
                     end
+					table.clear(body)
+					body = nil
                 end
                 print(#servers)
                 if #servers >= 1 then
@@ -49,9 +57,12 @@ spawn(function()
                 end
 				table.clear(servers)
             end
-			local serverid = servers[math.random(1, #servers)]
+			if #servers >= 1 then
+				local serverid = servers[math.random(1, #servers)]
+				table.clear(servers)
+				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverid, game:GetService("Players").LocalPlayer)
+			end
 			table.clear(servers)
-			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverid, game:GetService("Players").LocalPlayer)
 		end,warn);
 	end;
 end);
