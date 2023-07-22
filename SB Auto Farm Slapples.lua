@@ -61,6 +61,7 @@ spawn(function()
 				local serverid = servers[math.random(1, #servers)]
 				table.clear(servers)
 				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, serverid, game:GetService("Players").LocalPlayer)
+				game:GetService("Players").LocalPlayer.OnTeleport:Wait()
 			end
 			table.clear(servers)
 		end,warn);
