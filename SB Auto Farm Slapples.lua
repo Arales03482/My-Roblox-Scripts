@@ -13,7 +13,11 @@ if(getgenv().last_servers~=nil)and(#getgenv().last_servers>10)then
 	table.remove(getgenv().last_servers,1);
 end;
 
-local total_gained=(getgenv().total_slaps)or(0);
+if(getgenv().total_slaps==nil)then 
+	getgenv().total_slaps=0;
+end;
+
+local total_gained=getgenv().total_slaps;
 local queue_teleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport));
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(status)
 	if(status==Enum.TeleportState.InProgress)and(queue_teleport~=nil)then 
@@ -25,8 +29,10 @@ wait(0.75);
 local slaps_inst=game:GetService("Players").LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Slaps");
 local slaps_start=slaps_inst.Value;
 
-local slaps_gained=Instance.new("Message");
-slaps_gained.Parent=game:GetService("CoreGui");
+local slaps_gained=0;
+
+local slaps_gained_msg=Instance.new("Message");
+slaps_gained_msg.Parent=game:GetService("CoreGui");
 
 spawn(function()
 	while(wait())do 
@@ -39,8 +45,9 @@ spawn(function()
 					firetouchinterest(slapple:FindFirstChild("Glove"),game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
 				end;
 			end;
-			slaps_gained.Text="Slaps Gained: "..tostring(slaps_inst.Value-slaps_start).." Total Slaps Gained: "..tostring(total_gained);
-			total_gained=getgenv().total_slaps+(slaps_inst.Value-slaps_start);
+			slaps_gained=slaps_inst.Value-slaps_start;
+			slaps_gained_msg.Text="Slaps Gained: "..tostring(slaps_gained).." Total Slaps Gained: "..tostring(total_gained);
+			total_gained=getgenv().total_slaps+slaps_gained;
 			game:GetService("GuiService"):ClearError();
 		end);
 	end;
