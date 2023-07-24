@@ -39,6 +39,7 @@ spawn(function()
 			end;
 			slaps_gained.Text="Slaps Gained: "..tostring(slaps_inst.Value-slaps_start).." Total Slaps Gained: "..tostring(total_gained);
 			total_gained=getgenv().total_slaps+(slaps_inst.Value-slaps_start);
+			game:GetService("GuiService"):ClearError();
 		end);
 	end;
 end);
