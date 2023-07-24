@@ -19,6 +19,7 @@ game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(status)
 		queue_teleport("getgenv().total_slaps="..total_gained..";getgenv().last_servers={\""..table.concat(getgenv().last_servers,"\",\"").."\"};loadstring(game:HttpGet(\"https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua\"))();");
 	end;
 end);
+wait(0.75);
 
 local slaps_inst=game:GetService("Players").LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Slaps");
 local slaps_start=slaps_inst.Value;
