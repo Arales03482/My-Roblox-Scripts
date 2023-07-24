@@ -1,6 +1,7 @@
 if(game:IsLoaded()==false)then 
 	game.Loaded:Wait();
 end;
+if(game.PlaceId==0)then return;end;
 
 if(getgenv().last_servers~=nil)then 
 	getgenv().last_servers[#getgenv().last_servers+1]=game.JobId;
