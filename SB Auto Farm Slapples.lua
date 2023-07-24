@@ -38,7 +38,7 @@ spawn(function()
 				end;
 			end;
 			slaps_gained.Text="Slaps Gained: "..tostring(slaps_inst.Value-slaps_start).." Total Slaps Gained: "..tostring(total_gained);
-			total_gained=slaps_inst.Value-slaps_start;
+			total_gained=total_gained+(slaps_inst.Value-slaps_start);
 		end);
 	end;
 end);
