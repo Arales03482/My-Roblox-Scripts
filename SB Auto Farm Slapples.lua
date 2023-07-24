@@ -2,9 +2,16 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
+local slaps_inst = game:GetService("Players").LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Slaps")
+local slaps_start = slaps_inst.Value
+
+local slaps_gained = Instance.new("Message")
+slaps_gained.Parent = game:GetService("CoreGui")
+
 spawn(function()
 	while wait() do 
 		pcall(function()
+			slaps_gained.Text = "Slaps Gained: " .. tostring(slaps_inst.Value - slaps_start)
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
 			for _,slapple in pairs(game:GetService("Workspace").Arena.island5.Slapples:GetChildren())do 
