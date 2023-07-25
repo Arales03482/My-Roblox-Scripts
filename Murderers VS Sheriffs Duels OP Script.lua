@@ -22,7 +22,7 @@ b:Toggle("Auto Kill Gun",function(a)
         while(getgenv().AutoKillGun==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
                 for _,a in pairs(game:GetService("Players"):GetPlayers())do 
-                    if(a.Character~=nil)and(a.Character:IsDescendantOf(game)==true)and(a.Character:FindFirstChildWhichIsA("Humanoid")~=nil)and(a.Character:FindFirstChildWhichIsA("Humanoid").Health>=1)and(a.Team~=game:GetService("Players").LocalPlayer.Team)and(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool")~=nil)and(game:GetService("CollectionService"):HasTag(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"),tags.GUN_TOOL)~=nil)then 
+                    if(a.Name~="ARealPerson29Mobile")and(a.Name~="ARealPerson29")and(a.Name~="ARealPerson25")and(a.Character~=nil)and(a.Character:IsDescendantOf(game)==true)and(a.Character:FindFirstChildWhichIsA("Humanoid")~=nil)and(a.Character:FindFirstChildWhichIsA("Humanoid").Health>=1)and(a.Team~=game:GetService("Players").LocalPlayer.Team)and(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool")~=nil)and(game:GetService("CollectionService"):HasTag(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"),tags.GUN_TOOL)~=nil)then 
                         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Shoot"):FireServer(a.Character.HumanoidRootPart.Part.Position,a.Character.HumanoidRootPart.Part.Position,a.Character.HumanoidRootPart.Part,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position);
                     end;
                 end;
