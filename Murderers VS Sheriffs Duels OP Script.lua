@@ -59,7 +59,7 @@ b:Toggle("Auto Classic Select",function(a)
     spawn(function()
         while(getgenv().AutoClassicSelect==true)and(game:GetService("RunService").Stepped:Wait())do 
             pcall(function()
-                if(game:GetService("Players").LocalPlayer.Team~=nil)then 
+                if(game:GetService("Players").LocalPlayer.Team~=nil)and(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool")==nil)then 
                     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("OnRoleSelection"):FireServer(maping2[auto_equip_selected]);
                     game:GetService("Players").LocalPlayer.PlayerGui.RoleSelection.Enabled=false;
                 end;
@@ -75,6 +75,7 @@ b:Toggle("Auto Equip",function(a)
                 for _,a in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren())do 
                     if(game:GetService("CollectionService"):HasTag(a,tags[auto_equip_selected])~=nil)and(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool")~=a)then 
                         game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool(a);
+                        wait();
                     end;
                 end;
             end);
