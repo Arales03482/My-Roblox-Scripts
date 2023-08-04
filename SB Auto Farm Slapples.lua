@@ -63,13 +63,10 @@ spawn(function()
 	while(wait())do 
 		xpcall(function()
 			local cursor=nil;
+			local fullurl=string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100",game.PlaceId);
             while(wait())do 
 				table.clear(servers);
-                local fullurl=string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100",game.PlaceId);
-                if(cursor~=nil)then 
-                    fullurl=fullurl.."&cursor="..cursor;
-                end;
-				url_data.Url=fullurl;
+				url_data.Url=((cursor~=nil)and(fullurl.."&cursor="..cursor))or(fullurl);
 
                 local req=httprequest(url_data);
                 local body=game:GetService("HttpService"):JSONDecode(req.Body);
