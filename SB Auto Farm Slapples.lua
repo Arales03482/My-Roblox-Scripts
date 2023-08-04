@@ -35,6 +35,7 @@ local slaps_gained_msg=Instance.new("Message");
 slaps_gained_msg.Parent=game:GetService("CoreGui");
 
 spawn(function()
+	local nr=NumberRange.new(0);
 	while(wait())do 
 		pcall(function()
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
@@ -53,6 +54,44 @@ spawn(function()
 				setfpscap(10);
 			end;
 			game:GetService("RunService"):Set3dRenderingEnabled(false);
+
+			game:GetService("Workspace").Terrain.WaterWaveSize=0;
+			game:GetService("Workspace").Terrain.WaterWaveSpeed=0;
+			game:GetService("Workspace").Terrain.WaterReflectance=0;
+			game:GetService("Workspace").Terrain.WaterTransparency=0;
+			game:GetService("Lighting").GlobalShadows=false;
+			game:GetService("Lighting").FogEnd=9e9;
+			game:GetService("Lighting").Brightness=0;
+
+			settings().Rendering.QualityLevel="Level01";
+
+			for _,a in pairs(game:GetDescendants())do 
+				if(a:IsA("Part"))or(a:IsA("Union"))or(a:IsA("CornerWedgePart"))or(a:IsA("TrussPart"))then 
+					a.Material="Plastic";
+					a.Reflectance=0;
+				elseif(a:IsA("Decal"))or(a:IsA("Texture"))then 
+					a.Transparency=0;
+				elseif(a:IsA("ParticleEmitter"))or(a:IsA("Trail"))then 
+					a.Lifetime=nr;
+				elseif(a:IsA("Explosion"))then 
+					a.BlastPressure=0;
+					a.BlastRadius=0;
+				elseif(a:IsA("Fire"))or(a:IsA("SpotLight"))or(a:IsA("Smoke"))or(a:IsA("Sparkles"))then 
+					a.Enabled=false;
+				elseif(a:IsA("MeshPart"))then 
+					a.Material="Plastic";
+					a.Reflectance=0;
+					a.TextureID=0;
+				end;
+			end;
+
+			for _,a in pairs(game:GetService("Lighting"):GetChildren())do 
+				if(a:IsA("BlurEffect"))or(a:IsA("SunRaysEffect"))or(a:IsA("ColorCorrectionEffect"))or(a:IsA("BloomEffect"))or(a:IsA("DepthOfFieldEffect"))then 
+					a.Enabled=false;
+				end;
+			end;
+
+			sethiddenproperty(game:GetService("Lighting"),"Technology","Compatibility");
 		end);
 	end;
 end);
