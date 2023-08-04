@@ -39,7 +39,7 @@ spawn(function()
 	cursor.Thickness=1;
 	cursor.Color=Color3.fromRGB(0,85,255);
 	cursor.Filled=true;
-	while(game:GetService("RunService").HeartBeat:Wait())do 
+	while(game:GetService("RunService").Heartbeat:Wait())do 
 		pcall(function()
 			local pos=game:GetService("UserInputService"):GetMouseLocation();
 			cursor.Visible=true;
@@ -75,7 +75,7 @@ spawn(function()
 end);
 
 spawn(function()
-	while(game:GetService("RunService").HeartBeat:Wait())do 
+	while(game:GetService("RunService").Heartbeat:Wait())do 
 		pcall(function()
 			table.foreach(game:GetService("Workspace"):GetDescendants(),function(a)
 				if(a:IsA("Part"))or(a:IsA("Union"))or(a:IsA("CornerWedgePart"))or(a:IsA("TrussPart"))then 
