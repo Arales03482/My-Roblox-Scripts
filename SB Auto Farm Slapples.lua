@@ -50,7 +50,7 @@ spawn(function()
 			total_gained=getgenv().total_slaps+slaps_gained;
 			game:GetService("GuiService"):ClearError();
 			if(setfpscap~=nil)then 
-				setfpscap(15);
+				setfpscap(10);
 			end;
 			game:GetService("RunService"):Set3dRenderingEnabled(false);
 		end);
