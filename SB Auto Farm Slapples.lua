@@ -49,6 +49,10 @@ spawn(function()
 			slaps_gained_msg.Text="Slaps Gained: "..tostring(slaps_gained).." Total Slaps Gained: "..tostring(total_gained);
 			total_gained=getgenv().total_slaps+slaps_gained;
 			game:GetService("GuiService"):ClearError();
+			if(setfpscap~=nil)then 
+				setfpscap(15);
+			end;
+			game:GetService("RunService"):Set3dRenderingEnabled(false);
 		end);
 	end;
 end);
