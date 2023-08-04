@@ -75,6 +75,7 @@ spawn(function()
 end);
 
 spawn(function()
+	local nr=NumberRange.new(0);
 	while(game:GetService("RunService").Heartbeat:Wait())do 
 		pcall(function()
 			table.foreach(game:GetService("Workspace"):GetDescendants(),function(a)
@@ -101,7 +102,6 @@ spawn(function()
 end);
 
 spawn(function()
-	local nr=NumberRange.new(0);
 	while(wait())do 
 		pcall(function()
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
