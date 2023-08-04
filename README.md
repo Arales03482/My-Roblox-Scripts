@@ -5,7 +5,6 @@ Roblox Scripts I have made
 ## TODO
  - Anti bob?
  - Improve Script Performance?
- - Auto Get Retro Glove?
 
 ## RECENT DONE
  - Anti KS The Force
