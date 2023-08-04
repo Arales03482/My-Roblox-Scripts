@@ -76,7 +76,7 @@ end);
 
 spawn(function()
 	local nr=NumberRange.new(0);
-	while(game:GetService("RunService").Heartbeat:Wait())do 
+	while(wait(0.3))do 
 		pcall(function()
 			table.foreach(game:GetService("Workspace"):GetDescendants(),function(a)
 				if(a:IsA("Part"))or(a:IsA("Union"))or(a:IsA("CornerWedgePart"))or(a:IsA("TrussPart"))then 
