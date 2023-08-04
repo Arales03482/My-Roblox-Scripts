@@ -39,7 +39,7 @@ spawn(function()
 	cursor.Thickness=1;
 	cursor.Color=Color3.fromRGB(0,85,255);
 	cursor.Filled=true;--]] -- electrons drawing lib just crashes now :(
-	while(game:GetService("RunService").Stepped:Wait())do 
+	while(game:GetService("RunService").Heartbeat:Wait())do 
 		pcall(function()
 			--[[local pos=game:GetService("UserInputService"):GetMouseLocation();
 			cursor.Visible=true;
@@ -76,7 +76,7 @@ end);
 
 spawn(function()
 	local nr=NumberRange.new(0);
-	while(wait(0.3))do 
+	while(game:GetService("RunService").Heartbeat:Wait())do 
 		pcall(function()
 			table.foreach(game:GetService("Workspace"):GetDescendants(),function(a)
 				if(a:IsA("Part"))or(a:IsA("Union"))or(a:IsA("CornerWedgePart"))or(a:IsA("TrussPart"))then 
@@ -102,7 +102,7 @@ spawn(function()
 end);
 
 spawn(function()
-	while(wait())do 
+	while(game:GetService("RunService").Heartbeat:Wait())do 
 		pcall(function()
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
 			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
@@ -147,9 +147,10 @@ spawn(function()
 						table.clear(server_data);
 						server_data=nil;
                     end;
+					table.clear(body.data);
 					table.clear(body);
-					body=nil;
                 end;
+				body=nil;
                 print(#servers);
                 if(#servers>=1)then 
                     break;
