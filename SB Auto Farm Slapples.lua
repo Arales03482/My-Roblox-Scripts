@@ -65,7 +65,7 @@ spawn(function()
 
 			settings().Rendering.QualityLevel="Level01";
 
-			for _,a in pairs(game:GetService("Workspace"):GetDescendants())do 
+			table.foreach(game:GetService("Workspace"):GetDescendants(),function(a)
 				if(a:IsA("Part"))or(a:IsA("Union"))or(a:IsA("CornerWedgePart"))or(a:IsA("TrussPart"))then 
 					a.Material="Plastic";
 					a.Reflectance=0;
@@ -83,7 +83,7 @@ spawn(function()
 					a.Reflectance=0;
 					a.TextureID=0;
 				end;
-			end;
+			end);
 
 			for _,a in pairs(game:GetService("Lighting"):GetChildren())do 
 				if(a:IsA("BlurEffect"))or(a:IsA("SunRaysEffect"))or(a:IsA("ColorCorrectionEffect"))or(a:IsA("BloomEffect"))or(a:IsA("DepthOfFieldEffect"))then 
