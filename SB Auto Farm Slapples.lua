@@ -35,20 +35,18 @@ local slaps_gained_msg=Instance.new("Message");
 slaps_gained_msg.Parent=game:GetService("CoreGui");
 
 spawn(function()
-	local nr=NumberRange.new(0);
-	while(wait())do 
+	local cursor=Drawing.new("Triangle");
+	cursor.Thickness=1;
+	cursor.Color=Color3.fromRGB(0,85,255);
+	cursor.Filled=true;
+	while(game:GetService("RunService").HeartBeat:Wait())do 
 		pcall(function()
-			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
-			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
-			for _,slapple in pairs(game:GetService("Workspace").Arena.island5.Slapples:GetChildren())do 
-				if(slapple:FindFirstChild("Glove")~=nil)and(slapple:FindFirstChild("Glove").Transparency<=0.2)and(slapple:FindFirstChild("Glove"):FindFirstChildWhichIsA("TouchTransmitter")~=nil)then 
-					firetouchinterest(slapple:FindFirstChild("Glove"),game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
-					firetouchinterest(slapple:FindFirstChild("Glove"),game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
-				end;
-			end;
-			slaps_gained=slaps_inst.Value-slaps_start;
-			slaps_gained_msg.Text="Slaps Gained: "..tostring(slaps_gained).." Total Slaps Gained: "..tostring(total_gained);
-			total_gained=getgenv().total_slaps+slaps_gained;
+			local pos=game:GetService("UserInputService"):GetMouseLocation();
+			cursor.Visible=true;
+			cursor.PointA=Vector2.new(pos.X,pos.Y-0.5);
+			cursor.PointB=Vector2.new(pos.X+12.5,pos.Y+12);
+			cursor.PointC=Vector2.new(pos.X,pos.Y+17);
+			
 			game:GetService("GuiService"):ClearError();
 			if(setfpscap~=nil)then 
 				setfpscap(10);
@@ -65,6 +63,20 @@ spawn(function()
 
 			settings().Rendering.QualityLevel="Level01";
 
+			for _,a in pairs(game:GetService("Lighting"):GetDescendants())do 
+				if(a:IsA("BlurEffect"))or(a:IsA("SunRaysEffect"))or(a:IsA("ColorCorrectionEffect"))or(a:IsA("BloomEffect"))or(a:IsA("DepthOfFieldEffect"))then 
+					a.Enabled=false;
+				end;
+			end;
+
+			sethiddenproperty(game:GetService("Lighting"),"Technology","Compatibility");
+		end);
+	end;
+end);
+
+spawn(function()
+	while(game:GetService("RunService").HeartBeat:Wait())do 
+		pcall(function()
 			table.foreach(game:GetService("Workspace"):GetDescendants(),function(a)
 				if(a:IsA("Part"))or(a:IsA("Union"))or(a:IsA("CornerWedgePart"))or(a:IsA("TrussPart"))then 
 					a.Material="Plastic";
@@ -84,14 +96,25 @@ spawn(function()
 					a.TextureID=0;
 				end;
 			end);
+		end);
+	end;
+end);
 
-			for _,a in pairs(game:GetService("Lighting"):GetChildren())do 
-				if(a:IsA("BlurEffect"))or(a:IsA("SunRaysEffect"))or(a:IsA("ColorCorrectionEffect"))or(a:IsA("BloomEffect"))or(a:IsA("DepthOfFieldEffect"))then 
-					a.Enabled=false;
+spawn(function()
+	local nr=NumberRange.new(0);
+	while(wait())do 
+		pcall(function()
+			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
+			firetouchinterest(game:GetService("Workspace").Lobby.Teleport1,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
+			for _,slapple in pairs(game:GetService("Workspace").Arena.island5.Slapples:GetChildren())do 
+				if(slapple:FindFirstChild("Glove")~=nil)and(slapple:FindFirstChild("Glove").Transparency<=0.2)and(slapple:FindFirstChild("Glove"):FindFirstChildWhichIsA("TouchTransmitter")~=nil)then 
+					firetouchinterest(slapple:FindFirstChild("Glove"),game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,0);
+					firetouchinterest(slapple:FindFirstChild("Glove"),game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,1);
 				end;
 			end;
-
-			sethiddenproperty(game:GetService("Lighting"),"Technology","Compatibility");
+			slaps_gained=slaps_inst.Value-slaps_start;
+			slaps_gained_msg.Text="Slaps Gained: "..tostring(slaps_gained).." Total Slaps Gained: "..tostring(total_gained);
+			total_gained=getgenv().total_slaps+slaps_gained;
 		end);
 	end;
 end);
