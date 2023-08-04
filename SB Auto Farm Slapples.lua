@@ -65,7 +65,7 @@ spawn(function()
 
 			settings().Rendering.QualityLevel="Level01";
 
-			for _,a in pairs(game:GetDescendants())do 
+			for _,a in pairs(game:GetService("Workspace"):GetDescendants())do 
 				if(a:IsA("Part"))or(a:IsA("Union"))or(a:IsA("CornerWedgePart"))or(a:IsA("TrussPart"))then 
 					a.Material="Plastic";
 					a.Reflectance=0;
