@@ -4,6 +4,7 @@ Roblox Scripts I have made
 # SB Script
 ## TODO
  - Anti bob?
+ - Anti Leash
  - Improve Script Performance?
 
 ## RECENT DONE
