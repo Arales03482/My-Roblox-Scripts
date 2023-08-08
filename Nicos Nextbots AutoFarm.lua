@@ -23,7 +23,7 @@ spawn(function()
 			if(setfpscap~=nil)then 
 				setfpscap(35);
 			end;
-			game:GetService("RunService"):Set3dRenderingEnabled(false);
+			--game:GetService("RunService"):Set3dRenderingEnabled(false);
 
 			game:GetService("Workspace").Terrain.WaterWaveSize=0;
 			game:GetService("Workspace").Terrain.WaterWaveSpeed=0;
@@ -81,6 +81,11 @@ game:GetService("RunService"):BindToRenderStep("idksad21ewsq1s",Enum.RenderPrior
 	hum=character:FindFirstChild("Humanoid");
 	hrp=character:FindFirstChild("HumanoidRootPart");
 
+	local gui=(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("hud")~=nil)and(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("hud"):FindFirstChild("gameover")~=nil)and(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("hud"):FindFirstChild("gameover"):FindFirstChild("Frame")~=nil)and(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("hud"):FindFirstChild("gameover"):FindFirstChild("Frame"):FindFirstChild("deathbuttonsFrame"));
+	if(gui~=nil)and(gui~=false)and(gui:FindFirstChild("deathButtons")~=nil)and(gui:FindFirstChild("deathButtons"):FindFirstChild("respawn")~=nil)and(gui.Visible==true)and(hum:GetState()==num.HumanoidStateType.Dead)then 
+		player:SetAttribute("TryingToRespawn",time());
+		game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("player"):WaitForChild("char"):WaitForChild("respawnchar"):FireServer();
+	end;
     if(game:GetService("ReplicatedStorage").values.rounds.roundstatus.Value~="GAME")and(game:GetService("ReplicatedStorage").values.rounds.roundstatus.Value~="PREPARE")then return;end;
     for _,a in pairs(game:GetService("Players").LocalPlayer.PlayerGui.bonuspoints.defaultList:GetChildren())do 
         if(a.Name=="bonusgui")and(a:FindFirstChild("Frame")~=nil)and(a:FindFirstChild("Frame"):FindFirstChild("name")~=nil)and(a:FindFirstChild("Frame"):FindFirstChild("name").Text:sub(1,6)=="BHOP #")then 
@@ -112,7 +117,7 @@ game:GetService("RunService"):BindToRenderStep("idksad21ewsq1s",Enum.RenderPrior
 			end;if(direction.Magnitude>=90)then 
 				hrp.CFrame=points_list[current_point].CFrame;
 			end;
-            hrp.Velocity=Vector3.new(math.clamp((-direction).X*5,-100,100),hrp.Velocity.Y,math.clamp((-direction).Z*5,-100,100));
+            hrp.Velocity=Vector3.new(math.clamp((-direction.Unit).X*60,-200,200),hrp.Velocity.Y,math.clamp((-direction.Unit).Z*60,-200,200));
 		end;
 	end;
 end);
