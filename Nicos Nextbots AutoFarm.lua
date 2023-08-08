@@ -111,13 +111,14 @@ game:GetService("RunService"):BindToRenderStep("idksad21ewsq1s",Enum.RenderPrior
 			local point_pos=points_list[next_point].Position;
 			local direction=hrp.Position-point_pos;
 			camera.CFrame=CFrame.lookAt(camera.CFrame.Position,Vector3.new(point_pos.X,0,point_pos.Z))*CFrame.Angles(math.rad(90),0,0);
+			hrp.CFrame=CFrame.lookAt(hrp.Position,Vector3.new(point_pos.X,hrp.Position.Y,point_pos.Z));
 			player:Move(-direction.Unit,false);
 			if(direction.Magnitude<=10)then 
 				next_point=next_point+1;
 			end;if(direction.Magnitude>=90)then 
 				hrp.CFrame=points_list[current_point].CFrame;
 			end;
-            hrp.Velocity=Vector3.new(math.clamp((-direction.Unit).X*60,-200,200),hrp.Velocity.Y,math.clamp((-direction.Unit).Z*60,-200,200));
+            hrp.Velocity=Vector3.new(math.clamp((-direction.Unit).X*70,-200,200),hrp.Velocity.Y,math.clamp((-direction.Unit).Z*70,-200,200));
 		end;
 	end;
 end);
