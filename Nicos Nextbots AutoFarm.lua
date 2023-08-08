@@ -75,7 +75,7 @@ end);
 
 local next_point=2;
 local current_point=1;
-game:GetService("RunService"):BindToRenderStep("idksad21ewsq1s",Enum.RenderPriority.Character.Value+1,function()
+game:GetService("RunService"):BindToRenderStep("idksad21ewsq1s",Enum.RenderPriority.Camera.Value+1,function()
 	local camera=game:GetService("Workspace").CurrentCamera;
 	character=player.Character;
 	hum=character:FindFirstChild("Humanoid");
@@ -118,7 +118,7 @@ game:GetService("RunService"):BindToRenderStep("idksad21ewsq1s",Enum.RenderPrior
 			end;if(direction.Magnitude>=90)then 
 				hrp.CFrame=points_list[current_point].CFrame;
 			end;
-            hrp.Velocity=Vector3.new(math.clamp((-direction.Unit).X*70,-200,200),hrp.Velocity.Y,math.clamp((-direction.Unit).Z*70,-200,200));
+            hrp.Velocity=Vector3.new(math.clamp((-direction.Unit).X*150,-200,200),hrp.Velocity.Y,math.clamp((-direction.Unit).Z*150,-200,200));
 		end;
 	end;
 end);
