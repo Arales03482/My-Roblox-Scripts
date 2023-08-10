@@ -119,38 +119,83 @@ spawn(function()
 	end;
 end);
 
+local function fyshuffle( tInput )
+    local tReturn = {}
+    for i = #tInput, 1, -1 do
+        local j = math.random(i)
+        tInput[i], tInput[j] = tInput[j], tInput[i]
+        table.insert(tReturn, tInput[i])
+    end
+    return tReturn
+end
+local function randomhop(data, failed)
+    failed = failed or {}
+    for _, s in pairs(data) do
+        local id = s.id
+        if not failed[id] and id ~= game.JobId then
+            if s.playing < s.maxPlayers then
+                local connection;connection=TeleportService.TeleportInitFailed:Connect(function(player, teleportResult, errorMessage)
+                    connection:Disconnect()
+                    failed[id] = true
+                    randomhop(data, failed)
+                end)
+                TeleportService:TeleportToPlaceInstance(game.PlaceId, id)
+                break
+            end
+        end
+    end
+end
+
 spawn(function()
+	local fullurl=string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100",game.PlaceId);
 	local url_data={Url=fullurl};
+	local cursor=nil;
 	local servers={};
+	local failed={};
 	while(wait())do 
 		xpcall(function()
-			local cursor=nil;
-			local fullurl=string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100",game.PlaceId);
             while(wait())do 
 				table.clear(servers);
 				url_data.Url=((cursor~=nil)and(fullurl.."&cursor="..cursor))or(fullurl);
 
                 local req=httprequest(url_data);
                 local body=game:GetService("HttpService"):JSONDecode(req.Body);
-                cursor=body.nextPageCursor;
 				if(body==nil)or(body.data==nil)or(body.data[1]==nil)then 
 					cursor=nil;
 					table.clear(body);
 					body=nil;
 					break;
 				end;
-                if(body~=nil)and(body.data~=nil)then 
-                    for _,server_data in next,body.data do 
-                        if(type(server_data)=="table")and(tonumber(server_data.playing)~=nil)and(tonumber(server_data.maxPlayers)~=nil)and(server_data.playing<server_data.maxPlayers)and(server_data.id~=game.JobId)and(table.find(getgenv().last_servers,server_data.id)==nil)then 
+				local data=body.data;
+				local ic=0;
+				for i=1,#data do 
+					local server=data[i-ic];
+					if(server.playing==nil)then 
+						table.remove(data,i-ic);
+						ic+=1;
+					end;
+				end;
+				body=fyshuffle(body);
+				if(cursor==body.nextPageCursor)then 
+					cursor=nil;
+					table.clear(body);
+					body=nil;
+					break;
+				end;
+                cursor=body.nextPageCursor;
+                if(body~=nil)and(data~=nil)then 
+                    for _,server_data in next,data do 
+                        if(type(server_data)=="table")and(tonumber(server_data.playing)~=nil)and(tonumber(server_data.maxPlayers)~=nil)and(server_data.playing<server_data.maxPlayers)and(server_data.id~=game.JobId)and(table.find(getgenv().last_servers,server_data.id)==nil)and(failed[server_data.id]==nil)then 
                             servers[#servers+1]=server_data.id;
                         end;
 						table.clear(server_data);
 						server_data=nil;
                     end;
-					table.clear(body.data);
+					table.clear(data);
 					table.clear(body);
+					data=nil;
+					body=nil;
                 end;
-				body=nil;
                 print(#servers);
                 if(#servers>=1)then 
                     break;
@@ -161,7 +206,11 @@ spawn(function()
 				local serverid=servers[math.random(1,#servers)];
 				table.clear(servers);
 				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,serverid,game:GetService("Players").LocalPlayer);
-				game:GetService("Players").LocalPlayer.OnTeleport:Wait();
+				local connection;connection=game:GetService("TeleportService").TeleportInitFailed:Connect(function()
+                    connection:Disconnect()
+                    failed[serverid]=true;
+                end);
+				while(failed[serverid]==false)do wait();end;
 			end;
 			table.clear(servers);
 		end,warn);
