@@ -1,7 +1,11 @@
+local function getCharacterTeeth(char)
+	return((char~=nil)and(char:FindFirstChild("Teeth")~=nil)and(char:FindFirstChild("Teeth"):FindFirstChild("NumTeeth")~=nil)and(char:FindFirstChild("Teeth"):FindFirstChild("NumTeeth").Value))or(0);
+end;
+
 local function getRealChar(n)
 	n=(n)or(game:GetService("Players").LocalPlayer.Name);
 	for _,a in pairs(game:GetService("Workspace").Characters:GetChildren())do
-        if(a.Name==n)and(a:FindFirstChild("HumanoidRootPart")~=nil)and(a:FindFirstChild("Head")~=nil)and(a:FindFirstChild("Head"):FindFirstChild("GrabAttachment")==nil)then
+        if(a.Name==n)and(a:FindFirstChild("HumanoidRootPart")~=nil)and(a:FindFirstChild("Head")~=nil)and(a:FindFirstChild("Head"):FindFirstChild("GrabAttachment")==nil)and(getCharacterTeeth(char)>=1)then
 			return(a);
         end;
     end;
@@ -64,4 +68,5 @@ end;
 return({
     ["goto"]=gotoP;
     ["getCharacter"]=getRealChar;
+    ["getCharacterTeeth"]=getCharacterTeeth;
 });
