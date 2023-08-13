@@ -1,3 +1,12 @@
+local function getRealChar(n)
+	n=(n)or(game:GetService("Players").LocalPlayer.Name);
+	for _,a in pairs(game:GetService("Workspace").Characters:GetChildren())do
+        if(a.Name==n)and(a:FindFirstChild("HumanoidRootPart")~=nil)and(a:FindFirstChild("Head")~=nil)and(a:FindFirstChild("Head"):FindFirstChild("GrabAttachment")==nil)then
+			return(a);
+        end;
+    end;
+end;
+
 local function tpCups(a,p,goffset)
     for _,a in pairs(a:GetChildren())do 
         if(a.Name=="CupAttachment")and(a:FindFirstChild("ConnectedBall")~=nil)and(a:FindFirstChild("ConnectedBall").Value~=nil)then 
@@ -52,4 +61,7 @@ local function gotoP(p,char)
 	end;
 end;
 
-return(gotoP);
+return({
+    ["goto"]=gotoP;
+    ["getCharacter"]=getRealChar;
+});
