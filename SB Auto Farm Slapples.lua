@@ -148,7 +148,7 @@ spawn(function()
                 cursor=body.nextPageCursor;
                 if(body~=nil)and(data~=nil)then 
                     for _,server_data in next,data do 
-                        if(type(server_data)=="table")and(tonumber(server_data.playing)~=nil)and(tonumber(server_data.maxPlayers)~=nil)and(server_data.playing<server_data.maxPlayers)and(server_data.id~=game.JobId)and(table.find(getgenv().last_servers,server_data.id)==nil)and(failed[server_data.id]==nil)then 
+                        if(type(server_data)=="table")and(tonumber(server_data.playing)~=nil)and(tonumber(server_data.maxPlayers)~=nil)and(server_data.playing<server_data.maxPlayers)and(server_data.id~=game.JobId)and(table.find(getgenv().last_servers,server_data.id)==nil)then 
                             servers[#servers+1]=server_data.id;
                         end;
 						table.clear(server_data);
