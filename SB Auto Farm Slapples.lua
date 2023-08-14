@@ -150,12 +150,6 @@ spawn(function()
 					break;
 				end;
 				local data=body.data;
-				for i=1,#data do 
-					local server=data[i];
-					if(server.playing==nil)then 
-						table.remove(data,i);
-					end;
-				end;
 				body=fyshuffle(body);
 				if(cursor==body.nextPageCursor)and(cursor~=nil)then 
 					cursor=nil;
