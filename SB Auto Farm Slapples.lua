@@ -119,16 +119,6 @@ spawn(function()
 	end;
 end);
 
-local function fyshuffle( tInput )
-    local tReturn = {}
-    for i = #tInput, 1, -1 do
-        local j = math.random(i)
-        tInput[i], tInput[j] = tInput[j], tInput[i]
-        table.insert(tReturn, tInput[i])
-    end
-    return tReturn
-end
-
 spawn(function()
 	local fullurl=string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100",game.PlaceId);
 	local url_data={Url=fullurl};
@@ -150,7 +140,6 @@ spawn(function()
 					break;
 				end;
 				local data=body.data;
-				body=fyshuffle(body);
 				if(cursor==body.nextPageCursor)and(cursor~=nil)then 
 					cursor=nil;
 					table.clear(body);
