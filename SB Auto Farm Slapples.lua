@@ -128,23 +128,6 @@ local function fyshuffle( tInput )
     end
     return tReturn
 end
-local function randomhop(data, failed)
-    failed = failed or {}
-    for _, s in pairs(data) do
-        local id = s.id
-        if not failed[id] and id ~= game.JobId then
-            if s.playing < s.maxPlayers then
-                local connection;connection=TeleportService.TeleportInitFailed:Connect(function(player, teleportResult, errorMessage)
-                    connection:Disconnect()
-                    failed[id] = true
-                    randomhop(data, failed)
-                end)
-                TeleportService:TeleportToPlaceInstance(game.PlaceId, id)
-                break
-            end
-        end
-    end
-end
 
 spawn(function()
 	local fullurl=string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100",game.PlaceId);
@@ -167,16 +150,14 @@ spawn(function()
 					break;
 				end;
 				local data=body.data;
-				local ic=0;
 				for i=1,#data do 
-					local server=data[i-ic];
+					local server=data[i];
 					if(server.playing==nil)then 
-						table.remove(data,i-ic);
-						ic+=1;
+						table.remove(data,i);
 					end;
 				end;
 				body=fyshuffle(body);
-				if(cursor==body.nextPageCursor)then 
+				if(cursor==body.nextPageCursor)and(cursor~=nil)then 
 					cursor=nil;
 					table.clear(body);
 					body=nil;
