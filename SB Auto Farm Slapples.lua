@@ -124,7 +124,6 @@ spawn(function()
 	local url_data={Url=fullurl};
 	local cursor=nil;
 	local servers={};
-	local failed={};
 	while(wait())do 
 		xpcall(function()
             while(wait())do 
@@ -170,11 +169,7 @@ spawn(function()
 				local serverid=servers[math.random(1,#servers)];
 				table.clear(servers);
 				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,serverid,game:GetService("Players").LocalPlayer);
-				local connection;connection=game:GetService("TeleportService").TeleportInitFailed:Connect(function()
-                    connection:Disconnect()
-                    failed[serverid]=true;
-                end);
-				while(failed[serverid]==false)do wait();end;
+				game:GetService("Players").LocalPlayer.OnTeleport:Wait();
 			end;
 			table.clear(servers);
 		end,warn);
