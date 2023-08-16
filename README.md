@@ -3,12 +3,12 @@ Roblox Scripts I have made
 
 # SB Script
 ## TODO
- - Anti bob?
  - Anti Leash
  - Improve Script Performance?
 
 ## RECENT DONE
  - Anti Knockback
+ - Anti Bob
  - Improve Anti Obstruction Performance
 
 ## NOT PUBLIC
