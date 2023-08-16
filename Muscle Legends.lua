@@ -8,6 +8,7 @@ getgenv().KillSelectedTarget=false;
 getgenv().KillTarget="";
 getgenv().Spinbot=false;
 getgenv().CharacterSpinbot=false;
+getgenv().AFKSpot=false;
 getgenv().HeadDisappear=false;
 
 if(getgenv().insta==nil)then getgenv().insta=0;end;
@@ -97,6 +98,18 @@ b:Toggle("Character Spinbot",function(a)
         while(getgenv().CharacterSpinbot==true)and(game:GetService("RunService").Heartbeat:Wait())do 
             pcall(function()
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.Angles(0,math.rad(80),0);
+            end);
+        end;
+    end);
+end);
+
+b:Toggle("AFK Spot",function(a)
+    getgenv().AFKSpot=a;
+    spawn(function()
+        while(getgenv().AFKSpot==true)and(game:GetService("RunService").Heartbeat:Wait())do 
+            pcall(function()
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(math.random(10000,1000000),math.random(10000,1000000),math.random(10000,1000000));
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.zero;
             end);
         end;
     end);
