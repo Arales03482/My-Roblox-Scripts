@@ -106,12 +106,14 @@ end);
 b:Toggle("AFK Spot",function(a)
     getgenv().AFKSpot=a;
     spawn(function()
+        local old=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;
         while(getgenv().AFKSpot==true)and(game:GetService("RunService").Heartbeat:Wait())do 
             pcall(function()
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(math.random(10000,1000000),math.random(10000,1000000),math.random(10000,1000000));
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.zero;
             end);
         end;
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=old;
     end);
 end);
 
