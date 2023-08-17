@@ -7,9 +7,11 @@ Roblox Scripts I have made
  - Improve Script Performance?
 
 ## RECENT DONE
- - Anti Knockback
- - Anti Bob
- - Improve Anti Obstruction Performance
+ - Added Kill Kraken Bossfight
+ - Added More Slap Aura Supported Gloves
+ - Added Anti Knockback
+ - Added Anti Bob
+ - Improved Anti Obstruction Performance
 
 ## NOT PUBLIC
  - None
