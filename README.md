@@ -12,6 +12,3 @@ Roblox Scripts I have made
  - Added Anti Knockback
  - Added Anti Bob
  - Improved Anti Obstruction Performance
-
-## NOT PUBLIC
- - None
