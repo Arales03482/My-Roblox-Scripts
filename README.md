@@ -8,7 +8,8 @@ Roblox Scripts I have made
 
 ## RECENT DONE
  - Added Kill Kraken Bossfight
- - Added More Slap Aura Supported Gloves
+ - Added More Slap Aura Supported Gloves (again)
  - Added Anti Knockback
  - Added Anti Bob
+ - Improved Anti Slap
  - Improved Anti Obstruction Performance
