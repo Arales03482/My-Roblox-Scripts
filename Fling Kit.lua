@@ -4,7 +4,7 @@ getgenv().FlingSwim=false;
 getgenv().FlingSwimFly=false;
 getgenv().FlingSwimFlySpeed=30;
 getgenv().TouchFling=false;
-getgenv().TouchFlingStrength=-100000;
+getgenv().TouchFlingStrength=-20000;
 getgenv().TouchFlingShouldSwim=false;
 getgenv().PlayerNoclip=false;
 
