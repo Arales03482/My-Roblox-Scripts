@@ -2,7 +2,9 @@ local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-ba
 local b=a:CreateFolder("Main");
 getgenv().FlingSwim=false;
 getgenv().FlingSwimFly=false;
-getgenv().FlingSwimFlySpeed=20;
+getgenv().FlingSwimFlySpeed=30;
+getgenv().TouchFling=false;
+getgenv().TouchFlingStrength=10000;
 getgenv().PlayerNoclip=false;
 
 --anti afk
@@ -10,6 +12,8 @@ if(getgenv().kuefg834rjiy983450~=nil)then getgenv().kuefg834rjiy983450:Disconnec
 
 local enums=Enum.HumanoidStateType:GetEnumItems();
 table.remove(enums,table.find(enums,Enum.HumanoidStateType.None));
+table.remove(enums,table.find(enums,Enum.HumanoidStateType.Swimming));
+--table.remove(enums,table.find(enums,Enum.HumanoidStateType.Seated));
 b:Toggle("Fling Swim",function(a)
     getgenv().FlingSwim=a;
     spawn(function()
@@ -18,39 +22,40 @@ b:Toggle("Fling Swim",function(a)
             local t=tick();
             local oldgrav=game:GetService("Workspace").Gravity;
 		    game:GetService("Workspace").Gravity=0;
-            while(getgenv().FlingSwim==true)do 
+            local char=game:GetService("Players").LocalPlayer.Character;
+            while(getgenv().FlingSwim==true)and(char~=nil)and(char:IsDescendantOf(game)==true)do 
                 local dt=game:GetService("RunService").Heartbeat:Wait();
                 xpcall(function()
-                    for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    for _,a in pairs(char:GetDescendants())do 
                         if(a:IsA("BasePart"))then 
                             a.CanCollide=false;
                         end;
                     end;
-                    if(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):GetState()~=Enum.HumanoidStateType.Swimming)then 
-                        game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
+                    if(char:FindFirstChildWhichIsA("Humanoid"):GetState()~=Enum.HumanoidStateType.Swimming)then 
+                        char:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
                     end;
                     game:GetService("RunService").Heartbeat:Wait();
-                    for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    for _,a in pairs(char:GetDescendants())do 
                         if(a:IsA("BasePart"))then 
                             a.CanCollide=false;
                         end;
                     end;
                     for _,enum in pairs(enums)do 
-                        game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(enum,false);
+                        char:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(enum,false);
                     end;
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.zero;
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity;
+                    char.HumanoidRootPart.Velocity=Vector3.zero;
+                    char.HumanoidRootPart.AssemblyLinearVelocity=char.HumanoidRootPart.Velocity;
                     if(tick()-t>=0.1)then 
                         active=not(active);
                         t=tick();
                     end;
                     --if(active==true)then 
-                        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.AssemblyAngularVelocity=Vector3.new(0,1000000,0);
+                        char.HumanoidRootPart.AssemblyAngularVelocity=Vector3.new(0,1000000,0);
                     --elseif(active==false)then 
-                        --game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.AssemblyAngularVelocity=Vector3.zero;
+                        --char.HumanoidRootPart.AssemblyAngularVelocity=Vector3.zero;
                     --end;
-                    --game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart;
-                    game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Head;
+                    --game:GetService("Workspace").CurrentCamera.CameraSubject=char.HumanoidRootPart;
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=char.Head;
                     if(getgenv().FlingSwimFly==true)then 
                         local mod=Vector3.zero;
                         if(game:GetService("UserInputService"):GetFocusedTextBox()==nil)then 
@@ -77,19 +82,19 @@ b:Toggle("Fling Swim",function(a)
                             end;
                             mod=Vector3.new(math.clamp(mod.X,-1,1),math.clamp(mod.Y,-1,1),math.clamp(mod.Z,-1,1));
                         end;
-                        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame+((mod*5)*dt*getgenv().FlingSwimFlySpeed);
+                        char.HumanoidRootPart.CFrame=char.HumanoidRootPart.CFrame+((mod*5)*dt*getgenv().FlingSwimFlySpeed);
                     end;
                 end,warn);
             end;
             for _,enum in pairs(enums)do 
-                game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(enum,true);
+                char:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(enum,true);
             end;
             game:GetService("Workspace").Gravity=oldgrav;
-            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.zero;
-            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.RotVelocity=Vector3.zero;
-            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.AssemblyAngularVelocity=Vector3.zero;
-            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity=Vector3.zero;
-            game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid");
+            char.HumanoidRootPart.Velocity=Vector3.zero;
+            char.HumanoidRootPart.RotVelocity=Vector3.zero;
+            char.HumanoidRootPart.AssemblyAngularVelocity=Vector3.zero;
+            char.HumanoidRootPart.AssemblyLinearVelocity=Vector3.zero;
+            game:GetService("Workspace").CurrentCamera.CameraSubject=char:FindFirstChildWhichIsA("Humanoid");
         end;
     end);
 end);
@@ -98,6 +103,25 @@ b:Toggle("Fling Swim Fly",function(a)
 end);
 b:Box("Fling Swim Fly Speed","number",function(a)
     getgenv().FlingSwimFlySpeed=a;
+end);
+
+b:Toggle("Touch Fling",function(a)
+    getgenv().TouchFling=a;
+    spawn(function()
+        local rnd=Random.new(tick());
+        while(getgenv().TouchFling==true)and(game:GetService("RunService").PostSimulation:Wait())do 
+            pcall(function()
+                local PreVelocity=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity;
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(0,rnd:NextNumber(1,getgenv().TouchFlingStrength),0);
+                game:GetService("RunService").PreRender:Wait();
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=PreVelocity;
+            end);
+        end;
+    end);
+end);
+
+b:Box("Touch Fling Strength","number",function(a)
+    getgenv().TouchFlingStrength=math.clamp(tonumber(a),2,tonumber(a));
 end);
 
 b:Toggle("Player Noclip",function(a)
