@@ -4,7 +4,8 @@ getgenv().FlingSwim=false;
 getgenv().FlingSwimFly=false;
 getgenv().FlingSwimFlySpeed=30;
 getgenv().TouchFling=false;
-getgenv().TouchFlingStrength=10000;
+getgenv().TouchFlingStrength=-100000;
+getgenv().TouchFlingShouldSwim=false;
 getgenv().PlayerNoclip=false;
 
 --anti afk
@@ -118,10 +119,26 @@ b:Toggle("Touch Fling",function(a)
             end);
         end;
     end);
+    spawn(function()
+        while(getgenv().TouchFling==true)and(game:GetService("RunService").PreAnimation:Wait())do 
+            pcall(function()
+                if(getgenv().TouchFlingShouldSwim==true)then 
+                    local PreState=game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):GetState();
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
+                    game:GetService("RunService").PreRender:Wait();
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(PreState);
+                end;
+            end);
+        end;
+    end);
 end);
 
 b:Box("Touch Fling Strength","number",function(a)
     getgenv().TouchFlingStrength=math.clamp(tonumber(a),2,tonumber(a));
+end);
+
+b:Toggle("Touch Fling Should Swim",function(a)
+    getgenv().TouchFlingShouldSwim=a;
 end);
 
 b:Toggle("Player Noclip",function(a)
