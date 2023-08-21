@@ -37,17 +37,17 @@ local slaps_gained_msg=Instance.new("Message");
 slaps_gained_msg.Parent=game:GetService("CoreGui");
 
 spawn(function()
-	--[[local cursor=Drawing.new("Triangle");
+	local cursor=Drawing.new("Triangle");
 	cursor.Thickness=1;
 	cursor.Color=Color3.fromRGB(0,85,255);
-	cursor.Filled=true;--]] -- electrons drawing lib just crashes now :(
+	cursor.Filled=true; -- electrons drawing lib just crashes now :(
 	while(game:GetService("RunService").Heartbeat:Wait())do 
 		pcall(function()
-			--[[local pos=game:GetService("UserInputService"):GetMouseLocation();
+			local pos=game:GetService("UserInputService"):GetMouseLocation();
 			cursor.Visible=true;
 			cursor.PointA=Vector2.new(pos.X,pos.Y-0.5);
 			cursor.PointB=Vector2.new(pos.X+12.5,pos.Y+12);
-			cursor.PointC=Vector2.new(pos.X,pos.Y+17);--]]
+			cursor.PointC=Vector2.new(pos.X,pos.Y+17);
 			
 			game:GetService("GuiService"):ClearError();
 			if(setfpscap~=nil)then 
