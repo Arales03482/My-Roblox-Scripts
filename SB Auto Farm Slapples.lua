@@ -17,6 +17,8 @@ if(getgenv().total_slaps==nil)then
 	getgenv().total_slaps=0;
 end;
 
+local requester=(((type(syn)=="table")and(type(syn.request)=="function"))and(syn.request))or(((type(http)=="table")and(type(http.request)=="function"))and(http.request))or(((type(fluxus)=="table")and(type(fluxus.request)=="function"))and(fluxus.request))or((http_request)or(request));
+
 local total_gained=getgenv().total_slaps;
 local queue_teleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport));
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(status)
@@ -130,7 +132,7 @@ spawn(function()
 				table.clear(servers);
 				url_data.Url=((cursor~=nil)and(fullurl.."&cursor="..cursor))or(fullurl);
 
-                local req=httprequest(url_data);
+                local req=requester(url_data);
                 local body=game:GetService("HttpService"):JSONDecode(req.Body);
 				if(body==nil)or(body.data==nil)or(body.data[1]==nil)then 
 					cursor=nil;
