@@ -7,6 +7,7 @@ Roblox Scripts I have made
  - Improve Script Performance?
 
 ## RECENT DONE
+ - Rewrote Namecall Modifiers
  - Added Kill Kraken Bossfight
  - Added More Slap Aura Supported Gloves (again)
  - Added Anti Knockback
