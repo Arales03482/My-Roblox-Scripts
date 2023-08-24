@@ -8,6 +8,7 @@ Roblox Scripts I have made
 
 ## RECENT DONE
  - Rewrote Namecall Modifiers
+ - Added Auto Collect Phase Orbs
  - Added Kill Kraken Bossfight
  - Added More Slap Aura Supported Gloves (again)
  - Added Anti Knockback
