@@ -13,11 +13,38 @@ getgenv().FlipCharacterZ=0;
 getgenv().FlipCharacterRotX=0;
 getgenv().FlipCharacterRotY=0;
 getgenv().FlipCharacterRotZ=180;
+getgenv().FlipCharacterRandomize=false;
 getgenv().UsePreAnimation=false;
+getgenv().UseCameraBypass=false;
 getgenv().GoIntoGround=false;
+getgenv().SpamSwim=false;
 getgenv().AntiLock=false;
 getgenv().AntiAntiLock=false;
 getgenv().PlayerNoclip=false;
+
+local secured_instances={};
+
+if(getgenv().Inst==nil)then getgenv().Inst=0;end;
+getgenv().Inst+=1;
+
+local cinst=getgenv().Inst;
+
+--functions
+local function randomString()
+	local length=math.random(10,150);
+	local array="";
+	for i=1,length do 
+		array=array..string.char(math.random(1,150))..math.random(-100,100);
+	end;
+	return(array);
+end;
+
+local function IsAConstraint(a)
+    if(a:IsA("BallSocketConstraint"))or(a:IsA("HingeConstraint"))or(a:IsA("PrismaticConstraint"))or(a:IsA("CylindricalConstraint"))or(a:IsA("SpringConstraint"))or(a:IsA("TorsionSpringConstraint"))or(a:IsA("UniversalConstraint"))or(a:IsA("RopeConstraint"))or(a:IsA("RodConstraint"))or(a:IsA("PlaneConstraint"))or(a:IsA("RigidConstraint"))or(a:IsA("NoCollisionConstraint"))then 
+        return(true);
+    end;
+    return(true);
+end;
 
 --anti afk
 if(getgenv().kuefg834rjiy983450~=nil)then getgenv().kuefg834rjiy983450:Disconnect();end;getgenv().kuefg834rjiy983450=game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):Button2Down(Vector2.new(0,0),game:GetService("Workspace").CurrentCamera.CFrame);wait(1);game:service("VirtualUser"):Button2Up(Vector2.new(0,0),game:GetService("Workspace").CurrentCamera.CFrame);end);
@@ -157,14 +184,114 @@ end);
 b:Toggle("Flip Character",function(a)
     getgenv().FlipCharacter=a;
     spawn(function()
+        local part_d=Instance.new("Part");
+        part_d.Size=Vector3.zero;
+        part_d.Transparency=1;
+        part_d.CanCollide=false;
+        part_d.CanQuery=false;
+        part_d.CanTouch=false;
+        part_d.Anchored=true;
+        part_d.Parent=game:GetService("CoreGui");
+        secured_instances[#secured_instances+1]=part_d;
+        local part=part_d:Clone();
+        local con3;con3=part_d.AncestryChanged:Connect(function(_,p)
+            if(part_d==nil)or(part_d:IsDescendantOf(game)==false)then 
+                con3:Disconnect();
+                table.remove(secured_instances,table.find(secured_instances,part_d));
+                pcall(function()
+                    table.remove(secured_instances,table.find(secured_instances,part));
+                    part:Destroy();
+                end);
+            end;
+        end);
+
+        local visualizer=Instance.new("Part");
+        visualizer.Transparency=1;
+        visualizer.CanCollide=false;
+        visualizer.CanQuery=false;
+        visualizer.CanTouch=false;
+        visualizer.Anchored=true;
+        visualizer.Parent=game:GetService("Workspace");
+        secured_instances[#secured_instances+1]=visualizer;
+        local con;con=part_d.AncestryChanged:Connect(function(_,p)
+            if(part_d==nil)or(part_d:IsDescendantOf(game)==false)then 
+                con:Disconnect();
+                table.remove(secured_instances,table.find(secured_instances,visualizer));
+                visualizer:Destroy();
+            end;
+        end);
+
+        local esp=Instance.new("BoxHandleAdornment");
+        esp.Adornee=visualizer;
+        esp.Color3=Color3.fromRGB(13,105,172);
+        esp.Transparency=0.4;
+        esp.ZIndex=10;
+        esp.AlwaysOnTop=true;
+        esp.Visible=true;
+        esp.Parent=game:GetService("CoreGui");
+        secured_instances[#secured_instances+1]=esp;
+        local con1;con1=visualizer.AncestryChanged:Connect(function(_,p)
+            if(visualizer==nil)or(visualizer:IsDescendantOf(game)==false)or(part==nil)or(part:IsDescendantOf(game)==false)then 
+                con1:Disconnect();
+                table.remove(secured_instances,table.find(secured_instances,esp));
+                esp.Adornee=nil;
+                esp.Visible=false;
+                esp:Destroy();
+            end;
+        end);
         while(getgenv().FlipCharacter==true)and(game:GetService("RunService").PostSimulation:Wait())do 
-            pcall(function()
-                local mode=((getgenv().UsePreAnimation==true)and("PreAnimation"))or("PreRender");
-                local PreCFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;
-                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=PreCFrame*CFrame.new(getgenv().FlipCharacterX,getgenv().FlipCharacterY,getgenv().FlipCharacterZ)*CFrame.Angles(math.rad(getgenv().FlipCharacterRotX),math.rad(getgenv().FlipCharacterRotY),math.rad(getgenv().FlipCharacterRotZ));
-                game:GetService("RunService")[mode]:Wait();
-                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=PreCFrame;
-            end);
+            xpcall(function()
+                if(part==nil)or(part:IsDescendantOf(game)==nil)then 
+                    local old_part=part;
+                    part=part_d:Clone();
+                    pcall(function()
+                        old_part:Destroy();
+                    end);
+                end;
+                if(table.find(secured_instances,part)==nil)then 
+                    secured_instances[#secured_instances+1]=part;
+                end;
+                if(game:GetService("Players").LocalPlayer.Character~=nil)then 
+                    pcall(function()
+                        part.Parent=game:GetService("Players").LocalPlayer.Character;
+                    end);
+                    local mode=((getgenv().UsePreAnimation==true)and("PreAnimation"))or("PreRender");
+                    local PreCFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;
+                    local c_offset=game:GetService("Players").LocalPlayer.Character.Humanoid.CameraOffset+Vector3.new(0,1.5,0);
+                    local set_pos=PreCFrame*CFrame.new(getgenv().FlipCharacterX,getgenv().FlipCharacterY,getgenv().FlipCharacterZ)*CFrame.Angles(math.rad(getgenv().FlipCharacterRotX),math.rad(getgenv().FlipCharacterRotY),math.rad(getgenv().FlipCharacterRotZ));
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=set_pos;
+                    part.CFrame=PreCFrame*CFrame.new(c_offset);
+                    esp.Size=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Size;
+                    visualizer.Size=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Size;
+                    visualizer.CFrame=set_pos;
+                    if(getgenv().UseCameraBypass==true)then 
+                        game:GetService("Workspace").CurrentCamera.CameraSubject=part;
+                    end;
+                    game:GetService("RunService")[mode]:Wait();
+                    local look=PreCFrame;
+                    if(game:GetService("UserInputService").MouseBehavior==Enum.MouseBehavior.LockCenter)then 
+                        local p=PreCFrame.Position;
+                        look=CFrame.lookAt(p,p+Vector3.new(game:GetService("Workspace").CurrentCamera.CFrame.LookVector.X*4,0,game:GetService("Workspace").CurrentCamera.CFrame.LookVector.Z*4));
+                    end;
+                    part.CFrame=look*CFrame.new(c_offset);
+                    if(getgenv().UseCameraBypass==true)then 
+                        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=look;
+                        game:GetService("Workspace").CurrentCamera.CameraSubject=part;
+                    elseif(getgenv().UseCameraBypass==false)then 
+                        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=PreCFrame;
+                    end;
+                else 
+                    pcall(function()
+                        game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
+                    end);
+                    visualizer.CFrame=CFrame.new(math.huge*math.huge,math.huge*math.huge,math.huge*math.huge);
+                    part.CFrame=visualizer.CFrame;
+                end;
+            end,warn);
+        end;
+        part_d:Destroy();
+        if(getgenv().UseCameraBypass==true)then 
+            game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
         end;
     end);
 end);
@@ -193,33 +320,161 @@ b:Box("Flip Character Rot Z","number",function(a)
     getgenv().FlipCharacterRotZ=(tonumber(a))or(getgenv().FlipCharacterRotZ);
 end);
 
+b:Toggle("Flip Character Randomize",function(a)
+    getgenv().FlipCharacterRandomize=a;
+    spawn(function()
+        local random=Random.new(tick());
+        while(getgenv().FlipCharacterRandomize==true)and(game:GetService("RunService").PostSimulation:Wait())do 
+            pcall(function()
+                getgenv().FlipCharacterX=random:NextNumber(-10,10);
+                getgenv().FlipCharacterY=random:NextNumber(-10,10);
+                getgenv().FlipCharacterZ=random:NextNumber(-10,10);
+                getgenv().FlipCharacterRotX=random:NextNumber(-360,360);
+                getgenv().FlipCharacterRotY=random:NextNumber(-360,360);
+                getgenv().FlipCharacterRotZ=random:NextNumber(-360,360);
+            end);
+        end;
+    end);
+end);
+
 b:Toggle("Use Pre Animation",function(a)
     getgenv().UsePreAnimation=a;
+end);
+
+b:Toggle("Use Camera Bypass",function(a)
+    getgenv().UseCameraBypass=a;
 end);
 
 b:Toggle("Go Into Ground",function(a)
     getgenv().GoIntoGround=a;
     spawn(function()
-        local part=Instance.new("Part");
-        part.Transparency=1;
-        part.CanCollide=false;
-        part.Anchored=true;
-        part.Parent=game:GetService("JointsService");
+        local part_d=Instance.new("Part");
+        part_d.Size=Vector3.zero;
+        part_d.Transparency=1;
+        part_d.CanCollide=false;
+        part_d.CanQuery=false;
+        part_d.CanTouch=false;
+        part_d.Anchored=true;
+        part_d.Parent=game:GetService("CoreGui");
+        secured_instances[#secured_instances+1]=part_d;
+        local part=part_d:Clone();
+        local con3;con3=part_d.AncestryChanged:Connect(function(_,p)
+            if(part_d==nil)or(part_d:IsDescendantOf(game)==false)then 
+                con3:Disconnect();
+                table.remove(secured_instances,table.find(secured_instances,part_d));
+                pcall(function()
+                    table.remove(secured_instances,table.find(secured_instances,part));
+                    part:Destroy();
+                end);
+            end;
+        end);
+
+        local visualizer=Instance.new("Part");
+        visualizer.Transparency=1;
+        visualizer.CanCollide=false;
+        visualizer.CanQuery=false;
+        visualizer.CanTouch=false;
+        visualizer.Anchored=true;
+        visualizer.Parent=game:GetService("Workspace");
+        secured_instances[#secured_instances+1]=visualizer;
+        local con;con=part_d.AncestryChanged:Connect(function(_,p)
+            if(part_d==nil)or(part_d:IsDescendantOf(game)==false)then 
+                con:Disconnect();
+                table.remove(secured_instances,table.find(secured_instances,visualizer));
+                visualizer:Destroy();
+            end;
+        end);
+
+        local esp=Instance.new("BoxHandleAdornment");
+        esp.Adornee=visualizer;
+        esp.Color3=Color3.fromRGB(13,105,172);
+        esp.Transparency=0.4;
+        esp.ZIndex=10;
+        esp.AlwaysOnTop=true;
+        esp.Visible=true;
+        esp.Parent=game:GetService("CoreGui");
+        secured_instances[#secured_instances+1]=esp;
+        local con1;con1=visualizer.AncestryChanged:Connect(function(_,p)
+            if(visualizer==nil)or(visualizer:IsDescendantOf(game)==false)or(part==nil)or(part:IsDescendantOf(game)==false)then 
+                con1:Disconnect();
+                table.remove(secured_instances,table.find(secured_instances,esp));
+                esp.Adornee=nil;
+                esp.Visible=false;
+                esp:Destroy();
+            end;
+        end);
         while(getgenv().GoIntoGround==true)and(game:GetService("RunService").PostSimulation:Wait())do 
             xpcall(function()
-                local PreCFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;
-                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=PreCFrame*CFrame.new(0,-10,0);
-                game:GetService("RunService").PreRender:Wait();
-                local offset=game:GetService("Players").LocalPlayer.Character.Humanoid.CameraOffset+Vector3.new(0,1.5,0);
-                local p=PreCFrame.Position;
-                local look=CFrame.lookAt(p,p+Vector3.new(game:GetService("Workspace").CurrentCamera.CFrame.LookVector.X*4,0,game:GetService("Workspace").CurrentCamera.CFrame.LookVector.Z*4));
-                part.CFrame=look*CFrame.new(offset)*CFrame.Angles(math.rad(30),0,0);
-                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=look;
-                game:GetService("Workspace").CurrentCamera.CameraSubject=part;
+                if(part==nil)or(part:IsDescendantOf(game)==nil)then 
+                    local old_part=part;
+                    part=part_d:Clone();
+                    pcall(function()
+                        old_part:Destroy();
+                    end);
+                end;
+                if(table.find(secured_instances,part)==nil)then 
+                    secured_instances[#secured_instances+1]=part;
+                end;
+                if(game:GetService("Players").LocalPlayer.Character~=nil)then 
+                    pcall(function()
+                        part.Parent=game:GetService("Players").LocalPlayer.Character;
+                    end);
+                    local PreCFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;
+                    local c_offset=game:GetService("Players").LocalPlayer.Character.Humanoid.CameraOffset+Vector3.new(0,1.5,0);
+                    local set_pos=PreCFrame*CFrame.new(0,-10,0)*CFrame.Angles(0,math.rad(math.random(-10,10)),0);
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=set_pos;
+                    part.CFrame=PreCFrame*CFrame.new(c_offset);
+                    esp.Size=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Size;
+                    visualizer.Size=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Size;
+                    visualizer.CFrame=set_pos;
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=part;
+                    game:GetService("RunService").PreRender:Wait();
+                    local look=PreCFrame;
+                    if(game:GetService("UserInputService").MouseBehavior==Enum.MouseBehavior.LockCenter)then 
+                        local p=PreCFrame.Position;
+                        look=CFrame.lookAt(p,p+Vector3.new(game:GetService("Workspace").CurrentCamera.CFrame.LookVector.X*4,0,game:GetService("Workspace").CurrentCamera.CFrame.LookVector.Z*4));
+                    end;
+                    part.CFrame=look*CFrame.new(c_offset);
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=look;
+                    game:GetService("Workspace").CurrentCamera.CameraSubject=part;
+                else 
+                    pcall(function()
+                        game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
+                    end);
+                end;
             end,warn);
         end;
-        part:Destroy();
+        part_d:Destroy();
         game:GetService("Workspace").CurrentCamera.CameraSubject=game:GetService("Players").LocalPlayer.Character.Humanoid;
+    end);
+    spawn(function()
+        while(getgenv().GoIntoGround==true)and(game:GetService("RunService").PostSimulation:Wait())do 
+            pcall(function()
+                for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    if((a:IsA("BasePart"))and((a.Name=="Right Arm")or(a.Name=="Left Arm")or(a.Name=="Right Leg")or(a.Name=="Left Leg")or(a.Name=="Torso")or(a.Name=="Head")))or((a:IsA("BasePart"))and(a:FindFirstAncestorWhichIsA("Accessory")~=nil))or(a:IsA("Decal"))then 
+                        a.Transparency=0.9;
+                    end;
+                end;
+            end);
+        end;
+        for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+            if((a:IsA("BasePart"))and((a.Name=="Right Arm")or(a.Name=="Left Arm")or(a.Name=="Right Leg")or(a.Name=="Left Leg")or(a.Name=="Torso")or(a.Name=="Head")))or((a:IsA("BasePart"))and(a:FindFirstAncestorWhichIsA("Accessory")~=nil))or(a:IsA("Decal"))then 
+                a.Transparency=0;
+            end;
+        end;
+    end);
+end);
+
+b:Toggle("Spam Swim",function(a)
+    getgenv().SpamSwim=a;
+    spawn(function()
+        while(getgenv().SpamSwim==true)and(game:GetService("RunService").PreAnimation:Wait())do 
+            pcall(function()
+                game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
+                game:GetService("RunService").PreAnimation:Wait();
+                game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping);
+            end);
+        end;
     end);
 end);
 
@@ -256,7 +511,7 @@ b:Toggle("Anti Anti Lock",function(a)
     end);
 end);
 
-b:Toggle("Player Noclip",function(a)
+b:Toggle("Other Player Noclip",function(a)
     getgenv().PlayerNoclip=a;
     spawn(function()
         while(getgenv().PlayerNoclip==true)and(game:GetService("RunService").Stepped:Wait())do 
@@ -266,11 +521,32 @@ b:Toggle("Player Noclip",function(a)
                         for _,a in pairs(a.Character:GetDescendants())do 
                             if(a:IsA("BasePart"))then 
                                 a.CanCollide=false;
+                            end;if(IsAConstraint(a)==true)then 
+                                a.Enabled=false;
                             end;
                         end;
                     end;
                 end;
             end);
         end;
+        for _,a in pairs(game:GetService("Players"):GetPlayers())do 
+            if(a~=game:GetService("Players").LocalPlayer)and(a.Character~=nil)then 
+                for _,a in pairs(a.Character:GetDescendants())do 
+                    if(a:IsA("HingeConstraint"))or(a:IsA("BallSocketConstraint"))or(a:IsA("NoCollisionConstraint"))then 
+                        a.Enabled=true;
+                    end;
+                end;
+            end;
+        end;
     end);
+end);
+
+spawn(function()
+    while(cinst==getgenv().Inst)and(game:GetService("RunService").Stepped:Wait())do 
+        pcall(function()
+            for _,a in pairs(secured_instances)do 
+                a.Name=randomString();
+            end;
+        end);
+    end;
 end);
