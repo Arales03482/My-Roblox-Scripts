@@ -44,7 +44,12 @@ local g=win:CreateTab("Chat",0);
 local s=win:CreateTab("Loaders",0);
 local i=win:CreateTab("GUI",0);
 getgenv().tp=false;
-getgenv().tpdistance=15;
+getgenv().tprotx=0;
+getgenv().tproty=0;
+getgenv().tprotz=0;
+getgenv().tpxoffset=0;
+getgenv().tpyoffset=0;
+getgenv().tpzoffset=15;
 getgenv().tpplayer="";
 getgenv().InputPlrBP="";
 getgenv().FollowBP=false;
@@ -79,7 +84,7 @@ getgenv().AutoTP=false;
 getgenv().ChatSpamSettings={ChatSpam=false;SpamText="SPONSORED BY UR MOM";SpamTextTo="All";Timeout=2.2};
 
 --Anti AFK
-if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:Connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
+if(getgenv().kuefg834rjiy983450~=nil)then getgenv().kuefg834rjiy983450:Disconnect();end;getgenv().kuefg834rjiy983450=game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):Button2Down(Vector2.new(0,0),game:GetService("Workspace").CurrentCamera.CFrame);wait(1);game:service("VirtualUser"):Button2Up(Vector2.new(0,0),game:GetService("Workspace").CurrentCamera.CFrame);end);
 
 --Walkspeed Init
 if(getgenv().wsran==nil)or(getgenv().wsran==false)then getgenv().wsran=true;getgenv().ws=16;spawn(function()while(getgenv().wsran==true)and(game:GetService("RunService").Stepped:Wait())do pcall(function()game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed=getgenv().ws;end);end;end);end;
@@ -146,21 +151,79 @@ b:CreateToggle({
                             __.CanCollide=false;
                         end;
                     end;
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players")[getgenv().tpplayer].Character.HumanoidRootPart.CFrame*CFrame.new(0,0,getgenv().tpdistance);
+                    if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Ragdoll);
+                    elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+                        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                    end;
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=game:GetService("Players")[getgenv().tpplayer].Character.HumanoidRootPart.CFrame*CFrame.new(getgenv().tpxoffset,getgenv().tpyoffset,getgenv().tpzoffset)*CFrame.Angles(math.rad(getgenv().tprotx),math.rad(getgenv().tproty),math.rad(getgenv().tprotz));
                     game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(0,0,0);
-                    if(game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Sit==true)then game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Sit=false;end;
                 end);
             end;
+            game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+            game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
         end);
     end;
 });
 b:CreateInput({
-    Name="Distance",
+    Name="Rotation X",
     PlaceholderText="",
     RemoveTextAfterFocusLost=false,
     Callback=function(_)
         if(tonumber(_)~=nil)then 
-            getgenv().tpdistance=tonumber(_);
+            getgenv().tprotx=tonumber(_);
+        end;
+    end;
+});
+b:CreateInput({
+    Name="Rotation Y",
+    PlaceholderText="",
+    RemoveTextAfterFocusLost=false,
+    Callback=function(_)
+        if(tonumber(_)~=nil)then 
+            getgenv().tproty=tonumber(_);
+        end;
+    end;
+});
+b:CreateInput({
+    Name="Rotation Z",
+    PlaceholderText="",
+    RemoveTextAfterFocusLost=false,
+    Callback=function(_)
+        if(tonumber(_)~=nil)then 
+            getgenv().tprotz=tonumber(_);
+        end;
+    end;
+});
+b:CreateInput({
+    Name="Offset X",
+    PlaceholderText="",
+    RemoveTextAfterFocusLost=false,
+    Callback=function(_)
+        if(tonumber(_)~=nil)then 
+            getgenv().tpxoffset=tonumber(_);
+        end;
+    end;
+});
+b:CreateInput({
+    Name="Offset Y",
+    PlaceholderText="",
+    RemoveTextAfterFocusLost=false,
+    Callback=function(_)
+        if(tonumber(_)~=nil)then 
+            getgenv().tpyoffset=tonumber(_);
+        end;
+    end;
+});
+b:CreateInput({
+    Name="Offset Z",
+    PlaceholderText="",
+    RemoveTextAfterFocusLost=false,
+    Callback=function(_)
+        if(tonumber(_)~=nil)then 
+            getgenv().tpzoffset=tonumber(_);
         end;
     end;
 });
