@@ -154,12 +154,25 @@ b:Toggle("Aimbot",function(a)
     getgenv().Aimbot=a;
 end);
 
+b:Button("Inf Upgrades",function(a)
+    for _,a in pairs(game:GetService("Players").LocalPlayer.Upgrades:GetChildren())do 
+        if(a:IsA("IntValue"))then 
+            a.Value=908779319084589000;
+        end;
+    end;
+end);
+
+b:Button("Max Upgrades",function(a)
+    for _,a in pairs(game:GetService("Players").LocalPlayer.Upgrades:GetChildren())do 
+        if(a:IsA("IntValue"))then 
+            a.Value=3;
+        end;
+    end;
+end);
+
 spawn(function()
     while(cinst==getgenv().Inst)and(game:GetService("RunService").PostSimulation:Wait())do 
         pcall(function()
-            if(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.C)==true)then 
-                parry_attempt();
-            end;
             cam=game:GetService("Workspace").CurrentCamera;
             if(cam~=nil)then 
                 table.clear(dirs);
@@ -206,6 +219,16 @@ spawn(function()
         end);
     end;
     fake_cam:Destroy();
+end);
+
+spawn(function()
+    while(cinst==getgenv().Inst)and(game:GetService("RunService").PostSimulation:Wait())do 
+        pcall(function()
+            if(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.C)==true)then 
+                parry_attempt();
+            end;
+        end);
+    end;
 end);
 
 spawn(function()
