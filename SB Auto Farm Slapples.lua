@@ -23,7 +23,7 @@ local total_gained=getgenv().total_slaps;
 local queue_teleport=((syn)and(syn.queue_on_teleport))or(queue_on_teleport)or((fluxus)and(fluxus.queue_on_teleport));
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(status)
 	if(status==Enum.TeleportState.InProgress)and(queue_teleport~=nil)then 
-		queue_teleport("getgenv().total_slaps="..total_gained..";getgenv().last_servers={\""..table.concat(getgenv().last_servers,"\",\"").."\"};loadstring(game:HttpGet(\"https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua\"))();");
+		queue_teleport("getgenv().total_slaps="..total_gained..";getgenv().last_servers={\""..table.concat(getgenv().last_servers,"\",\"").."\"};loadstring(game:HttpGet(\"https://raw.githubusercontent.com/Arales03482/My-Roblox-Scripts/main/SB%20Auto%20Farm%20Slapples.lua\"))();");
 	end;
 end);
 wait(0.75);
