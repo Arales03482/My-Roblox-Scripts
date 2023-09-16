@@ -4,6 +4,20 @@ local msg=Instance.new("Hint");
 msg.Text=m;
 msg.Parent=game:GetService("CoreGui");
 
+spawn(function()
+    local int=0;
+    while(msg~=nil)and(msg:IsDescendantOf(game)==true)and(done_loading==false)and(wait(1))do 
+        if(int<=3)then 
+            msg.Text=msg.Text..".";
+            int=int+1;
+        end;
+        if(int>=3)then 
+            msg.Text=m;
+            int=0;
+        end;
+    end;
+end);
+
 local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3'))():CreateWindow("dotr");
 local b=a:CreateFolder("Main");
 getgenv().AutoParry=false;
