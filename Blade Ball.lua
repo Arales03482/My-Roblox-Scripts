@@ -170,6 +170,24 @@ b:Button("Max Upgrades",function(a)
     end;
 end);
 
+b:Toggle("Auto Open Sword Crate",function(a)
+    getgenv().AutoOpenSwordCrate=a;
+    spawn(function()
+        while(getgenv().AutoOpenSwordCrate==true)and(game:GetService("RunService").PostSimulation:Wait())do 
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Store"):WaitForChild("RequestOpenSwordBox"):InvokeServer();
+        end;
+    end);
+end);
+
+b:Toggle("Auto Open Explosion Crate",function(a)
+    getgenv().AutoOpenExplosionCrate=a;
+    spawn(function()
+        while(getgenv().AutoOpenExplosionCrate==true)and(game:GetService("RunService").PostSimulation:Wait())do 
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Store"):WaitForChild("RequestOpenExplosionBox"):InvokeServer();
+        end;
+    end);
+end);
+
 spawn(function()
     while(cinst==getgenv().Inst)and(game:GetService("RunService").PostSimulation:Wait())do 
         pcall(function()
