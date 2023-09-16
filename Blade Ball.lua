@@ -122,7 +122,7 @@ end);
 b:Slider("Auto Parry Range",{min=0;max=100;precise=false},function(a)
     auto_parry_range=tonumber(a);
 end);
-b:Button("Spam Parry (hold C)",function()end);
+b:Button("Spam Parry (hold E)",function()end);
 
 b:Toggle("Look At Ball",function(a)
     getgenv().LookAtBall=a;
@@ -224,7 +224,7 @@ end);
 spawn(function()
     while(cinst==getgenv().Inst)and(game:GetService("RunService").PostSimulation:Wait())do 
         pcall(function()
-            if(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.C)==true)then 
+            if(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.E)==true)then 
                 parry_attempt();
             end;
         end);
