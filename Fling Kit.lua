@@ -470,8 +470,6 @@ b:Toggle("Spam Swim",function(a)
     spawn(function()
         while(getgenv().SpamSwim==true)and(game:GetService("RunService").PreAnimation:Wait())do 
             pcall(function()
-                game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
-                game:GetService("RunService").PreAnimation:Wait();
                 game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping);
             end);
         end;
