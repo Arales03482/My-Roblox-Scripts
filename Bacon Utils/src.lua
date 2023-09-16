@@ -4,12 +4,11 @@ if(getgenv()["shaLib"]==nil)then getgenv()["shaLib"]={["Lib"]=loadstring(game:Ht
 
 cache["mrandomb"]=function(a,b)cache["math"]["randomseed"](cache["math"]["random"](1,cache["math"]["random"](1,cache["tick"]())));return(cache["math"]["random"](a,b));end;
 tools["getFirstModelOfPart"]=function(a)
+    if(a==nil)or(a["Parent"]==nil)then return(a);end;
     local b=a["Parent"];
-    if(b["Parent"]==game)and(b==cache["wspace"])then return(a);end;
-    if(b["Parent"]==cache["wspace"])then 
-        return(b);
-    end;
+    if(b==game)or(b["Parent"]==game)or(b==cache["wspace"])or(b["Parent"]==cache["wspace"])then return(a);end;
     while(b["Parent"]~=cache["wspace"])and(cache["hbeat"]:Wait())do 
+        if(b==nil)or(b["Parent"]==nil)then return(b);end;
         if(cache["IsA"](b["Parent"]"Model"))then return(b["Parent"]);end;
         b=b["Parent"];
     end;
@@ -56,11 +55,11 @@ end;
 tools["SearchTable"]=function(tbl)
     cache["pcall"](function()
         cache["warn"]("Found Table");
-        for _,arg in cache["pairs"](tbl)do 
+        for idx,arg in cache["pairs"](tbl)do 
             if(cache["typeof"](arg)=="table")then 
                 tools["SearchTable"](arg);
             else 
-                cache["warn"]("Found",arg);
+                cache["warn"]("Found:\""..tostring(arg).."\" idx:\""..tostring(idx).."\"");
             end;
         end;
     end);
