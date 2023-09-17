@@ -3,13 +3,13 @@ local cache={math=math,Vector3=Vector3,Vector2=Vector2,UDim=UDim,UDim2=UDim2,IsA
 if(getgenv()["shaLib"]==nil)then getgenv()["shaLib"]={["Lib"]=loadstring(game:HttpGet("https://raw.githubusercontent.com/Egor-Skriptunoff/pure_lua_SHA/master/sha2.lua",true))(),["README"]="THIS LIBRARY IS NOT MADE BY ME CREDITS GO TO 'Egor-Skriptunoff' ON GITHUB WITH 'pure_lua_SHA'"};end;
 
 cache["mrandomb"]=function(a,b)cache["math"]["randomseed"](cache["math"]["random"](1,cache["math"]["random"](1,cache["tick"]())));return(cache["math"]["random"](a,b));end;
-tools["getFirstModelOfPart"]=function(a)
+tools["getFirstModelOfInstance"]=function(a)
     if(a==nil)or(a["Parent"]==nil)then return(a);end;
     local b=a["Parent"];
-    if(b==game)or(b["Parent"]==game)or(b==cache["wspace"])or(b["Parent"]==cache["wspace"])then return(a);end;
+    if(b==cache["game"])or(b["Parent"]==cache["game"])or(b==cache["wspace"])or(b["Parent"]==cache["wspace"])then return(a);end;
     while(b["Parent"]~=cache["wspace"])and(cache["hbeat"]:Wait())do 
         if(b==nil)or(b["Parent"]==nil)then return(b);end;
-        if(cache["IsA"](b["Parent"]"Model"))then return(b["Parent"]);end;
+        if(cache["IsA"](b["Parent"],"Model"))then return(b["Parent"]);end;
         b=b["Parent"];
     end;
     return(a);
