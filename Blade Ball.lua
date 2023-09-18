@@ -30,6 +30,10 @@ local current_aimbot_player=nil;
 local parry_button_press_bind=game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ParryButtonPress");
 local parry_attempt_rem=game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ParryAttempt");
 
+local parry_cd_rem=game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VisualCD");
+local parry_cd_bind=game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VisualBindableCD");
+local communicate_times_parried_rem=game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommunicateTimesParried");
+
 local cam=game:GetService("Workspace").CurrentCamera;
 local dirs={};
 local view_dir={};
@@ -38,16 +42,70 @@ local fake_cam=Instance.new("Camera");
 local focusedBall=nil;
 local secured_instances={fake_cam};
 
+local no_continue=false;
+
+local parry_time=0;
+local parry_tick=0;
+local parry_times=0;
+
 if(getgenv().Inst==nil)then getgenv().Inst=0;end;
 getgenv().Inst+=1;
 
 local cinst=getgenv().Inst;
 
+local con1;con1=parry_cd_rem.OnClientEvent:Connect(function(p1,p2,p3)
+    if(p1~=true)and(p2==true)and(p3~=nil)and(tonumber(p3)~=nil)then 
+        parry_time=p3;
+        parry_tick=tick();
+    end;
+end);
+
+local con2;con2=parry_cd_bind.Event:Connect(function(p1,p2,p3)
+    if(p1~=true)and(p2==true)and(p3~=nil)and(tonumber(p3)~=nil)then 
+        parry_time=p3;
+        parry_tick=tick();
+    end;
+end);
+
+local con3;con3=communicate_times_parried_rem.OnClientEvent:Connect(function(p1)
+    if(p1~=nil)and(tonumber(p1)~=nil)then 
+        parry_times=p1;
+    end;
+end);
+
+local function calculate_parry_cd() -- idfk what to do with this code
+    if(parry_times==0)then
+        local v253=1.5;
+        local v254=1.5;
+        v242=true;
+    elseif(parry_times==1)then
+        local v255=1.25;
+        local v256=1.3;
+        v242=true;
+    elseif(parry_times==2)then
+        local v257=1;
+        local v258=1.3;
+        v242=true;
+    elseif(parry_times==3)then
+        local v259=0.75;
+        v242=true;
+    elseif(parry_times==4)then
+        local v260=0.625;
+        v242=true;
+    end;
+end;
+
 local function parry_attempt()
-    if(auto_parry_raw_input==true)then 
+    if(auto_parry_raw_input==true)and(no_continue==false)and(tick()-parry_tick>=parry_time)then 
         parry_attempt_rem:FireServer(0.5,cam.CFrame,dirs,view_dir);
-    elseif(auto_parry_raw_input==false)then 
+        no_continue=true;
+        wait(0.5);
+        no_continue=false;
+    elseif(auto_parry_raw_input==false)and(no_continue==false)then 
         parry_button_press_bind:Fire();
+        no_continue=true;
+        wait(0.5);
+        no_continue=false;
     end;
 end;
 
@@ -89,7 +147,7 @@ b:Toggle("Auto Parry",function(a)
                 return((distanceToOrigin-auto_parry_range)/velocityTowardsPlayer);
             end;
             local con;con=game:GetService("RunService").PreSimulation:Connect(function()--PostSimulation PreSimulation Heartbeat
-                if(getgenv().AutoParry==false)then con:Disconnect();return;end;
+                if(getgenv().AutoParry==false)then con:Disconnect();no_continue=true;end;
                 local character=game:GetService("Players").LocalPlayer.Character;
                 if(character==nil)or(character.Parent~=game:GetService("Workspace").Alive)or(character:FindFirstChild("Highlight")==nil)then return;end;
                 local hrp=character:FindFirstChild("HumanoidRootPart");
@@ -103,6 +161,7 @@ b:Toggle("Auto Parry",function(a)
                     local distanceToPlayer=(ballPos-charPos).Magnitude;
                     if(distanceToPlayer<=10)then 
                         parry_attempt();
+                        return;
                     end;
                     if(timeUntilImpact(charPos,ballPos,charVel,ballVel,distanceToPlayer)/(game:GetService("Players").LocalPlayer:GetNetworkPing()*20)<getDynamicThreshold(ballVel:Dot((charPos-ballPos).Unit)))then 
                         parry_attempt();
@@ -236,6 +295,9 @@ spawn(function()
             end;
         end);
     end;
+    con1:Disconnect();
+    con2:Disconnect();
+    con3:Disconnect();
     fake_cam:Destroy();
 end);
 
