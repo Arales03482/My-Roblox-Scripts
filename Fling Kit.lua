@@ -4,7 +4,10 @@ getgenv().FlingSwim=false;
 getgenv().FlingSwimFly=false;
 getgenv().FlingSwimFlySpeed=30;
 getgenv().TouchFling=false;
-getgenv().TouchFlingStrength=-20000;
+getgenv().TouchFlingX=-812983092810382981;
+getgenv().TouchFlingY=812983092810382981;
+getgenv().TouchFlingZ=-812983092810382981;
+getgenv().TouchFlingUseCharacterLookVector=false;
 getgenv().TouchFlingShouldSwim=false;
 getgenv().FlipCharacter=false;
 getgenv().FlipCharacterX=0;
@@ -46,8 +49,12 @@ local function IsAConstraint(a)
     return(true);
 end;
 
+local function fixVector(vec)
+	return(Vector3.new(math.cos(math.atan2(vec.Z,vec.X)),0,math.sin(math.atan2(vec.Z,vec.X))));
+end;
+
 --anti afk
-if(getgenv().kuefg834rjiy983450~=nil)then getgenv().kuefg834rjiy983450:Disconnect();end;getgenv().kuefg834rjiy983450=game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):Button2Down(Vector2.new(0,0),game:GetService("Workspace").CurrentCamera.CFrame);wait(1);game:service("VirtualUser"):Button2Up(Vector2.new(0,0),game:GetService("Workspace").CurrentCamera.CFrame);end);
+if(getgenv().kuefg834rjiy983450~=nil)and(typeof(getgenv().kuefg834rjiy983450)=="RBXScriptConnection")then getgenv().kuefg834rjiy983450:Disconnect();end;getgenv().kuefg834rjiy983450=game:GetService("Players").LocalPlayer.Idled:Connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new(0,0));end);
 
 local enums=Enum.HumanoidStateType:GetEnumItems();
 table.remove(enums,table.find(enums,Enum.HumanoidStateType.None));
@@ -150,13 +157,18 @@ b:Toggle("Touch Fling",function(a)
     spawn(function()
         local rnd=Random.new(tick());
         while(getgenv().TouchFling==true)and(game:GetService("RunService").PostSimulation:Wait())do 
-            pcall(function()
+            xpcall(function()
                 local mode=((getgenv().UsePreAnimation==true)and("PreAnimation"))or("PreRender");
                 local PreVelocity=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity;
-                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.new(0,rnd:NextNumber(1,getgenv().TouchFlingStrength),0);
+                local vel=Vector3.new(rnd:NextNumber(0,getgenv().TouchFlingX),rnd:NextNumber(0,getgenv().TouchFlingY),rnd:NextNumber(0,getgenv().TouchFlingZ));
+                if(getgenv().TouchFlingUseCharacterLookVector==true)then 
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=(CFrame.fromAxisAngle(Vector3.new(1,0,0),vel.X)*CFrame.fromAxisAngle(Vector3.new(0,1,0),vel.Y)*CFrame.fromAxisAngle(Vector3.new(0,0,1),vel.Z)):VectorToWorldSpace(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector)*vel;
+                elseif(getgenv().TouchFlingUseCharacterLookVector==false)then 
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=vel;
+                end;
                 game:GetService("RunService")[mode]:Wait();
                 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=PreVelocity;
-            end);
+            end,warn);
         end;
     end);
     spawn(function()
@@ -173,8 +185,20 @@ b:Toggle("Touch Fling",function(a)
     end);
 end);
 
-b:Box("Touch Fling Strength","number",function(a)
-    getgenv().TouchFlingStrength=math.clamp(tonumber(a),2,tonumber(a));
+b:Box("Touch Fling X","number",function(a)
+    getgenv().TouchFlingX=(tonumber(a))or(getgenv().TouchFlingX);
+end);
+
+b:Box("Touch Fling Y","number",function(a)
+    getgenv().TouchFlingY=(tonumber(a))or(getgenv().TouchFlingY);
+end);
+
+b:Box("Touch Fling Z","number",function(a)
+    getgenv().TouchFlingZ=(tonumber(a))or(getgenv().TouchFlingZ);
+end);
+
+b:Toggle("Touch Fling Use Character LookVector",function(a)
+    getgenv().TouchFlingUseCharacterLookVector=a;
 end);
 
 b:Toggle("Touch Fling Should Swim",function(a)
