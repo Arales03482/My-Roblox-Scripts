@@ -78,7 +78,8 @@ spawn(function()
 				t=0;
 			end;
 			if(target_candy_corn~=nil)and(ct-t>=1)then 
-				game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=target_candy_corn.CFrame;
+				target_candy_corn.CFrame=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame;
+				--game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=target_candy_corn.CFrame;
 			end;
 			game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.zero;
 		end,warn);
