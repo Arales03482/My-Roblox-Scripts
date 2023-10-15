@@ -7,7 +7,8 @@ Roblox Scripts I have made
  - Improve Script Performance?
 
 ## RECENT DONE
+ - Added Dual Spam (can crash the game if done for enough time)
+ - Added More Supported Gloves (including dual)
  - Added Fling/TP Gui and Infinite Yield
  - Added Zombie Glove Sound Spam
- - Added More Supported Gloves
  - Added Auto Godmode
