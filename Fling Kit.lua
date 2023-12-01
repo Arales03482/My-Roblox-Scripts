@@ -1,5 +1,8 @@
 local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3'))():CreateWindow("dotr");
-local b=a:CreateFolder("Main");
+local b=a:CreateFolder("Fling");
+local c=a:CreateFolder("Teleporting");
+local d=a:CreateFolder("Fun");
+local f=a:CreateFolder("Settings");
 getgenv().FlingSwim=false;
 getgenv().FlingSwimFly=false;
 getgenv().FlingSwimFlySpeed=30;
@@ -17,8 +20,20 @@ getgenv().FlipCharacterRotX=0;
 getgenv().FlipCharacterRotY=0;
 getgenv().FlipCharacterRotZ=180;
 getgenv().FlipCharacterRandomize=false;
+getgenv().SmallHRP=false;
 getgenv().UsePreAnimation=false;
 getgenv().UseCameraBypass=false;
+getgenv().tp=false;
+getgenv().tprotx=0;
+getgenv().tproty=0;
+getgenv().tprotz=0;
+getgenv().tpxoffset=0;
+getgenv().tpyoffset=0;
+getgenv().tpzoffset=15;
+getgenv().tpvelprediction=false;
+getgenv().tpvelpredictionamt=0.55;
+getgenv().tpplayer="";
+getgenv().AntiAFK=false;
 getgenv().GoIntoGround=false;
 getgenv().SpamSwim=false;
 getgenv().AntiLock=false;
@@ -46,7 +61,7 @@ local function IsAConstraint(a)
     if(a:IsA("BallSocketConstraint"))or(a:IsA("HingeConstraint"))or(a:IsA("PrismaticConstraint"))or(a:IsA("CylindricalConstraint"))or(a:IsA("SpringConstraint"))or(a:IsA("TorsionSpringConstraint"))or(a:IsA("UniversalConstraint"))or(a:IsA("RopeConstraint"))or(a:IsA("RodConstraint"))or(a:IsA("PlaneConstraint"))or(a:IsA("RigidConstraint"))or(a:IsA("NoCollisionConstraint"))then 
         return(true);
     end;
-    return(true);
+    return(false);
 end;
 
 local function fixVector(vec)
@@ -54,104 +69,12 @@ local function fixVector(vec)
 end;
 
 --anti afk
-if(getgenv().kuefg834rjiy983450~=nil)and(typeof(getgenv().kuefg834rjiy983450)=="RBXScriptConnection")then getgenv().kuefg834rjiy983450:Disconnect();end;getgenv().kuefg834rjiy983450=game:GetService("Players").LocalPlayer.Idled:Connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new(0,0));end);
+if(getgenv().kuefg834rjiy983450~=nil)and(typeof(getgenv().kuefg834rjiy983450)=="RBXScriptConnection")then getgenv().kuefg834rjiy983450:Disconnect();end;getgenv().kuefg834rjiy983450=game:GetService("Players").LocalPlayer.Idled:Connect(function()if(getgenv().AntiAFK==true)then game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new(0,0));end;end);
 
 local enums=Enum.HumanoidStateType:GetEnumItems();
 table.remove(enums,table.find(enums,Enum.HumanoidStateType.None));
 table.remove(enums,table.find(enums,Enum.HumanoidStateType.Swimming));
 --table.remove(enums,table.find(enums,Enum.HumanoidStateType.Seated));
-b:Toggle("Fling Swim",function(a)
-    getgenv().FlingSwim=a;
-    spawn(function()
-        if(a==true)then 
-            local active=true;
-            local t=tick();
-            local oldgrav=game:GetService("Workspace").Gravity;
-		    game:GetService("Workspace").Gravity=0;
-            local char=game:GetService("Players").LocalPlayer.Character;
-            while(getgenv().FlingSwim==true)and(char~=nil)and(char:IsDescendantOf(game)==true)do 
-                local mode=((getgenv().UsePreAnimation==true)and("PreAnimation"))or("PreRender");
-                local dt=game:GetService("RunService")[mode]:Wait();
-                xpcall(function()
-                    for _,a in pairs(char:GetDescendants())do 
-                        if(a:IsA("BasePart"))then 
-                            a.CanCollide=false;
-                        end;
-                    end;
-                    if(char:FindFirstChildWhichIsA("Humanoid"):GetState()~=Enum.HumanoidStateType.Swimming)then 
-                        char:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Swimming);
-                    end;
-                    game:GetService("RunService").Heartbeat:Wait();
-                    for _,a in pairs(char:GetDescendants())do 
-                        if(a:IsA("BasePart"))then 
-                            a.CanCollide=false;
-                        end;
-                    end;
-                    for _,enum in pairs(enums)do 
-                        char:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(enum,false);
-                    end;
-                    char.HumanoidRootPart.Velocity=Vector3.zero;
-                    char.HumanoidRootPart.AssemblyLinearVelocity=char.HumanoidRootPart.Velocity;
-                    if(tick()-t>=0.1)then 
-                        active=not(active);
-                        t=tick();
-                    end;
-                    --if(active==true)then 
-                        char.HumanoidRootPart.AssemblyAngularVelocity=Vector3.new(0,1000000,0);
-                    --elseif(active==false)then 
-                        --char.HumanoidRootPart.AssemblyAngularVelocity=Vector3.zero;
-                    --end;
-                    --game:GetService("Workspace").CurrentCamera.CameraSubject=char.HumanoidRootPart;
-                    game:GetService("Workspace").CurrentCamera.CameraSubject=char.Head;
-                    if(getgenv().FlingSwimFly==true)then 
-                        local mod=Vector3.zero;
-                        if(game:GetService("UserInputService"):GetFocusedTextBox()==nil)then 
-                            local w=game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.W);
-                            local a=game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.A);
-                            local s=game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.S);
-                            local d=game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.D);
-                            local up=(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Space))or(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.E));
-                            local down=(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftShift))or(game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Q));
-                            local lvec=game:GetService("Workspace").CurrentCamera.CFrame.LookVector;
-                            local rvec=game:GetService("Workspace").CurrentCamera.CFrame.RightVector;
-                            if(w==true)then 
-                                mod+=lvec;
-                            end;if(a==true)then 
-                                mod-=rvec;
-                            end;if(s==true)then 
-                                mod-=lvec;
-                            end;if(d==true)then 
-                                mod+=rvec;
-                            end;if(up==true)then 
-                                mod+=Vector3.new(0,1,0);
-                            end;if(down==true)then 
-                                mod-=Vector3.new(0,1,0);
-                            end;
-                            mod=Vector3.new(math.clamp(mod.X,-1,1),math.clamp(mod.Y,-1,1),math.clamp(mod.Z,-1,1));
-                        end;
-                        char.HumanoidRootPart.CFrame=char.HumanoidRootPart.CFrame+((mod*5)*dt*getgenv().FlingSwimFlySpeed);
-                    end;
-                end,warn);
-            end;
-            for _,enum in pairs(enums)do 
-                char:FindFirstChildWhichIsA("Humanoid"):SetStateEnabled(enum,true);
-            end;
-            game:GetService("Workspace").Gravity=oldgrav;
-            char.HumanoidRootPart.Velocity=Vector3.zero;
-            char.HumanoidRootPart.RotVelocity=Vector3.zero;
-            char.HumanoidRootPart.AssemblyAngularVelocity=Vector3.zero;
-            char.HumanoidRootPart.AssemblyLinearVelocity=Vector3.zero;
-            game:GetService("Workspace").CurrentCamera.CameraSubject=char:FindFirstChildWhichIsA("Humanoid");
-        end;
-    end);
-end);
-b:Toggle("Fling Swim Fly",function(a)
-    getgenv().FlingSwimFly=a;
-end);
-b:Box("Fling Swim Fly Speed","number",function(a)
-    getgenv().FlingSwimFlySpeed=a;
-end);
-
 b:Toggle("Touch Fling",function(a)
     getgenv().TouchFling=a;
     spawn(function()
@@ -160,7 +83,7 @@ b:Toggle("Touch Fling",function(a)
             xpcall(function()
                 local mode=((getgenv().UsePreAnimation==true)and("PreAnimation"))or("PreRender");
                 local PreVelocity=game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity;
-                local vel=Vector3.new(rnd:NextNumber(0,getgenv().TouchFlingX),rnd:NextNumber(0,getgenv().TouchFlingY),rnd:NextNumber(0,getgenv().TouchFlingZ));
+                local vel=Vector3.new(getgenv().TouchFlingX-math.min(rnd:NextNumber(0,10),getgenv().TouchFlingZ),getgenv().TouchFlingY-math.min(rnd:NextNumber(0,10),getgenv().TouchFlingZ),getgenv().TouchFlingZ-math.min(rnd:NextNumber(0,10),getgenv().TouchFlingZ));
                 if(getgenv().TouchFlingUseCharacterLookVector==true)then 
                     game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=(CFrame.fromAxisAngle(Vector3.new(1,0,0),vel.X)*CFrame.fromAxisAngle(Vector3.new(0,1,0),vel.Y)*CFrame.fromAxisAngle(Vector3.new(0,0,1),vel.Z)):VectorToWorldSpace(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector)*vel;
                 elseif(getgenv().TouchFlingUseCharacterLookVector==false)then 
@@ -184,28 +107,23 @@ b:Toggle("Touch Fling",function(a)
         end;
     end);
 end);
-
 b:Box("Touch Fling X","number",function(a)
     getgenv().TouchFlingX=(tonumber(a))or(getgenv().TouchFlingX);
 end);
-
 b:Box("Touch Fling Y","number",function(a)
     getgenv().TouchFlingY=(tonumber(a))or(getgenv().TouchFlingY);
 end);
-
 b:Box("Touch Fling Z","number",function(a)
     getgenv().TouchFlingZ=(tonumber(a))or(getgenv().TouchFlingZ);
 end);
-
 b:Toggle("Touch Fling Use Character LookVector",function(a)
     getgenv().TouchFlingUseCharacterLookVector=a;
 end);
-
 b:Toggle("Touch Fling Should Swim",function(a)
     getgenv().TouchFlingShouldSwim=a;
 end);
 
-b:Toggle("Flip Character",function(a)
+d:Toggle("Flip Character",function(a)
     getgenv().FlipCharacter=a;
     spawn(function()
         local part_d=Instance.new("Part");
@@ -319,32 +237,25 @@ b:Toggle("Flip Character",function(a)
         end;
     end);
 end);
-
-b:Box("Flip Character X","number",function(a)
+d:Box("Flip Character X","number",function(a)
     getgenv().FlipCharacterX=(tonumber(a))or(getgenv().FlipCharacterX);
 end);
-
-b:Box("Flip Character Y","number",function(a)
+d:Box("Flip Character Y","number",function(a)
     getgenv().FlipCharacterY=(tonumber(a))or(getgenv().FlipCharacterY);
 end);
-
-b:Box("Flip Character Z","number",function(a)
+d:Box("Flip Character Z","number",function(a)
     getgenv().FlipCharacterZ=(tonumber(a))or(getgenv().FlipCharacterZ);
 end);
-
-b:Box("Flip Character Rot X","number",function(a)
+d:Box("Flip Character Rot X","number",function(a)
     getgenv().FlipCharacterRotX=(tonumber(a))or(getgenv().FlipCharacterRotX);
 end);
-
-b:Box("Flip Character Rot Y","number",function(a)
+d:Box("Flip Character Rot Y","number",function(a)
     getgenv().FlipCharacterRotY=(tonumber(a))or(getgenv().FlipCharacterRotY);
 end);
-
-b:Box("Flip Character Rot Z","number",function(a)
+d:Box("Flip Character Rot Z","number",function(a)
     getgenv().FlipCharacterRotZ=(tonumber(a))or(getgenv().FlipCharacterRotZ);
 end);
-
-b:Toggle("Flip Character Randomize",function(a)
+d:Toggle("Flip Character Randomize",function(a)
     getgenv().FlipCharacterRandomize=a;
     spawn(function()
         local random=Random.new(tick());
@@ -361,15 +272,169 @@ b:Toggle("Flip Character Randomize",function(a)
     end);
 end);
 
-b:Toggle("Use Pre Animation",function(a)
+d:Toggle("Small HRP",function(a)
+    getgenv().SmallHRP=a;
+    spawn(function()
+        local part=Instance.new("Part");
+        part.Size=Vector3.zero;
+        part.Transparency=1;
+        part.CanCollide=true;
+        part.CanQuery=false;
+        part.CanTouch=false;
+        part.Massless=true;
+        part.Anchored=false;
+
+        local weldc=Instance.new("WeldConstraint");
+        weldc.Part0=part;
+        weldc.Parent=part;
+
+        local weld=Instance.new("Weld");
+        weld.Part0=part;
+        weld.Parent=part;
+
+        part.Parent=game:GetService("Workspace");
+        secured_instances[#secured_instances+1]=part;
+        local con3;con3=part.AncestryChanged:Connect(function(_,p)
+            if(part==nil)or(part:IsDescendantOf(game)==false)then 
+                con3:Disconnect();
+                table.remove(secured_instances,table.find(secured_instances,part));
+                pcall(function()
+                    table.remove(secured_instances,table.find(secured_instances,part));
+                    part:Destroy();
+                end);
+            end;
+        end);
+        
+        while(getgenv().SmallHRP==true)and(game:GetService("RunService").PostSimulation:Wait())do 
+            xpcall(function()
+                local hrp=(game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Torso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("UpperTorso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("LowerTorso"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Body"))or(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("BasePart"));
+                if(hrp~=nil)then 
+                    part.Anchored=false;
+                    part.Velocity=Vector3.zero;
+                    weld.Part1=hrp;
+                    game:GetService("RunService").PostSimulation:Wait();
+                    weldc.Part1=hrp;
+                elseif(hrp==nil)then 
+                    error("Could not find hrp");
+                end;
+            end,function(...)
+                --warn(...);
+                part.Anchored=true;
+            end);
+        end;
+        part:Destroy();
+    end);
+end);
+
+f:Toggle("Use Pre Animation",function(a)
     getgenv().UsePreAnimation=a;
 end);
 
-b:Toggle("Use Camera Bypass",function(a)
+f:Toggle("Use Camera Bypass",function(a)
     getgenv().UseCameraBypass=a;
 end);
 
-b:Toggle("Go Into Ground",function(a)
+c:Toggle("Follow player",function(a)
+    getgenv().tp=a;
+    if(getgenv().tpplayer=="")then 
+        warn("Please input a player");
+        getgenv().tp=false;
+        return;
+    end;
+    spawn(function()
+        while(getgenv().tp==true)and(game:GetService("RunService").Stepped:Wait())do 
+            pcall(function()
+                for _,__ in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants())do 
+                    if(__:IsA("BasePart"))then
+                        __.CanCollide=false;
+                    end;
+                end;
+                if(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==false)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false);
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead,false);
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Ragdoll);
+                elseif(game:GetService("Players").LocalPlayer.Character.Humanoid.Sit==true)then 
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead,true);
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                end;
+                local cf=game:GetService("Players")[getgenv().tpplayer].Character.HumanoidRootPart.CFrame*CFrame.new(getgenv().tpxoffset,getgenv().tpyoffset,getgenv().tpzoffset)*CFrame.Angles(math.rad(getgenv().tprotx),math.rad(getgenv().tproty),math.rad(getgenv().tprotz));
+                if(getgenv().tpvelprediction==true)then 
+                    cf=cf+game:GetService("Players")[getgenv().tpplayer].Character.HumanoidRootPart.Velocity*getgenv().tpvelpredictionamt;
+                end;
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=cf;
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Velocity=Vector3.zero;
+                for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren())do 
+                    if(a:IsA("BasePart"))then 
+                        a.CanTouch=false;
+                    end;
+                end;
+            end);
+        end;
+        for _,a in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren())do 
+            if(a:IsA("BasePart"))then 
+                a.CanTouch=true;
+            end;
+        end;
+        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true);
+        game:GetService("Players").LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead,true);
+        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+    end);
+end);
+c:Box("Follow Player Rotation X","number",function(_)
+    if(tonumber(_)~=nil)then 
+        getgenv().tprotx=tonumber(_);
+    end;
+end);
+c:Box("Follow Player Rotation Y","number",function(_)
+    if(tonumber(_)~=nil)then 
+        getgenv().tproty=tonumber(_);
+    end;
+end);
+c:Box("Follow Player Rotation Z","number",function(_)
+    if(tonumber(_)~=nil)then 
+        getgenv().tprotz=tonumber(_);
+    end;
+end);
+c:Box("Follow Player Offset X","number",function(_)
+    if(tonumber(_)~=nil)then 
+        getgenv().tpxoffset=tonumber(_);
+    end;
+end);
+c:Box("Follow Player Offset Y","number",function(_)
+    if(tonumber(_)~=nil)then 
+        getgenv().tpyoffset=tonumber(_);
+    end;
+end);
+c:Box("Follow Player Offset Z","number",function(_)
+    if(tonumber(_)~=nil)then 
+        getgenv().tpzoffset=tonumber(_);
+    end;
+end);
+c:Toggle("Follow Player Velocity Prediction",function(a)
+    getgenv().tpvelprediction=a;
+end);
+c:Slider("Follow Player Prediction Amount",{min=0;max=50},function(_)
+    if(tonumber(_)~=nil)then 
+        getgenv().tpvelpredictionamt=tonumber(_);
+    end;
+end);
+c:Box("Player to Follow","string",function(str)
+    if(str=="")then 
+        warn("Please enter a player name");
+    else 
+        for _,k in pairs(game:GetService("Players"):GetPlayers())do 
+            if(str:lower()==k.Name:sub(1,#str):lower())then 
+                getgenv().tpplayer=k.Name;
+                if(game:GetService("Players"):FindFirstChild(getgenv().tpplayer)~=nil)then print("Target Chosen as "..getgenv().tpplayer);end;
+                return;
+            end;
+        end;
+        if(game:GetService("Players"):FindFirstChild(getgenv().tpplayer)==nil)then print("Inputed player could not be found");getgenv().tpplayer="";end;
+    end;
+end);
+
+d:Toggle("Go Into Ground",function(a)
     getgenv().GoIntoGround=a;
     spawn(function()
         local part_d=Instance.new("Part");
@@ -489,7 +554,11 @@ b:Toggle("Go Into Ground",function(a)
     end);
 end);
 
-b:Toggle("Spam Swim",function(a)
+d:Toggle("Anti AFK",function(a)
+    getgenv().AntiAFK=a;
+end);
+
+d:Toggle("Spam Swim",function(a)
     getgenv().SpamSwim=a;
     spawn(function()
         while(getgenv().SpamSwim==true)and(game:GetService("RunService").PreAnimation:Wait())do 
@@ -500,7 +569,7 @@ b:Toggle("Spam Swim",function(a)
     end);
 end);
 
-b:Toggle("Anti Lock",function(a)
+d:Toggle("Anti Lock",function(a)
     getgenv().AntiLock=a;
     spawn(function()
         local rnd=Random.new(tick());
@@ -516,13 +585,13 @@ b:Toggle("Anti Lock",function(a)
     end);
 end);
 
-b:Toggle("Anti Anti Lock",function(a)
+d:Toggle("Anti Anti Lock",function(a)
     getgenv().AntiAntiLock=a;
     spawn(function()
         while(getgenv().AntiAntiLock==true)and(game:GetService("RunService").PostSimulation:Wait())do 
             pcall(function()
-                for _,p in pairs(game.Players:GetChildren())do 
-                    if(p.Name~=game.Players.LocalPlayer.Name)then 
+                for _,p in pairs(game:GetService("Players"):GetChildren())do 
+                    if(p.Name~=game:GetService("Players").LocalPlayer.Name)then 
                         local hrp=p.Character.HumanoidRootPart;
                         hrp.Velocity=Vector3.new(hrp.Velocity.X,0,hrp.Velocity.Z);
                         hrp.AssemblyLinearVelocity=Vector3.new(hrp.Velocity.X,0,hrp.Velocity.Z);
@@ -536,32 +605,77 @@ end);
 b:Toggle("Other Player Noclip",function(a)
     getgenv().PlayerNoclip=a;
     spawn(function()
-        while(getgenv().PlayerNoclip==true)and(game:GetService("RunService").Stepped:Wait())do 
-            pcall(function()
-                for _,a in pairs(game:GetService("Players"):GetPlayers())do 
-                    if(a~=game:GetService("Players").LocalPlayer)and(a.Character~=nil)then 
-                        for _,a in pairs(a.Character:GetDescendants())do 
-                            if(a:IsA("BasePart"))then 
-                                a.CanCollide=false;
-                            end;if(IsAConstraint(a)==true)then 
-                                a.Enabled=false;
+        local cons={};
+        local function cadded(plr,char)
+            if(cons[plr.UserId.."CharacterDescendantAdded"]~=nil)then cons[plr.UserId.."CharacterDescendantAdded"]:Disconnect();cons[plr.UserId.."CharacterDescendantAdded"]=nil;end;
+            local function iadded(a)
+                if(getgenv().PlayerNoclip==true)then 
+                    if(a:IsA("BasePart"))and(a.Name~="HumanoidRootPart")then 
+                        spawn(function()
+                            while(getgenv().PlayerNoclip==true)and(a~=nil)and(a:IsDescendantOf(game)==true)do 
+                                pcall(function()
+                                    a.CanCollide=false;
+                                end);
+                                game:GetService("RunService").Stepped:Wait();
                             end;
-                        end;
+                        end);
+                    end;if(IsAConstraint(a)==true)then 
+                        spawn(function()
+                            while(getgenv().PlayerNoclip==true)and(a~=nil)and(a:IsDescendantOf(game)==true)do 
+                                pcall(function()
+                                    a.Enabled=false;
+                                end);
+                                game:GetService("RunService").Stepped:Wait();
+                            end;
+                        end);
                     end;
                 end;
-            end);
+            end;
+            cons[plr.UserId.."CharacterDescendantAdded"]=char.DescendantAdded:Connect(iadded);
+            for _,a in pairs(char:GetDescendants())do 
+                iadded(a);
+            end;
         end;
+        local function added(plr)
+            if(plr.Name~=game:GetService("Players").LocalPlayer.Name)then 
+                if(cons[plr.UserId.."CharacterDescendantAdded"]~=nil)then cons[plr.UserId.."CharacterDescendantAdded"]:Disconnect();cons[plr.UserId.."CharacterDescendantAdded"]=nil;end;
+                if(cons[plr.UserId.."CharacterAdded"]~=nil)then cons[plr.UserId.."CharacterAdded"]:Disconnect();cons[plr.UserId.."CharacterAdded"]=nil;end;
+                cons[plr.UserId.."CharacterAdded"]=plr.CharacterAdded:Connect(function(char)
+                    cadded(plr,char);
+                end);
+                if(plr.Character~=nil)then 
+                    cadded(plr,plr.Character);
+                end;
+            end;
+        end;
+        local con;con=game:GetService("Players").PlayerAdded:Connect(added);
         for _,a in pairs(game:GetService("Players"):GetPlayers())do 
-            if(a~=game:GetService("Players").LocalPlayer)and(a.Character~=nil)then 
-                for _,a in pairs(a.Character:GetDescendants())do 
-                    if(a:IsA("HingeConstraint"))or(a:IsA("BallSocketConstraint"))or(a:IsA("NoCollisionConstraint"))then 
-                        a.Enabled=true;
+            added(a);
+        end;
+        while(getgenv().PlayerNoclip==true)do game:GetService("RunService").Stepped:Wait();end;
+        if(con~=nil)then con:Disconnect();end;
+        if(cons~=nil)then 
+            for _,con1 in pairs(cons)do 
+                if(con1~=nil)then 
+                    con1:Disconnect();
+                end;
+            end;
+        end;
+        for _,plr in pairs(game:GetService("Players"):GetPlayers())do 
+            if(plr.Name~=game:GetService("Players").LocalPlayer.Name)and(plr.Character~=nil)then 
+                for _,a in pairs(plr.Character:GetDescendants())do 
+                    if(a:IsA("BasePart"))and(a.Name~="HumanoidRootPart")then 
+                        a.CanCollide=false;
+                    end;if(IsAConstraint(a)==true)then 
+                        a.Enabled=false;
                     end;
                 end;
             end;
         end;
     end);
 end);
+
+f:DestroyGui();
 
 spawn(function()
     while(cinst==getgenv().Inst)and(game:GetService("RunService").Stepped:Wait())do 
