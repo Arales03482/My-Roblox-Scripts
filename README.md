@@ -3,7 +3,6 @@ Roblox Scripts I have made
 
 # SB Script
 ## TODO
- - Anti Leash?
  - Improve Script Performance
 
 ## RECENT DONE
