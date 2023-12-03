@@ -4,7 +4,7 @@ Roblox Scripts I have made
 # SB Script
 ## TODO
  - Anti Leash?
- - Improve Script Performance?
+ - Improve Script Performance
 
 ## RECENT DONE
  - Added Dual Anti Spam Reset
