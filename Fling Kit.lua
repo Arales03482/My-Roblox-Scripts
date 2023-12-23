@@ -560,7 +560,8 @@ d:Toggle("Lock Angles",function(a)
     spawn(function()
         while(getgenv().LockAngles==true)and(game:GetService("RunService").PreRender:Wait())do 
             pcall(function()
-                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position)*CFrame.fromEulerAnglesXYZ(game:GetService("Workspace").CurrentCamera.CFrame:ToEulerAngles(Enum.RotationOrder.XYZ));
+                local ang_x,ang_y,ang_z=game:GetService("Workspace").CurrentCamera.CFrame:ToEulerAngles(Enum.RotationOrder.XYZ);
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position)*CFrame.fromEulerAnglesXYZ(ang_x,0,ang_z);
             end);
         end;
     end);
