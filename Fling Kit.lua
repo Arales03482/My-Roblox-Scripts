@@ -35,6 +35,7 @@ getgenv().tpvelpredictionamt=0.55;
 getgenv().tpplayer="";
 getgenv().AntiAFK=false;
 getgenv().GoIntoGround=false;
+getgenv().LockAngles=false;
 getgenv().SpamSwim=false;
 getgenv().AntiLock=false;
 getgenv().AntiAntiLock=false;
@@ -550,6 +551,17 @@ d:Toggle("Go Into Ground",function(a)
             if((a:IsA("BasePart"))and((a.Name=="Right Arm")or(a.Name=="Left Arm")or(a.Name=="Right Leg")or(a.Name=="Left Leg")or(a.Name=="Torso")or(a.Name=="Head")))or((a:IsA("BasePart"))and(a:FindFirstAncestorWhichIsA("Accessory")~=nil))or(a:IsA("Decal"))then 
                 a.Transparency=0;
             end;
+        end;
+    end);
+end);
+
+d:Toggle("Lock Angles",function(a)
+    getgenv().LockAngles=a;
+    spawn(function()
+        while(getgenv().LockAngles==true)and(game:GetService("RunService").PreRender:Wait())do 
+            pcall(function()
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame=CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position)*CFrame.fromEulerAnglesXYZ(game:GetService("Workspace").CurrentCamera.CFrame:ToEulerAngles(Enum.RotationOrder.XYZ));
+            end);
         end;
     end);
 end);
