@@ -29,11 +29,11 @@ tools["makeId"]=function(_,____,______,___)
 				_____=0;
 			elseif(_____~=____)then 
 				__=__..___[cache["mrandomb"](1,#___)];
-				_____+=1;
+				_____=_____+1;
 			end;
 		elseif(____==nil)or(____==false)then 
 			__=__..___[cache["mrandomb"](1,#___)];
-			_____+=1;
+			_____=_____+1;
 		end;
 	end;
 	return(__);
