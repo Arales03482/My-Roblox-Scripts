@@ -3,8 +3,8 @@ local game,loadstring,getgenv,spawn,pcall,xpcall,ypcall,print,warn,error,request
     game,loadstring,getgenv,spawn,pcall,xpcall,ypcall,print,warn,error,request,http_request,http,syn;
 
 -- Main
-local t=loadstring(game:HttpGet("https://raw.githubusercontent.com/Bacon42069/My-Roblox-Scripts/main/Bacon%20Utils/src.lua"))();
-local gui=loadstring(game:HttpGet('https://raw.githubusercontent.com/Bacon42069/Rayfield/main/source'))();
+local t=loadstring(game:HttpGet("https://raw.githubusercontent.com/Arales03482/My-Roblox-Scripts/main/Bacon%20Utils/src.lua"))();
+local gui=loadstring(game:HttpGet('https://raw.githubusercontent.com/Arales03482/Rayfield/main/source.lua'))();
 local win=gui:CreateWindow({
     Name="Bot",
     LoadingTitle="Bot Script",
