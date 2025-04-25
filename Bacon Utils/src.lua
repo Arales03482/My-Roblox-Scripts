@@ -6,11 +6,11 @@ cache["mrandomb"]=function(a,b)cache["math"]["randomseed"](cache["math"]["random
 tools["GetFirstModelOfInstance"]=function(a)
     if(a==nil)or(a["Parent"]==nil)then return(a);end;
     local b=a["Parent"];
-    if(cache["IsA"](b,"Model"))then return(b);end;
+    if(b:IsA("Model"))then return(b);end;
     if(b==cache["game"])or(b["Parent"]==cache["game"])or(b==cache["wspace"])or(b["Parent"]==cache["wspace"])then return(a);end;
     while(b["Parent"]~=cache["wspace"])and(cache["hbeat"]:Wait())do 
         if(b==nil)or(b["Parent"]==nil)then return(b);end;
-        if(cache["IsA"](b["Parent"],"Model"))then return(b["Parent"]);end;
+        if(b["Parent"]:IsA("Model"))then return(b["Parent"]);end;
         b=b["Parent"];
     end;
     return(a);
